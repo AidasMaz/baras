@@ -282,6 +282,21 @@
   .empty .glyph { font-size: 38px; color: var(--gold-dim); display:block; margin-bottom: 12px; }
   .empty .serif { font-size: 19px; font-style:italic; }
 
+  /* ---------- Import / scan ---------- */
+  .import-steps { margin: 0 0 18px 0; padding-left: 20px; color: var(--muted); font-size: 14px; line-height: 1.7; }
+  .import-steps b { color: var(--cream); font-weight: 600; }
+  #import-review { margin-top: 18px; }
+  .rev-card { border: 1px solid var(--line); border-radius: var(--radius); background: var(--field); padding: 12px 13px; margin-bottom: 12px; }
+  .rev-head { display:flex; align-items:center; gap: 10px; margin-bottom: 10px; }
+  .rev-head .switch { transform: scale(.85); }
+  .rev-head .rev-title { flex:1; font-family:"Playfair Display",serif; font-size: 15px; color: var(--cream); }
+  .rev-grid { display:grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .rev-grid .full { grid-column: 1 / -1; }
+  .rev-card input.field, .rev-card select.field, .rev-card textarea.field { padding: 9px 11px; font-size: 14px; }
+  .rev-card .tiny-lbl { font-size: 9px; letter-spacing:.14em; text-transform:uppercase; color: var(--gold-dim); display:block; margin: 0 0 3px 2px; }
+  .rev-card.off { opacity: .4; }
+  .rev-pubrow { display:flex; align-items:center; gap:8px; font-size:12px; color:var(--muted); }
+
   .spin { display:inline-block; width:14px; height:14px; border:2px solid rgba(26,18,6,.3); border-top-color:#1a1206; border-radius:50%; animation: sp .7s linear infinite; }
   .btn.ghost .spin, .iconbtn .spin { border-color: rgba(201,162,75,.3); border-top-color: var(--gold); }
   @keyframes sp { to { transform: rotate(360deg); } }
@@ -312,6 +327,7 @@
       <h1 class="display">The <span class="amp">Cellar</span></h1>
     </div>
     <div class="topbar-actions">
+      <button class="iconbtn" id="btn-import" title="Scan bottles from a photo">📷</button>
       <button class="iconbtn" id="btn-qr" title="QR Code">▣</button>
       <button class="iconbtn" id="btn-settings" title="Settings">⚙</button>
       <button class="iconbtn" id="btn-lock" title="Lock">⏏</button>
@@ -478,6 +494,36 @@
     <div class="sheet-actions">
       <button type="button" class="btn ghost" id="qr-close">Close</button>
       <button type="button" class="btn primary" id="qr-download">Download PNG</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ IMPORT (SCAN VIA CLAUDE) SHEET ============ -->
+<div class="overlay" id="import-overlay">
+  <div class="sheet">
+    <div class="grab"></div>
+    <h2 class="display">Scan Bottles</h2>
+    <div class="sheet-sub">Photo → Claude → your cellar</div>
+
+    <ol class="import-steps">
+      <li><b>Copy the prompt</b> below.</li>
+      <li>Open the <b>Claude app</b>, attach your photo of the bottles, and paste the prompt.</li>
+      <li><b>Copy Claude's reply</b> and paste it in the box below, then Review.</li>
+    </ol>
+
+    <button type="button" class="btn ghost block" id="import-copy" style="margin-bottom:6px">⧉ Copy the prompt</button>
+    <textarea id="import-prompt" class="field" readonly style="min-height:90px; font-size:13px; font-family:ui-monospace,Menlo,Consolas,monospace"></textarea>
+
+    <label class="lbl" style="margin-top:18px">Paste Claude's JSON reply</label>
+    <textarea id="import-json" class="field" placeholder="[ { &quot;name&quot;: … } ]" style="min-height:120px; font-family:ui-monospace,Menlo,Consolas,monospace; font-size:13px"></textarea>
+    <div class="hint" id="import-msg"></div>
+
+    <div id="import-review"></div>
+
+    <div class="sheet-actions">
+      <button type="button" class="btn ghost" id="import-cancel">Cancel</button>
+      <button type="button" class="btn primary" id="import-parse">Review →</button>
+      <button type="button" class="btn primary" id="import-save" style="display:none">Save All</button>
     </div>
   </div>
 </div>
@@ -1137,6 +1183,155 @@
   }
 
   /* ============================================================
+     Import — scan bottles via the Claude app (paste JSON back)
+     ============================================================ */
+  const IMPORT_CATS = CAT_ORDER; // full category list for the review dropdown
+  const IMPORT_PROMPT =
+    "Look at the attached photo of drink bottles. For EACH distinct bottle you can see, create one object. " +
+    "Return ONLY a JSON array — no markdown fences, no commentary. Each object must have these keys:\n" +
+    "name (string), brand (string), " +
+    "category (one of: " + IMPORT_CATS.join(", ") + "), " +
+    "abv (number, alcohol % — use 0 if non-alcoholic or unknown), " +
+    "volume_ml (number, 0 if unknown), qty (integer, default 1), " +
+    "notes (string — age statement or anything else printed on the label, else \"\").\n" +
+    "If a value is unknown use \"\" for text or 0 for numbers.\n" +
+    "Example: [{\"name\":\"12 Year Single Malt\",\"brand\":\"Glenfiddich\",\"category\":\"Whisky\",\"abv\":40,\"volume_ml\":700,\"qty\":1,\"notes\":\"12 yo\"}]";
+
+  function openImport() {
+    const cfg = getCfg();
+    if (!cfg.token || !cfg.repo) { toast("Connect your repo first (⚙).", "err"); showOverlay("settings-overlay"); return; }
+    $("import-prompt").value = IMPORT_PROMPT;
+    $("import-json").value = "";
+    $("import-msg").textContent = "";
+    $("import-review").innerHTML = "";
+    $("import-parse").style.display = "inline-flex";
+    $("import-save").style.display = "none";
+    showOverlay("import-overlay");
+  }
+
+  function copyImportPrompt() {
+    const ta = $("import-prompt");
+    const done = function () { toast("Prompt copied — paste it into Claude with your photo.", "ok"); };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(ta.value).then(done).catch(function () { ta.select(); document.execCommand("copy"); done(); });
+    } else {
+      ta.select(); document.execCommand("copy"); done();
+    }
+  }
+
+  // Pull a JSON array (or single object) out of whatever Claude returned.
+  function extractJsonArray(text) {
+    if (!text) return null;
+    let t = text.trim().replace(/^```(?:json)?/i, "").replace(/```\s*$/, "").trim();
+    const start = t.indexOf("["), end = t.lastIndexOf("]");
+    if (start > -1 && end > start) {
+      try { return JSON.parse(t.slice(start, end + 1)); } catch (e) {}
+    }
+    const os = t.indexOf("{"), oe = t.lastIndexOf("}");
+    if (os > -1 && oe > os) {
+      try { return [JSON.parse(t.slice(os, oe + 1))]; } catch (e) {}
+    }
+    return null;
+  }
+
+  function parseImport() {
+    const arr = extractJsonArray($("import-json").value);
+    const msg = $("import-msg");
+    if (!arr || !Array.isArray(arr) || !arr.length) {
+      msg.style.color = "var(--danger)";
+      msg.textContent = "Couldn't read a JSON list of bottles there. Paste Claude's full reply.";
+      return;
+    }
+    msg.style.color = "var(--ok)";
+    msg.textContent = "Found " + arr.length + (arr.length === 1 ? " bottle" : " bottles") + ". Review, then Save All.";
+    renderImportReview(arr);
+    $("import-parse").style.display = "none";
+    $("import-save").style.display = "inline-flex";
+  }
+
+  function renderImportReview(arr) {
+    const cont = $("import-review");
+    cont.innerHTML = "";
+    arr.forEach(function (raw, i) {
+      raw = raw || {};
+      const cat = IMPORT_CATS.indexOf(raw.category) > -1 ? raw.category : "Other";
+      const card = document.createElement("div");
+      card.className = "rev-card";
+      card.innerHTML =
+        '<div class="rev-head">' +
+          '<label class="switch"><input type="checkbox" class="rev-include" checked /><span class="slider"></span></label>' +
+          '<span class="rev-title"></span>' +
+          '<span class="rev-pubrow"><span class="tiny-lbl" style="margin:0">Public</span>' +
+            '<label class="switch"><input type="checkbox" class="rev-public" ' + (raw.public === false ? "" : "checked") + ' /><span class="slider"></span></label>' +
+          '</span>' +
+        '</div>' +
+        '<div class="rev-grid">' +
+          '<div class="full"><span class="tiny-lbl">Name</span><input class="field rev-name" value="' + esc(raw.name || "") + '" /></div>' +
+          '<div><span class="tiny-lbl">Brand</span><input class="field rev-brand" value="' + esc(raw.brand || "") + '" /></div>' +
+          '<div><span class="tiny-lbl">Category</span><select class="field rev-cat">' +
+            IMPORT_CATS.map(function (c) { return '<option' + (c === cat ? " selected" : "") + ">" + esc(c) + "</option>"; }).join("") +
+          '</select></div>' +
+          '<div><span class="tiny-lbl">ABV %</span><input class="field rev-abv" type="number" step="0.1" inputmode="decimal" value="' + (Number(raw.abv) || 0) + '" /></div>' +
+          '<div><span class="tiny-lbl">Volume ml</span><input class="field rev-vol" type="number" inputmode="numeric" value="' + (parseInt(raw.volume_ml, 10) || 0) + '" /></div>' +
+          '<div><span class="tiny-lbl">Qty</span><input class="field rev-qty" type="number" min="1" inputmode="numeric" value="' + (parseInt(raw.qty, 10) || 1) + '" /></div>' +
+          '<div class="full"><span class="tiny-lbl">Notes</span><input class="field rev-notes" value="' + esc(raw.notes || "") + '" /></div>' +
+        '</div>';
+      const inc = card.querySelector(".rev-include");
+      inc.addEventListener("change", function () { card.classList.toggle("off", !inc.checked); });
+      const nameInput = card.querySelector(".rev-name");
+      const title = card.querySelector(".rev-title");
+      const setTitle = function () { title.textContent = "#" + (i + 1) + (nameInput.value ? " · " + nameInput.value : ""); };
+      setTitle();
+      nameInput.addEventListener("input", setTitle);
+      cont.appendChild(card);
+    });
+  }
+
+  async function saveImport() {
+    const cfg = getCfg();
+    if (!cfg.token || !cfg.repo) { toast("Connect your repo first (⚙).", "err"); return; }
+    const picked = [];
+    $("import-review").querySelectorAll(".rev-card").forEach(function (card) {
+      if (!card.querySelector(".rev-include").checked) return;
+      const name = card.querySelector(".rev-name").value.trim();
+      if (!name) return;
+      picked.push({
+        id: uuid(),
+        name: name,
+        brand: card.querySelector(".rev-brand").value.trim(),
+        category: card.querySelector(".rev-cat").value,
+        abv: parseFloat(card.querySelector(".rev-abv").value) || 0,
+        volume_ml: parseInt(card.querySelector(".rev-vol").value, 10) || 0,
+        qty: parseInt(card.querySelector(".rev-qty").value, 10) || 1,
+        opened: false,
+        opened_qty: 0,
+        opened_levels: [],
+        remaining_pct: 100,
+        notes: card.querySelector(".rev-notes").value.trim(),
+        image_path: "",
+        public: card.querySelector(".rev-public").checked
+      });
+    });
+    if (!picked.length) { toast("Nothing selected to save (each needs a name).", "err"); return; }
+
+    const btn = $("import-save");
+    const orig = btn.innerHTML;
+    btn.disabled = true; btn.innerHTML = '<span class="spin"></span> Saving ' + picked.length + "…";
+    try {
+      await loadCellar();
+      picked.forEach(function (b) { CELLAR.bottles.push(b); });
+      await saveCellar("Import " + picked.length + " bottle" + (picked.length > 1 ? "s" : "") + " from photo");
+      hideOverlay("import-overlay");
+      render();
+      toast("Added " + picked.length + " bottle" + (picked.length > 1 ? "s" : "") + ".", "ok");
+    } catch (err) {
+      toast(err.message, "err");
+    } finally {
+      btn.disabled = false; btn.innerHTML = orig;
+    }
+  }
+
+  /* ============================================================
      Settings
      ============================================================ */
   function openSettings() {
@@ -1237,9 +1432,15 @@
     $("lock-form").addEventListener("submit", attemptUnlock);
 
     $("fab").addEventListener("click", function () { openForm(null); });
+    $("btn-import").addEventListener("click", openImport);
     $("btn-qr").addEventListener("click", openQR);
     $("btn-settings").addEventListener("click", openSettings);
     $("btn-lock").addEventListener("click", lock);
+
+    $("import-copy").addEventListener("click", copyImportPrompt);
+    $("import-parse").addEventListener("click", parseImport);
+    $("import-save").addEventListener("click", saveImport);
+    $("import-cancel").addEventListener("click", function () { hideOverlay("import-overlay"); });
 
     $("bottle-form").addEventListener("submit", saveBottle);
     $("form-cancel").addEventListener("click", function () { hideOverlay("form-overlay"); });
