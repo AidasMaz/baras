@@ -23,6 +23,11 @@
       "volume_ml": 0,
       "qty": 2,
       "opened": true,
+      "opened_qty": 2,
+      "opened_levels": [
+        60,
+        100
+      ],
       "remaining_pct": 60,
       "notes": "",
       "image_path": "",
