@@ -321,9 +321,16 @@
         <div>
           <label class="lbl">Category</label>
           <select class="field" id="f-category">
-            <option>Whisky</option><option>Gin</option><option>Rum</option>
-            <option>Vodka</option><option>Tequila</option><option>Wine</option>
-            <option>Beer</option><option>Liqueur</option><option>Other</option>
+            <optgroup label="Spirits &amp; Alcohol">
+              <option>Whisky</option><option>Gin</option><option>Rum</option>
+              <option>Tequila</option><option>Vodka</option><option>Liqueur</option>
+              <option>Wine</option><option>Beer</option>
+            </optgroup>
+            <optgroup label="Non-Alcoholic">
+              <option>Soda</option><option>Energy Drink</option><option>Juice</option>
+              <option>Mixer</option><option>Water</option>
+            </optgroup>
+            <option>Other</option>
           </select>
         </div>
       </div>
@@ -350,7 +357,12 @@
       </div>
 
       <div id="remaining-block">
-        <label class="lbl">Remaining</label>
+        <div id="opened-qty-block" style="margin-bottom:16px">
+          <label class="lbl">How many are opened?</label>
+          <input class="field" id="f-opened-qty" type="number" min="1" inputmode="numeric" value="1" />
+          <div class="hint">e.g. 4 in stock, 1 opened — the rest are still sealed.</div>
+        </div>
+        <label class="lbl">Remaining <span style="opacity:.6;text-transform:none;letter-spacing:0">(of the opened one)</span></label>
         <div class="range-wrap">
           <input type="range" id="f-remaining" min="0" max="100" step="5" value="100" />
           <span class="range-val" id="remaining-val">100%</span>
@@ -651,8 +663,10 @@
   /* ============================================================
      Rendering
      ============================================================ */
-  const CAT_ORDER = ["Whisky", "Gin", "Rum", "Tequila", "Vodka", "Liqueur", "Wine", "Beer", "Other"];
-  const GLYPHS = { Whisky:"🥃", Gin:"🍸", Rum:"🍹", Tequila:"🌵", Vodka:"❄", Liqueur:"🍷", Wine:"🍷", Beer:"🍺", Other:"🍾" };
+  const CAT_ORDER = ["Whisky", "Gin", "Rum", "Tequila", "Vodka", "Liqueur", "Wine", "Beer",
+    "Soda", "Energy Drink", "Juice", "Mixer", "Water", "Other"];
+  const GLYPHS = { Whisky:"🥃", Gin:"🍸", Rum:"🍹", Tequila:"🌵", Vodka:"❄", Liqueur:"🍷", Wine:"🍷", Beer:"🍺",
+    Soda:"🥤", "Energy Drink":"⚡", Juice:"🧃", Mixer:"🫧", Water:"💧", Other:"🍾" };
 
   function esc(s) {
     return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
@@ -701,7 +715,12 @@
         if (b.qty > 1) mini.push("×" + esc(b.qty));
         const pills = [];
         pills.push(b.public ? '<span class="pill pub">On menu</span>' : '<span class="pill priv">Private</span>');
-        if (b.opened) pills.push('<span class="pill opened">Opened ' + esc(typeof b.remaining_pct==="number"?b.remaining_pct:100) + '%</span>');
+        const openedQty = typeof b.opened_qty === "number" ? b.opened_qty : (b.opened ? 1 : 0);
+        if (openedQty > 0) {
+          const rpct = typeof b.remaining_pct === "number" ? b.remaining_pct : 100;
+          const olabel = (b.qty > 1 ? esc(openedQty) + " of " + esc(b.qty) + " opened · " : "Opened · ") + esc(rpct) + "%";
+          pills.push('<span class="pill opened">' + olabel + '</span>');
+        }
         html +=
           '<div class="row">' + thumb +
             '<div class="row-main">' +
@@ -752,6 +771,7 @@
       $("f-volume").value = b.volume_ml || "";
       $("f-qty").value = b.qty || 1;
       $("f-opened").checked = !!b.opened;
+      $("f-opened-qty").value = (typeof b.opened_qty === "number" && b.opened_qty > 0) ? b.opened_qty : 1;
       $("f-remaining").value = typeof b.remaining_pct === "number" ? b.remaining_pct : 100;
       $("f-notes").value = b.notes || "";
       $("f-public").checked = b.public !== false;
@@ -773,7 +793,17 @@
   }
 
   function syncRemaining() {
-    $("remaining-block").style.display = $("f-opened").checked ? "block" : "none";
+    const opened = $("f-opened").checked;
+    $("remaining-block").style.display = opened ? "block" : "none";
+    const qty = parseInt($("f-qty").value, 10) || 1;
+    // only ask "how many opened" when there's more than one bottle
+    $("opened-qty-block").style.display = (opened && qty > 1) ? "block" : "none";
+    const oq = $("f-opened-qty");
+    oq.max = qty;
+    let v = parseInt(oq.value, 10) || 1;
+    if (v < 1) v = 1;
+    if (v > qty) v = qty;
+    oq.value = v;
     $("remaining-val").textContent = $("f-remaining").value + "%";
   }
 
@@ -798,6 +828,15 @@
       const id = editId || uuid();
       const existing = editId ? CELLAR.bottles.find(function (x) { return x.id === id; }) : null;
 
+      const qty = parseInt($("f-qty").value, 10) || 1;
+      const opened = $("f-opened").checked;
+      let openedQty = 0;
+      if (opened) {
+        openedQty = qty > 1 ? (parseInt($("f-opened-qty").value, 10) || 1) : 1;
+        if (openedQty < 1) openedQty = 1;
+        if (openedQty > qty) openedQty = qty;
+      }
+
       const bottle = {
         id: id,
         name: name,
@@ -805,9 +844,10 @@
         category: $("f-category").value,
         abv: parseFloat($("f-abv").value) || 0,
         volume_ml: parseInt($("f-volume").value, 10) || 0,
-        qty: parseInt($("f-qty").value, 10) || 1,
-        opened: $("f-opened").checked,
-        remaining_pct: $("f-opened").checked ? (parseInt($("f-remaining").value, 10)) : 100,
+        qty: qty,
+        opened: opened,
+        opened_qty: openedQty,
+        remaining_pct: opened ? (parseInt($("f-remaining").value, 10)) : 100,
         notes: $("f-notes").value.trim(),
         image_path: existing ? (existing.image_path || "") : "",
         public: $("f-public").checked
@@ -1036,6 +1076,8 @@
     $("form-cancel").addEventListener("click", function () { hideOverlay("form-overlay"); });
     $("f-opened").addEventListener("change", syncRemaining);
     $("f-remaining").addEventListener("input", syncRemaining);
+    $("f-qty").addEventListener("input", syncRemaining);
+    $("f-opened-qty").addEventListener("input", syncRemaining);
 
     $("btn-lookup").addEventListener("click", function () {
       const code = $("f-barcode").value.trim();

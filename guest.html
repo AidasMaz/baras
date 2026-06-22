@@ -314,10 +314,13 @@
 (function () {
   "use strict";
 
-  var CATEGORY_ORDER = ["Whisky", "Gin", "Rum", "Tequila", "Vodka", "Liqueur", "Wine", "Beer", "Other"];
+  var CATEGORY_ORDER = ["Whisky", "Gin", "Rum", "Tequila", "Vodka", "Liqueur", "Wine", "Beer",
+    "Soda", "Energy Drink", "Juice", "Mixer", "Water", "Other"];
   var GLYPHS = {
     Whisky: "🥃", Gin: "🍸", Rum: "🍹", Tequila: "🌵", Vodka: "❄",
-    Liqueur: "🍷", Wine: "🍷", Beer: "🍺", Other: "🍾"
+    Liqueur: "🍷", Wine: "🍷", Beer: "🍺",
+    Soda: "🥤", "Energy Drink": "⚡", Juice: "🧃", Mixer: "🫧", Water: "💧",
+    Other: "🍾"
   };
 
   function esc(s) {
@@ -352,9 +355,11 @@
     var tags = [];
     if (b.category) tags.push('<span class="tag">' + esc(b.category) + "</span>");
     if (b.qty > 1) tags.push('<span class="tag">×' + esc(b.qty) + "</span>");
-    if (b.opened) {
+    var openedQty = (typeof b.opened_qty === "number") ? b.opened_qty : (b.opened ? 1 : 0);
+    if (openedQty > 0) {
       var pct = (typeof b.remaining_pct === "number") ? b.remaining_pct : 100;
-      tags.push('<span class="tag opened">Opened · ' + esc(pct) + "% left</span>");
+      var openedLabel = (b.qty > 1 ? esc(openedQty) + " opened · " : "Opened · ") + esc(pct) + "% left";
+      tags.push('<span class="tag opened">' + openedLabel + "</span>");
     }
 
     var notesBlock = "";
