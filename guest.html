@@ -325,6 +325,26 @@
   #gate-form button:hover { filter: brightness(1.08); }
   #gate-msg { color: #c25b4a; font-size: 14px; margin-top: 14px; min-height: 18px; letter-spacing: 0.03em; font-family: "Josefin Sans", sans-serif; }
   body.locked { overflow: hidden; }
+
+  /* ---------- Photo lightbox ---------- */
+  #lightbox {
+    position: fixed; inset: 0; z-index: 70; display: none;
+    align-items: center; justify-content: center; padding: 24px;
+    background: rgba(4, 3, 2, 0.92); backdrop-filter: blur(4px);
+    cursor: zoom-out;
+  }
+  #lightbox.show { display: flex; }
+  #lightbox figure { margin: 0; text-align: center; max-width: 100%; max-height: 100%; animation: lb-in .25s ease; }
+  #lightbox img { max-width: min(92vw, 640px); max-height: 82vh; border-radius: 6px; border: 1px solid var(--line); box-shadow: 0 20px 60px rgba(0,0,0,.6); }
+  #lightbox figcaption {
+    margin-top: 16px; color: var(--cream); font-family: "Playfair Display", serif;
+    font-size: 20px; letter-spacing: .01em;
+  }
+  #lightbox .close-hint {
+    margin-top: 6px; color: var(--muted); font-family: "Josefin Sans", sans-serif;
+    font-weight: 300; font-size: 11px; letter-spacing: .25em; text-transform: uppercase;
+  }
+  @keyframes lb-in { from { transform: scale(.94); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 </style>
 </head>
 <body class="locked">
@@ -361,6 +381,14 @@
     </footer>
   </div>
 
+  <div id="lightbox">
+    <figure>
+      <img id="lightbox-img" src="" alt="" />
+      <figcaption id="lightbox-cap"></figcaption>
+      <div class="close-hint">Tap anywhere to close</div>
+    </figure>
+  </div>
+
 <script>
 (function () {
   "use strict";
@@ -386,6 +414,17 @@
     return ml + " ml";
   }
 
+  // Normalise the various opened representations into a list of % levels.
+  // New records: opened_levels:[60,30]. Old: opened_qty + single remaining_pct.
+  function openedLevels(b) {
+    if (Array.isArray(b.opened_levels)) return b.opened_levels.slice();
+    var pct = (typeof b.remaining_pct === "number") ? b.remaining_pct : 100;
+    var n = (typeof b.opened_qty === "number") ? b.opened_qty : (b.opened ? 1 : 0);
+    var out = [];
+    for (var i = 0; i < n; i++) out.push(pct);
+    return out;
+  }
+
   function bottleEl(b) {
     var el = document.createElement("article");
     el.className = "bottle";
@@ -406,10 +445,10 @@
     var tags = [];
     if (b.category) tags.push('<span class="tag">' + esc(b.category) + "</span>");
     if (b.qty > 1) tags.push('<span class="tag">×' + esc(b.qty) + "</span>");
-    var openedQty = (typeof b.opened_qty === "number") ? b.opened_qty : (b.opened ? 1 : 0);
-    if (openedQty > 0) {
-      var pct = (typeof b.remaining_pct === "number") ? b.remaining_pct : 100;
-      var openedLabel = (b.qty > 1 ? esc(openedQty) + " opened · " : "Opened · ") + esc(pct) + "% left";
+    var levels = openedLevels(b);
+    if (levels.length) {
+      var lvlStr = levels.map(function (x) { return esc(x) + "%"; }).join(", ");
+      var openedLabel = (b.qty > 1 ? esc(levels.length) + " opened · " : "Opened · ") + lvlStr + " left";
       tags.push('<span class="tag opened">' + openedLabel + "</span>");
     }
 
@@ -437,9 +476,18 @@
         notesBlock +
       "</div>";
 
+    var img = el.querySelector("img.thumb");
+    if (img) {
+      img.style.cursor = "zoom-in";
+      img.addEventListener("click", function (ev) {
+        ev.stopPropagation(); // don't also toggle the notes
+        openLightbox(b.image_path, b.name);
+      });
+    }
+
     if (notesBlock) {
       el.addEventListener("click", function () { el.classList.toggle("open"); });
-    } else {
+    } else if (!img) {
       el.style.cursor = "default";
     }
     return el;
@@ -476,17 +524,34 @@
       var list = groups[cat].sort(function (a, b) {
         return (a.name || "").localeCompare(b.name || "");
       });
+      // count total bottles (sum of quantities), not just distinct entries
+      var catCount = list.reduce(function (s, b) { return s + (b.qty > 0 ? b.qty : 1); }, 0);
       var head = document.createElement("div");
       head.className = "category-head";
       head.innerHTML =
         "<h2>" + esc(cat) + "</h2>" +
         '<span class="filler"></span>' +
-        '<span class="count">' + list.length + (list.length === 1 ? " bottle" : " bottles") + "</span>";
+        '<span class="count">' + catCount + (catCount === 1 ? " bottle" : " bottles") + "</span>";
       section.appendChild(head);
       list.forEach(function (b) { section.appendChild(bottleEl(b)); });
       content.appendChild(section);
     });
   }
+
+  function openLightbox(src, caption) {
+    if (!src) return;
+    var lb = document.getElementById("lightbox");
+    document.getElementById("lightbox-img").src = src;
+    document.getElementById("lightbox-cap").textContent = caption || "";
+    lb.classList.add("show");
+  }
+  (function () {
+    var lb = document.getElementById("lightbox");
+    if (lb) lb.addEventListener("click", function () { lb.classList.remove("show"); });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && lb) lb.classList.remove("show");
+    });
+  })();
 
   function load() {
     // cache-bust so the menu reflects recent commits

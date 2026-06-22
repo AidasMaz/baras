@@ -218,6 +218,20 @@
   .range-val { min-width: 48px; text-align:right; color: var(--gold-bright); font-weight:600; }
 
   #remaining-block { display:none; }
+  .opened-row { display:flex; align-items:center; gap:10px; margin-bottom:10px; }
+  .opened-idx {
+    flex-shrink:0; width:24px; height:24px; border-radius:50%;
+    border:1px solid var(--gold-dim); color:var(--gold-bright);
+    display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:600;
+  }
+  .opened-row input[type=range] { flex:1; accent-color: var(--gold); height: 30px; }
+  .opened-pctval { min-width:46px; text-align:right; color:var(--gold-bright); font-weight:600; font-size:15px; }
+  .opened-del {
+    flex-shrink:0; width:30px; height:30px; border-radius:6px;
+    border:1px solid rgba(194,91,74,.4); background:rgba(194,91,74,.08); color:var(--danger);
+    font-size:18px; line-height:1; cursor:pointer; display:flex; align-items:center; justify-content:center;
+  }
+  #add-opened:disabled { opacity:.4; }
 
   /* QR */
   #qrbox { display:flex; justify-content:center; padding: 20px; background: #fff; border-radius: 10px; margin: 8px auto 16px; width: fit-content; }
@@ -357,16 +371,10 @@
       </div>
 
       <div id="remaining-block">
-        <div id="opened-qty-block" style="margin-bottom:16px">
-          <label class="lbl">How many are opened?</label>
-          <input class="field" id="f-opened-qty" type="number" min="1" inputmode="numeric" value="1" />
-          <div class="hint">e.g. 4 in stock, 1 opened — the rest are still sealed.</div>
-        </div>
-        <label class="lbl">Remaining <span style="opacity:.6;text-transform:none;letter-spacing:0">(of the opened one)</span></label>
-        <div class="range-wrap">
-          <input type="range" id="f-remaining" min="0" max="100" step="5" value="100" />
-          <span class="range-val" id="remaining-val">100%</span>
-        </div>
+        <label class="lbl">Opened bottles &amp; how much is left</label>
+        <div id="opened-list"></div>
+        <button type="button" class="btn ghost sm" id="add-opened" style="margin-top:2px">＋ Another opened bottle</button>
+        <div class="hint">e.g. 45 in stock, 2 opened at 60% and 30% — the rest stay sealed.</div>
       </div>
 
       <div>
@@ -679,11 +687,76 @@
     return ml + " ml";
   }
 
+  // Normalise opened state into a list of % levels.
+  // New: opened_levels:[60,30]. Old: opened_qty + single remaining_pct.
+  function openedLevels(b) {
+    if (Array.isArray(b.opened_levels)) return b.opened_levels.slice();
+    const pct = (typeof b.remaining_pct === "number") ? b.remaining_pct : 100;
+    const n = (typeof b.opened_qty === "number") ? b.opened_qty : (b.opened ? 1 : 0);
+    const out = [];
+    for (let i = 0; i < n; i++) out.push(pct);
+    return out;
+  }
+
+  /* ----- opened-bottle level rows (dynamic) ----- */
+  function makeOpenedRow(val) {
+    const qty = parseInt($("f-qty").value, 10) || 1;
+    const list = $("opened-list");
+    if (list.querySelectorAll(".opened-row").length >= qty) return;
+    const row = document.createElement("div");
+    row.className = "opened-row";
+    const v = (typeof val === "number") ? val : 100;
+    row.innerHTML =
+      '<span class="opened-idx"></span>' +
+      '<input type="range" class="opened-pct" min="0" max="100" step="5" value="' + v + '" />' +
+      '<span class="opened-pctval">' + v + '%</span>' +
+      '<button type="button" class="opened-del" title="Remove">×</button>';
+    list.appendChild(row);
+    row.querySelector(".opened-pct").addEventListener("input", function () {
+      row.querySelector(".opened-pctval").textContent = this.value + "%";
+    });
+    row.querySelector(".opened-del").addEventListener("click", function () {
+      row.remove();
+      reindexOpened();
+    });
+    reindexOpened();
+  }
+
+  function reindexOpened() {
+    const rows = $("opened-list").querySelectorAll(".opened-row");
+    const qty = parseInt($("f-qty").value, 10) || 1;
+    rows.forEach(function (r, i) { r.querySelector(".opened-idx").textContent = i + 1; });
+    // remove buttons only matter when there's more than one
+    $("opened-list").querySelectorAll(".opened-del").forEach(function (b) {
+      b.style.display = rows.length > 1 ? "flex" : "none";
+    });
+    const addBtn = $("add-opened");
+    addBtn.style.display = qty > 1 ? "inline-flex" : "none";
+    addBtn.disabled = rows.length >= qty;
+  }
+
+  function setOpenedRows(levels) {
+    $("opened-list").innerHTML = "";
+    (levels || []).forEach(function (v) { makeOpenedRow(v); });
+  }
+
+  function readOpenedLevels() {
+    const out = [];
+    $("opened-list").querySelectorAll(".opened-pct").forEach(function (inp) {
+      let v = parseInt(inp.value, 10);
+      if (isNaN(v)) v = 0;
+      if (v < 0) v = 0; if (v > 100) v = 100;
+      out.push(v);
+    });
+    return out;
+  }
+
   function render() {
     const bottles = CELLAR.bottles || [];
-    $("stat-total").textContent = bottles.length;
-    $("stat-public").textContent = bottles.filter(function (b) { return b.public; }).length;
-    $("stat-opened").textContent = bottles.filter(function (b) { return b.opened; }).length;
+    const sumQty = function (arr) { return arr.reduce(function (s, b) { return s + (b.qty > 0 ? b.qty : 1); }, 0); };
+    $("stat-total").textContent = sumQty(bottles);
+    $("stat-public").textContent = sumQty(bottles.filter(function (b) { return b.public; }));
+    $("stat-opened").textContent = bottles.reduce(function (s, b) { return s + openedLevels(b).length; }, 0);
     const cfg = getCfg();
     $("stat-repo").textContent = cfg.repo ? cfg.repo + " @ " + cfg.branch : "no repo set";
 
@@ -715,10 +788,10 @@
         if (b.qty > 1) mini.push("×" + esc(b.qty));
         const pills = [];
         pills.push(b.public ? '<span class="pill pub">On menu</span>' : '<span class="pill priv">Private</span>');
-        const openedQty = typeof b.opened_qty === "number" ? b.opened_qty : (b.opened ? 1 : 0);
-        if (openedQty > 0) {
-          const rpct = typeof b.remaining_pct === "number" ? b.remaining_pct : 100;
-          const olabel = (b.qty > 1 ? esc(openedQty) + " of " + esc(b.qty) + " opened · " : "Opened · ") + esc(rpct) + "%";
+        const levels = openedLevels(b);
+        if (levels.length) {
+          const lvlStr = levels.map(function (x) { return esc(x) + "%"; }).join(", ");
+          const olabel = (b.qty > 1 ? esc(levels.length) + " of " + esc(b.qty) + " opened · " : "Opened · ") + lvlStr;
           pills.push('<span class="pill opened">' + olabel + '</span>');
         }
         html +=
@@ -770,9 +843,9 @@
       $("f-abv").value = b.abv || "";
       $("f-volume").value = b.volume_ml || "";
       $("f-qty").value = b.qty || 1;
-      $("f-opened").checked = !!b.opened;
-      $("f-opened-qty").value = (typeof b.opened_qty === "number" && b.opened_qty > 0) ? b.opened_qty : 1;
-      $("f-remaining").value = typeof b.remaining_pct === "number" ? b.remaining_pct : 100;
+      const _levels = openedLevels(b);
+      $("f-opened").checked = _levels.length > 0;
+      setOpenedRows(_levels);
       $("f-notes").value = b.notes || "";
       $("f-public").checked = b.public !== false;
       if (b.image_path) {
@@ -785,7 +858,8 @@
       $("f-id").value = "";
       $("f-qty").value = 1;
       $("f-public").checked = true;
-      $("f-remaining").value = 100;
+      $("f-opened").checked = false;
+      setOpenedRows([]);
     }
     syncRemaining();
     showOverlay("form-overlay");
@@ -795,16 +869,15 @@
   function syncRemaining() {
     const opened = $("f-opened").checked;
     $("remaining-block").style.display = opened ? "block" : "none";
-    const qty = parseInt($("f-qty").value, 10) || 1;
-    // only ask "how many opened" when there's more than one bottle
-    $("opened-qty-block").style.display = (opened && qty > 1) ? "block" : "none";
-    const oq = $("f-opened-qty");
-    oq.max = qty;
-    let v = parseInt(oq.value, 10) || 1;
-    if (v < 1) v = 1;
-    if (v > qty) v = qty;
-    oq.value = v;
-    $("remaining-val").textContent = $("f-remaining").value + "%";
+    if (opened) {
+      const qty = parseInt($("f-qty").value, 10) || 1;
+      // ensure at least one opened-level row exists
+      let rows = $("opened-list").querySelectorAll(".opened-row");
+      if (rows.length === 0) { makeOpenedRow(100); rows = $("opened-list").querySelectorAll(".opened-row"); }
+      // never allow more opened rows than there are bottles
+      for (let i = rows.length - 1; i >= qty; i--) rows[i].remove();
+    }
+    reindexOpened();
   }
 
   async function saveBottle(e) {
@@ -829,13 +902,9 @@
       const existing = editId ? CELLAR.bottles.find(function (x) { return x.id === id; }) : null;
 
       const qty = parseInt($("f-qty").value, 10) || 1;
-      const opened = $("f-opened").checked;
-      let openedQty = 0;
-      if (opened) {
-        openedQty = qty > 1 ? (parseInt($("f-opened-qty").value, 10) || 1) : 1;
-        if (openedQty < 1) openedQty = 1;
-        if (openedQty > qty) openedQty = qty;
-      }
+      const isOpened = $("f-opened").checked;
+      let levels = isOpened ? readOpenedLevels().slice(0, qty) : [];
+      if (isOpened && levels.length === 0) levels = [100];
 
       const bottle = {
         id: id,
@@ -845,9 +914,10 @@
         abv: parseFloat($("f-abv").value) || 0,
         volume_ml: parseInt($("f-volume").value, 10) || 0,
         qty: qty,
-        opened: opened,
-        opened_qty: openedQty,
-        remaining_pct: opened ? (parseInt($("f-remaining").value, 10)) : 100,
+        opened: levels.length > 0,
+        opened_qty: levels.length,
+        opened_levels: levels,
+        remaining_pct: levels.length ? levels[0] : 100,
         notes: $("f-notes").value.trim(),
         image_path: existing ? (existing.image_path || "") : "",
         public: $("f-public").checked
@@ -1075,9 +1145,8 @@
     $("bottle-form").addEventListener("submit", saveBottle);
     $("form-cancel").addEventListener("click", function () { hideOverlay("form-overlay"); });
     $("f-opened").addEventListener("change", syncRemaining);
-    $("f-remaining").addEventListener("input", syncRemaining);
     $("f-qty").addEventListener("input", syncRemaining);
-    $("f-opened-qty").addEventListener("input", syncRemaining);
+    $("add-opened").addEventListener("click", function () { makeOpenedRow(100); });
 
     $("btn-lookup").addEventListener("click", function () {
       const code = $("f-barcode").value.trim();
