@@ -13,6 +13,20 @@
       "notes": "",
       "image_path": "",
       "public": true
+    },
+    {
+      "id": "105a2c94-7081-4b68-ae58-f7c57957ece9",
+      "name": "Ruuuuum",
+      "brand": "",
+      "category": "Rum",
+      "abv": 0,
+      "volume_ml": 0,
+      "qty": 2,
+      "opened": true,
+      "remaining_pct": 60,
+      "notes": "",
+      "image_path": "",
+      "public": true
     }
   ]
 }
