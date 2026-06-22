@@ -1,3 +1,18 @@
 {
-  "bottles": []
+  "bottles": [
+    {
+      "id": "4536c2d9-385d-43e8-8073-8dfa54aa4935",
+      "name": "Jack D",
+      "brand": "",
+      "category": "Whisky",
+      "abv": 0,
+      "volume_ml": 0,
+      "qty": 1,
+      "opened": false,
+      "remaining_pct": 100,
+      "notes": "",
+      "image_path": "",
+      "public": true
+    }
+  ]
 }
