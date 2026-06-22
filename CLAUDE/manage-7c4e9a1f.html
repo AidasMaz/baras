@@ -1,0 +1,1098 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>Cellar — Keeper's Console</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Playfair+Display:wght@600;700;900&family=Josefin+Sans:wght@300;400;600&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --ink: #0c0a09;
+    --panel: #18130f;
+    --panel-2: #211a14;
+    --field: #0f0c0a;
+    --gold: #c9a24b;
+    --gold-bright: #e8c878;
+    --gold-dim: #8a7339;
+    --cream: #ece3d2;
+    --muted: #9a8e7c;
+    --line: rgba(201, 162, 75, 0.22);
+    --danger: #c25b4a;
+    --ok: #6fae73;
+    --radius: 6px;
+    --safe-b: env(safe-area-inset-bottom, 0px);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    background:
+      radial-gradient(900px 500px at 50% -10%, rgba(201,162,75,0.08), transparent 60%),
+      linear-gradient(180deg, #0c0a09, #0a0807);
+    background-attachment: fixed;
+    color: var(--cream);
+    font-family: "Josefin Sans", system-ui, sans-serif;
+    font-weight: 300;
+    min-height: 100vh;
+    line-height: 1.45;
+  }
+  .serif { font-family: "Cormorant Garamond", serif; }
+  .display { font-family: "Playfair Display", serif; }
+
+  /* ---------- Login ---------- */
+  #lock {
+    position: fixed; inset: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: center;
+    padding: 24px;
+    background:
+      radial-gradient(700px 400px at 50% 20%, rgba(201,162,75,0.10), transparent 60%),
+      linear-gradient(180deg, #0c0a09, #060504);
+  }
+  .lock-card { width: 100%; max-width: 360px; text-align: center; }
+  .lock-card .crest { font-size: 38px; color: var(--gold); margin-bottom: 8px; }
+  .lock-card h1 { font-weight: 900; font-size: 30px; color: var(--cream); letter-spacing: 0.01em; }
+  .lock-card .sub {
+    letter-spacing: 0.3em; text-transform: uppercase; font-size: 10px;
+    color: var(--gold); margin: 10px 0 30px; padding-left: 0.3em;
+  }
+  .deco-rule { display:flex; align-items:center; justify-content:center; gap:12px; color:var(--gold); margin: 14px auto; max-width: 240px; }
+  .deco-rule::before, .deco-rule::after { content:""; height:1px; flex:1; background:linear-gradient(90deg,transparent,var(--gold-dim),transparent); }
+  .deco-diamond { font-size: 9px; letter-spacing: 3px; opacity:.8; }
+
+  /* ---------- Inputs ---------- */
+  input, select, textarea, button { font-family: inherit; font-size: 16px; }
+  .field {
+    width: 100%;
+    background: var(--field);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    color: var(--cream);
+    padding: 13px 14px;
+    transition: border-color .2s ease, box-shadow .2s ease;
+  }
+  .field:focus {
+    outline: none;
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px rgba(201,162,75,0.12);
+  }
+  textarea.field { resize: vertical; min-height: 84px; line-height: 1.5; font-family: "Cormorant Garamond", serif; font-size: 18px; }
+  select.field { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23c9a24b' d='M6 8L0 0h12z'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position: right 14px center; padding-right: 36px; }
+  label.lbl { display:block; text-align:left; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); margin: 0 0 7px 2px; }
+
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    border: 1px solid var(--gold-dim);
+    background: linear-gradient(180deg, rgba(201,162,75,0.16), rgba(201,162,75,0.06));
+    color: var(--gold-bright);
+    border-radius: var(--radius);
+    padding: 13px 18px;
+    letter-spacing: 0.14em; text-transform: uppercase; font-size: 12px; font-weight: 400;
+    cursor: pointer; transition: all .2s ease; user-select: none;
+  }
+  .btn:hover { border-color: var(--gold); background: linear-gradient(180deg, rgba(201,162,75,0.26), rgba(201,162,75,0.10)); }
+  .btn:active { transform: translateY(1px); }
+  .btn:disabled { opacity: .5; cursor: default; }
+  .btn.primary { background: linear-gradient(180deg, var(--gold), var(--gold-dim)); color: #1a1206; border-color: var(--gold); font-weight: 600; }
+  .btn.ghost { background: transparent; border-color: var(--line); color: var(--muted); }
+  .btn.danger { border-color: rgba(194,91,74,0.5); color: var(--danger); background: rgba(194,91,74,0.08); }
+  .btn.block { width: 100%; }
+  .btn.sm { padding: 9px 12px; font-size: 11px; }
+
+  /* ---------- App shell ---------- */
+  #app { display: none; max-width: 760px; margin: 0 auto; padding: 0 16px calc(120px + var(--safe-b)); }
+  .topbar {
+    position: sticky; top: 0; z-index: 30;
+    display: flex; align-items: center; justify-content: space-between; gap: 10px;
+    padding: 16px 4px; margin-bottom: 6px;
+    background: linear-gradient(180deg, var(--ink) 70%, transparent);
+  }
+  .brand { display:flex; align-items:baseline; gap: 10px; }
+  .brand .mark { color: var(--gold); font-size: 18px; }
+  .brand h1 { font-weight: 700; font-size: 22px; }
+  .brand h1 .amp { color: var(--gold); font-style: italic; font-family:"Cormorant Garamond",serif; }
+  .iconbtn {
+    width: 42px; height: 42px; flex-shrink:0;
+    border: 1px solid var(--line); border-radius: var(--radius);
+    background: var(--panel); color: var(--gold-bright);
+    font-size: 17px; cursor: pointer; display:flex; align-items:center; justify-content:center;
+    transition: border-color .2s ease;
+  }
+  .iconbtn:hover { border-color: var(--gold); }
+  .topbar-actions { display:flex; gap: 8px; }
+
+  .statline {
+    display:flex; gap: 16px; align-items:center; flex-wrap:wrap;
+    padding: 12px 14px; margin-bottom: 18px;
+    border: 1px solid var(--line); border-radius: var(--radius);
+    background: var(--panel);
+    font-size: 12px; letter-spacing: 0.06em; color: var(--muted);
+  }
+  .statline b { color: var(--gold-bright); font-weight: 600; font-size: 15px; }
+  .statline .repo { margin-left:auto; font-size: 11px; opacity:.8; word-break: break-all; }
+
+  /* ---------- Bottle list ---------- */
+  .cat-label {
+    font-family:"Playfair Display",serif; font-weight:700; font-size: 18px; color: var(--gold-bright);
+    margin: 24px 0 12px; display:flex; align-items:center; gap: 12px;
+  }
+  .cat-label .filler { flex:1; height:1px; background:linear-gradient(90deg,var(--line),transparent); }
+  .row {
+    display:flex; gap: 13px; align-items:center;
+    border: 1px solid var(--line); border-radius: var(--radius);
+    background: linear-gradient(180deg, var(--panel-2), var(--panel));
+    padding: 12px 13px; margin-bottom: 10px;
+  }
+  .row .thumb {
+    width: 46px; height: 58px; flex-shrink:0; border-radius: 4px; object-fit: cover;
+    background: linear-gradient(160deg,#2a2018,#15100c); border:1px solid var(--line);
+    display:flex; align-items:center; justify-content:center; font-size: 22px; color: var(--gold-dim);
+  }
+  .row-main { flex:1; min-width:0; }
+  .row-main .nm { font-family:"Playfair Display",serif; font-weight:600; font-size: 17px; color: var(--cream); line-height:1.2; }
+  .row-main .br { font-size: 11px; letter-spacing:.15em; text-transform:uppercase; color: var(--gold); margin-top:3px; }
+  .row-main .mini { font-size: 12px; color: var(--muted); margin-top: 5px; display:flex; gap:10px; flex-wrap:wrap; }
+  .pill { font-size: 9px; letter-spacing:.1em; text-transform:uppercase; border:1px solid var(--line); border-radius:999px; padding:2px 8px; color: var(--muted); }
+  .pill.priv { color: var(--danger); border-color: rgba(194,91,74,.4); }
+  .pill.pub { color: var(--ok); border-color: rgba(111,174,115,.4); }
+  .pill.opened { color:#d98b5f; border-color: rgba(217,139,95,.4); }
+  .row-actions { display:flex; flex-direction:column; gap: 6px; }
+
+  /* ---------- FAB ---------- */
+  .fab {
+    position: fixed; right: 18px; bottom: calc(20px + var(--safe-b)); z-index: 40;
+    height: 60px; padding: 0 24px; border-radius: 999px;
+    background: linear-gradient(180deg, var(--gold-bright), var(--gold-dim));
+    color: #1a1206; border: none; font-weight: 600; font-size: 14px;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    box-shadow: 0 10px 30px rgba(0,0,0,.5), 0 0 0 1px rgba(232,200,120,.4);
+    cursor: pointer; display:flex; align-items:center; gap: 8px;
+    transition: transform .15s ease;
+  }
+  .fab:active { transform: scale(.96); }
+
+  /* ---------- Modal / Sheet ---------- */
+  .overlay {
+    position: fixed; inset: 0; z-index: 60; display: none;
+    background: rgba(4,3,2,0.72); backdrop-filter: blur(3px);
+    align-items: flex-end; justify-content: center;
+  }
+  .overlay.show { display: flex; }
+  .sheet {
+    width: 100%; max-width: 620px; max-height: 92vh; overflow-y: auto;
+    background: linear-gradient(180deg, var(--panel-2), var(--panel));
+    border: 1px solid var(--line); border-bottom: none;
+    border-radius: 16px 16px 0 0;
+    padding: 8px 18px calc(28px + var(--safe-b));
+    animation: rise .28s cubic-bezier(.22,1,.36,1);
+    -webkit-overflow-scrolling: touch;
+  }
+  @media (min-width: 640px) { .overlay { align-items: center; } .sheet { border-radius: 16px; border-bottom: 1px solid var(--line); } }
+  @keyframes rise { from { transform: translateY(40px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+  .grab { width: 44px; height: 4px; border-radius: 999px; background: var(--line); margin: 8px auto 16px; }
+  .sheet h2 { font-family:"Playfair Display",serif; font-weight:700; font-size: 24px; margin-bottom: 4px; }
+  .sheet .sheet-sub { font-size: 11px; letter-spacing:.2em; text-transform:uppercase; color: var(--gold); margin-bottom: 20px; padding-left:.2em; }
+
+  .form-grid { display:flex; flex-direction:column; gap: 16px; }
+  .two-col { display:grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .toggle-row { display:flex; align-items:center; justify-content:space-between; gap:12px; padding: 12px 14px; border:1px solid var(--line); border-radius: var(--radius); background: var(--field); }
+  .toggle-row .t-label { font-size: 13px; letter-spacing:.04em; }
+  .toggle-row .t-label small { display:block; color: var(--muted); font-size: 11px; letter-spacing:0; }
+  .switch { position:relative; width: 50px; height: 28px; flex-shrink:0; }
+  .switch input { opacity:0; width:0; height:0; position:absolute; }
+  .slider { position:absolute; inset:0; cursor:pointer; background: #2a221a; border:1px solid var(--line); border-radius:999px; transition:.25s; }
+  .slider::before { content:""; position:absolute; height:20px; width:20px; left:3px; top:3px; background: var(--muted); border-radius:50%; transition:.25s; }
+  .switch input:checked + .slider { background: linear-gradient(180deg,var(--gold),var(--gold-dim)); border-color: var(--gold); }
+  .switch input:checked + .slider::before { transform: translateX(22px); background: #1a1206; }
+
+  .barcode-group { display:flex; gap: 8px; }
+  .barcode-group .field { flex:1; }
+  .hint { font-size: 12px; color: var(--muted); margin-top: 6px; letter-spacing:0; font-family:"Cormorant Garamond",serif; font-size:15px; font-style:italic; }
+  .photo-preview { margin-top: 10px; display:none; }
+  .photo-preview img { width: 90px; height: 114px; object-fit: cover; border-radius: 6px; border:1px solid var(--line); }
+  .sheet-actions { display:flex; gap: 10px; margin-top: 26px; }
+  .sheet-actions .btn { flex:1; }
+
+  .range-wrap { display:flex; align-items:center; gap:12px; }
+  input[type=range] { flex:1; accent-color: var(--gold); height: 30px; }
+  .range-val { min-width: 48px; text-align:right; color: var(--gold-bright); font-weight:600; }
+
+  #remaining-block { display:none; }
+
+  /* QR */
+  #qrbox { display:flex; justify-content:center; padding: 20px; background: #fff; border-radius: 10px; margin: 8px auto 16px; width: fit-content; }
+  #qrbox img, #qrbox canvas { display:block; }
+  .qr-url { word-break: break-all; text-align:center; color: var(--muted); font-size: 13px; font-family:"Cormorant Garamond",serif; margin-bottom: 18px; }
+
+  /* Toast */
+  #toast {
+    position: fixed; left: 50%; bottom: calc(96px + var(--safe-b)); transform: translateX(-50%) translateY(20px);
+    z-index: 90; max-width: 90%;
+    background: var(--panel-2); border:1px solid var(--gold-dim); color: var(--cream);
+    padding: 12px 18px; border-radius: 10px; font-size: 13px; letter-spacing:.02em;
+    box-shadow: 0 12px 30px rgba(0,0,0,.5);
+    opacity: 0; pointer-events:none; transition: opacity .25s ease, transform .25s ease;
+  }
+  #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  #toast.err { border-color: var(--danger); }
+  #toast.ok { border-color: var(--ok); }
+
+  .empty { text-align:center; padding: 60px 20px; color: var(--muted); }
+  .empty .glyph { font-size: 38px; color: var(--gold-dim); display:block; margin-bottom: 12px; }
+  .empty .serif { font-size: 19px; font-style:italic; }
+
+  .spin { display:inline-block; width:14px; height:14px; border:2px solid rgba(26,18,6,.3); border-top-color:#1a1206; border-radius:50%; animation: sp .7s linear infinite; }
+  .btn.ghost .spin, .iconbtn .spin { border-color: rgba(201,162,75,.3); border-top-color: var(--gold); }
+  @keyframes sp { to { transform: rotate(360deg); } }
+</style>
+</head>
+<body>
+
+<!-- ============ LOCK SCREEN ============ -->
+<div id="lock">
+  <div class="lock-card">
+    <div class="crest">⚜</div>
+    <h1 class="display">The <span style="color:var(--gold);font-style:italic;font-family:'Cormorant Garamond',serif">Cellar</span></h1>
+    <div class="sub">Keeper's Console</div>
+    <div class="deco-rule"><span class="deco-diamond">◆ ◆ ◆</span></div>
+    <form id="lock-form" autocomplete="off">
+      <input id="pw" class="field" type="password" placeholder="Passphrase" autocomplete="current-password" style="text-align:center; letter-spacing:.15em; margin-bottom:14px;" />
+      <button class="btn primary block" type="submit">Enter</button>
+    </form>
+    <div id="lock-msg" style="color:var(--danger); font-size:13px; margin-top:14px; min-height:18px; letter-spacing:.04em;"></div>
+  </div>
+</div>
+
+<!-- ============ APP ============ -->
+<div id="app">
+  <div class="topbar">
+    <div class="brand">
+      <span class="mark">⚜</span>
+      <h1 class="display">The <span class="amp">Cellar</span></h1>
+    </div>
+    <div class="topbar-actions">
+      <button class="iconbtn" id="btn-qr" title="QR Code">▣</button>
+      <button class="iconbtn" id="btn-settings" title="Settings">⚙</button>
+      <button class="iconbtn" id="btn-lock" title="Lock">⏏</button>
+    </div>
+  </div>
+
+  <div class="statline">
+    <span><b id="stat-total">0</b> bottles</span>
+    <span><b id="stat-public">0</b> on the menu</span>
+    <span><b id="stat-opened">0</b> opened</span>
+    <span class="repo" id="stat-repo"></span>
+  </div>
+
+  <div id="list"></div>
+</div>
+
+<button class="fab" id="fab" style="display:none">＋ Add Bottle</button>
+
+<!-- ============ ADD / EDIT SHEET ============ -->
+<div class="overlay" id="form-overlay">
+  <div class="sheet">
+    <div class="grab"></div>
+    <h2 class="display" id="form-title">Add a Bottle</h2>
+    <div class="sheet-sub" id="form-sub">A new entry for the reserve</div>
+
+    <form id="bottle-form" class="form-grid" autocomplete="off">
+      <input type="hidden" id="f-id" />
+
+      <div>
+        <label class="lbl">Barcode Lookup <span style="opacity:.6;text-transform:none;letter-spacing:0">(optional)</span></label>
+        <div class="barcode-group">
+          <input class="field" id="f-barcode" type="text" inputmode="numeric" placeholder="Scan or type a barcode" />
+          <button class="btn ghost sm" type="button" id="btn-lookup" style="white-space:nowrap">Look up</button>
+        </div>
+        <div class="hint" id="lookup-hint"></div>
+      </div>
+
+      <div>
+        <label class="lbl">Name</label>
+        <input class="field" id="f-name" type="text" required placeholder="e.g. 12 Year Single Malt" />
+      </div>
+
+      <div class="two-col">
+        <div>
+          <label class="lbl">Brand</label>
+          <input class="field" id="f-brand" type="text" placeholder="Distillery / maker" />
+        </div>
+        <div>
+          <label class="lbl">Category</label>
+          <select class="field" id="f-category">
+            <option>Whisky</option><option>Gin</option><option>Rum</option>
+            <option>Vodka</option><option>Tequila</option><option>Wine</option>
+            <option>Beer</option><option>Liqueur</option><option>Other</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="two-col">
+        <div>
+          <label class="lbl">ABV %</label>
+          <input class="field" id="f-abv" type="number" step="0.1" min="0" max="100" inputmode="decimal" placeholder="40" />
+        </div>
+        <div>
+          <label class="lbl">Volume (ml)</label>
+          <input class="field" id="f-volume" type="number" min="0" inputmode="numeric" placeholder="700" />
+        </div>
+      </div>
+
+      <div>
+        <label class="lbl">Quantity</label>
+        <input class="field" id="f-qty" type="number" min="1" inputmode="numeric" value="1" />
+      </div>
+
+      <div class="toggle-row">
+        <div class="t-label">Opened<small>Has the seal been broken?</small></div>
+        <label class="switch"><input type="checkbox" id="f-opened" /><span class="slider"></span></label>
+      </div>
+
+      <div id="remaining-block">
+        <label class="lbl">Remaining</label>
+        <div class="range-wrap">
+          <input type="range" id="f-remaining" min="0" max="100" step="5" value="100" />
+          <span class="range-val" id="remaining-val">100%</span>
+        </div>
+      </div>
+
+      <div>
+        <label class="lbl">Tasting Notes</label>
+        <textarea class="field" id="f-notes" placeholder="Nose, palate, finish…"></textarea>
+      </div>
+
+      <div>
+        <label class="lbl">Photo <span style="opacity:.6;text-transform:none;letter-spacing:0">(optional)</span></label>
+        <input class="field" id="f-photo" type="file" accept="image/*" capture="environment" style="padding:11px 14px" />
+        <div class="hint">Resized to 800px and committed to the repo.</div>
+        <div class="photo-preview" id="photo-preview"><img id="photo-preview-img" alt="" /></div>
+      </div>
+
+      <div class="toggle-row">
+        <div class="t-label">Show on public menu<small>Visible to guests at guest.html</small></div>
+        <label class="switch"><input type="checkbox" id="f-public" checked /><span class="slider"></span></label>
+      </div>
+
+      <div class="sheet-actions">
+        <button type="button" class="btn ghost" id="form-cancel">Cancel</button>
+        <button type="submit" class="btn primary" id="form-save">Save Bottle</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ============ SETTINGS SHEET ============ -->
+<div class="overlay" id="settings-overlay">
+  <div class="sheet">
+    <div class="grab"></div>
+    <h2 class="display">Settings</h2>
+    <div class="sheet-sub">GitHub connection</div>
+    <div class="form-grid">
+      <div>
+        <label class="lbl">Repository <span style="opacity:.6;text-transform:none;letter-spacing:0">(owner/repo)</span></label>
+        <input class="field" id="s-repo" type="text" placeholder="username/cellar" autocapitalize="off" autocorrect="off" spellcheck="false" />
+      </div>
+      <div>
+        <label class="lbl">Branch</label>
+        <input class="field" id="s-branch" type="text" placeholder="main" autocapitalize="off" autocorrect="off" spellcheck="false" />
+      </div>
+      <div>
+        <label class="lbl">Personal Access Token <span style="opacity:.6;text-transform:none;letter-spacing:0">(classic · repo scope)</span></label>
+        <input class="field" id="s-token" type="password" placeholder="ghp_…" autocapitalize="off" autocorrect="off" spellcheck="false" />
+        <div class="hint">Stored only in this browser's localStorage. Never committed.</div>
+      </div>
+      <div class="sheet-actions">
+        <button type="button" class="btn ghost" id="settings-cancel">Cancel</button>
+        <button type="button" class="btn primary" id="settings-save">Save &amp; Verify</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ QR SHEET ============ -->
+<div class="overlay" id="qr-overlay">
+  <div class="sheet" style="text-align:center">
+    <div class="grab"></div>
+    <h2 class="display">Guest Menu QR</h2>
+    <div class="sheet-sub">Share the tasting list</div>
+    <div id="qrbox"></div>
+    <div class="qr-url" id="qr-url"></div>
+    <div class="sheet-actions">
+      <button type="button" class="btn ghost" id="qr-close">Close</button>
+      <button type="button" class="btn primary" id="qr-download">Download PNG</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+(function () {
+  "use strict";
+
+  /* ============================================================
+     Authentication — the live hash sits among decoys below.
+     Casual source inspection should not reveal which is real.
+     ============================================================ */
+  const _0xc1 = "7d2a9f1e0b6c4a8d3f5e2c1b9a8d7f6e5c4b3a2d1f0e9c8b7a6d5f4e3c2b1a09";
+  const _r9k = "a3f9c2e7b1d4886f0c5a1e93b7d2f6048e3a9b1c4d2f6e8a0b3c5d7f9e1a2b4c";
+  const _0xf2 = "19185c71bc538026392aa9f6df9d4bb0895ecefb392c43911fa2223d825dafed";
+  const _q7z = "f0e1d2c3b4a5968778695a4b3c2d1e0f1a2b3c4d5e6f70819293a4b5c6d7e8f9";
+  const _0x4e = "cafe9001babe1234deadbeef5678feed90ab12cd34ef56781234567890abcdef";
+  const _vault = [_0xc1, _r9k, _0xf2, _q7z, _0x4e];
+  const _seal = 2; // index into _vault of the operative seal
+  const _gate = (function (a) { return a[_seal]; })(_vault);
+
+  async function _digest(s) {
+    const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(s));
+    return Array.from(new Uint8Array(buf)).map(function (b) { return b.toString(16).padStart(2, "0"); }).join("");
+  }
+
+  /* ============================================================
+     State / storage
+     ============================================================ */
+  const LS = {
+    token: "cellar.gh.token",
+    repo: "cellar.gh.repo",
+    branch: "cellar.gh.branch",
+    session: "cellar.unlocked"
+  };
+  let CELLAR = { bottles: [] };
+  let CELLAR_SHA = null;
+  let pendingImage = null; // { base64, mime } or null
+  let removeExistingImage = false;
+
+  const $ = function (id) { return document.getElementById(id); };
+
+  function getCfg() {
+    return {
+      token: localStorage.getItem(LS.token) || "",
+      repo: (localStorage.getItem(LS.repo) || "").trim(),
+      branch: (localStorage.getItem(LS.branch) || "main").trim() || "main"
+    };
+  }
+
+  function uuid() {
+    if (crypto.randomUUID) return crypto.randomUUID();
+    return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
+      const r = (Math.random() * 16) | 0, v = c === "x" ? r : (r & 0x3) | 0x8;
+      return v.toString(16);
+    });
+  }
+
+  /* ---------- base64 <-> utf8 ---------- */
+  function utf8ToB64(str) { return btoa(unescape(encodeURIComponent(str))); }
+  function b64ToUtf8(b64) { return decodeURIComponent(escape(atob(b64.replace(/\n/g, "")))); }
+
+  /* ============================================================
+     Toast
+     ============================================================ */
+  let toastTimer = null;
+  function toast(msg, kind) {
+    const t = $("toast");
+    t.textContent = msg;
+    t.className = "show" + (kind ? " " + kind : "");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { t.className = ""; }, kind === "err" ? 6000 : 3200);
+  }
+
+  /* ============================================================
+     GitHub API
+     ============================================================ */
+  function ghHeaders(token) {
+    return {
+      "Authorization": "Bearer " + token,
+      "Accept": "application/vnd.github+json",
+      "X-GitHub-Api-Version": "2022-11-28"
+    };
+  }
+
+  async function ghError(res) {
+    let detail = "";
+    try { const j = await res.json(); detail = j.message || ""; } catch (e) {}
+    if (res.status === 401) return "GitHub rejected the token (401). Check it in Settings.";
+    if (res.status === 403) {
+      if (/rate limit/i.test(detail)) return "GitHub rate limit reached (403). Wait a little and retry.";
+      return "Forbidden (403). The token may lack 'repo' scope. " + detail;
+    }
+    if (res.status === 404) return "Not found (404). Check owner/repo and branch in Settings.";
+    if (res.status === 409) return "Conflict (409). The file changed on the server.";
+    if (res.status === 422) return "Unprocessable (422). " + detail;
+    return "GitHub error " + res.status + (detail ? ": " + detail : "");
+  }
+
+  async function ghGetFile(path) {
+    const cfg = getCfg();
+    const url = "https://api.github.com/repos/" + cfg.repo + "/contents/" +
+      encodeURIComponent(path).replace(/%2F/g, "/") + "?ref=" + encodeURIComponent(cfg.branch);
+    const res = await fetch(url, { headers: ghHeaders(cfg.token), cache: "no-store" });
+    if (res.status === 404) return null; // missing file is not fatal
+    if (!res.ok) throw new Error(await ghError(res));
+    return res.json();
+  }
+
+  async function ghPutFile(path, contentB64, sha, message) {
+    const cfg = getCfg();
+    const url = "https://api.github.com/repos/" + cfg.repo + "/contents/" +
+      encodeURIComponent(path).replace(/%2F/g, "/");
+    const body = { message: message, content: contentB64, branch: cfg.branch };
+    if (sha) body.sha = sha;
+    const res = await fetch(url, { method: "PUT", headers: ghHeaders(cfg.token), body: JSON.stringify(body) });
+    if (!res.ok) throw new Error(await ghError(res));
+    return res.json();
+  }
+
+  async function ghDeleteFile(path, sha, message) {
+    const cfg = getCfg();
+    const url = "https://api.github.com/repos/" + cfg.repo + "/contents/" +
+      encodeURIComponent(path).replace(/%2F/g, "/");
+    const body = { message: message, sha: sha, branch: cfg.branch };
+    const res = await fetch(url, { method: "DELETE", headers: ghHeaders(cfg.token), body: JSON.stringify(body) });
+    if (!res.ok) throw new Error(await ghError(res));
+    return res.json();
+  }
+
+  // Load cellar.json (capturing sha for later writes)
+  async function loadCellar() {
+    const file = await ghGetFile("cellar.json");
+    if (!file) {
+      CELLAR = { bottles: [] };
+      CELLAR_SHA = null;
+      return;
+    }
+    CELLAR_SHA = file.sha;
+    try {
+      const parsed = JSON.parse(b64ToUtf8(file.content));
+      CELLAR = parsed && Array.isArray(parsed.bottles) ? parsed : { bottles: [] };
+    } catch (e) {
+      throw new Error("cellar.json is present but could not be parsed: " + e.message);
+    }
+  }
+
+  // Write cellar.json with one conflict retry (re-fetch sha)
+  async function saveCellar(message) {
+    const content = utf8ToB64(JSON.stringify(CELLAR, null, 2) + "\n");
+    try {
+      const r = await ghPutFile("cellar.json", content, CELLAR_SHA, message);
+      CELLAR_SHA = r.content.sha;
+    } catch (e) {
+      if (/409/.test(e.message) || /Conflict/.test(e.message)) {
+        const fresh = await ghGetFile("cellar.json");
+        CELLAR_SHA = fresh ? fresh.sha : null;
+        const r = await ghPutFile("cellar.json", content, CELLAR_SHA, message);
+        CELLAR_SHA = r.content.sha;
+      } else {
+        throw e;
+      }
+    }
+  }
+
+  /* ============================================================
+     Image handling — resize via Canvas to max 800px wide
+     ============================================================ */
+  function processImage(file) {
+    return new Promise(function (resolve, reject) {
+      const reader = new FileReader();
+      reader.onerror = function () { reject(new Error("Could not read the image file.")); };
+      reader.onload = function () {
+        const img = new Image();
+        img.onerror = function () { reject(new Error("That file is not a readable image.")); };
+        img.onload = function () {
+          const maxW = 800;
+          let w = img.naturalWidth, h = img.naturalHeight;
+          if (w > maxW) { h = Math.round(h * (maxW / w)); w = maxW; }
+          const canvas = document.createElement("canvas");
+          canvas.width = w; canvas.height = h;
+          const ctx = canvas.getContext("2d");
+          ctx.fillStyle = "#15100c";
+          ctx.fillRect(0, 0, w, h);
+          ctx.drawImage(img, 0, 0, w, h);
+          const dataUrl = canvas.toDataURL("image/jpeg", 0.82);
+          resolve({ base64: dataUrl.split(",")[1], dataUrl: dataUrl, mime: "image/jpeg" });
+        };
+        img.src = reader.result;
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+
+  /* ============================================================
+     Barcode lookup (OpenFoodFacts)
+     ============================================================ */
+  async function barcodeLookup(code) {
+    const hint = $("lookup-hint");
+    hint.style.color = "var(--muted)";
+    hint.textContent = "Searching…";
+    try {
+      const res = await fetch("https://world.openfoodfacts.org/api/v0/product/" +
+        encodeURIComponent(code) + ".json");
+      if (!res.ok) throw new Error("HTTP " + res.status);
+      const data = await res.json();
+      if (data.status === 1 && data.product) {
+        const p = data.product;
+        const name = p.product_name || p.generic_name || "";
+        const brand = (p.brands || "").split(",")[0].trim();
+        if (name && !$("f-name").value) $("f-name").value = name;
+        if (brand && !$("f-brand").value) $("f-brand").value = brand;
+        hint.style.color = "var(--ok)";
+        hint.textContent = "Found" + (brand ? " — " + brand : "") + (name ? " · " + name : "") + ". Fields filled.";
+      } else {
+        hint.style.color = "var(--muted)";
+        hint.textContent = "No match found for that barcode — enter the details by hand.";
+      }
+    } catch (e) {
+      hint.style.color = "var(--danger)";
+      hint.textContent = "Lookup failed: " + e.message;
+    }
+  }
+
+  /* ============================================================
+     Rendering
+     ============================================================ */
+  const CAT_ORDER = ["Whisky", "Gin", "Rum", "Tequila", "Vodka", "Liqueur", "Wine", "Beer", "Other"];
+  const GLYPHS = { Whisky:"🥃", Gin:"🍸", Rum:"🍹", Tequila:"🌵", Vodka:"❄", Liqueur:"🍷", Wine:"🍷", Beer:"🍺", Other:"🍾" };
+
+  function esc(s) {
+    return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
+      return { "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c];
+    });
+  }
+  function fmtVol(ml) {
+    if (!ml) return "";
+    if (ml >= 1000) return (ml / 1000).toString().replace(/\.0$/, "") + " L";
+    return ml + " ml";
+  }
+
+  function render() {
+    const bottles = CELLAR.bottles || [];
+    $("stat-total").textContent = bottles.length;
+    $("stat-public").textContent = bottles.filter(function (b) { return b.public; }).length;
+    $("stat-opened").textContent = bottles.filter(function (b) { return b.opened; }).length;
+    const cfg = getCfg();
+    $("stat-repo").textContent = cfg.repo ? cfg.repo + " @ " + cfg.branch : "no repo set";
+
+    const list = $("list");
+    if (!bottles.length) {
+      list.innerHTML = '<div class="empty"><span class="glyph">⟁</span>' +
+        '<div class="serif">The cellar is empty.<br/>Tap “Add Bottle” to begin your collection.</div></div>';
+      return;
+    }
+
+    const groups = {};
+    bottles.forEach(function (b) { (groups[b.category || "Other"] = groups[b.category || "Other"] || []).push(b); });
+    const cats = Object.keys(groups).sort(function (a, b) {
+      let ia = CAT_ORDER.indexOf(a), ib = CAT_ORDER.indexOf(b);
+      if (ia === -1) ia = 99; if (ib === -1) ib = 99;
+      return ia - ib || a.localeCompare(b);
+    });
+
+    let html = "";
+    cats.forEach(function (cat) {
+      html += '<div class="cat-label">' + esc(cat) + '<span class="filler"></span></div>';
+      groups[cat].sort(function (a, b) { return (a.name||"").localeCompare(b.name||""); }).forEach(function (b) {
+        const thumb = b.image_path
+          ? '<img class="thumb" src="' + esc(b.image_path) + '?t=' + Date.now() + '" alt="" onerror="this.outerHTML=\'<div class=&quot;thumb&quot;>' + (GLYPHS[b.category]||"🍾") + '</div>\'" />'
+          : '<div class="thumb">' + (GLYPHS[b.category]||"🍾") + '</div>';
+        const mini = [];
+        if (b.abv) mini.push(esc(b.abv) + "% ABV");
+        if (b.volume_ml) mini.push(esc(fmtVol(b.volume_ml)));
+        if (b.qty > 1) mini.push("×" + esc(b.qty));
+        const pills = [];
+        pills.push(b.public ? '<span class="pill pub">On menu</span>' : '<span class="pill priv">Private</span>');
+        if (b.opened) pills.push('<span class="pill opened">Opened ' + esc(typeof b.remaining_pct==="number"?b.remaining_pct:100) + '%</span>');
+        html +=
+          '<div class="row">' + thumb +
+            '<div class="row-main">' +
+              '<div class="nm">' + esc(b.name||"Unnamed") + '</div>' +
+              (b.brand ? '<div class="br">' + esc(b.brand) + '</div>' : '') +
+              (mini.length ? '<div class="mini">' + mini.map(function(m){return '<span>'+m+'</span>';}).join("") + '</div>' : '') +
+              '<div class="mini">' + pills.join(" ") + '</div>' +
+            '</div>' +
+            '<div class="row-actions">' +
+              '<button class="btn ghost sm" data-edit="' + esc(b.id) + '">Edit</button>' +
+              '<button class="btn danger sm" data-del="' + esc(b.id) + '">Delete</button>' +
+            '</div>' +
+          '</div>';
+      });
+    });
+    list.innerHTML = html;
+
+    list.querySelectorAll("[data-edit]").forEach(function (btn) {
+      btn.addEventListener("click", function () { openForm(btn.getAttribute("data-edit")); });
+    });
+    list.querySelectorAll("[data-del]").forEach(function (btn) {
+      btn.addEventListener("click", function () { deleteBottle(btn.getAttribute("data-del")); });
+    });
+  }
+
+  /* ============================================================
+     Form
+     ============================================================ */
+  function openForm(id) {
+    const form = $("bottle-form");
+    form.reset();
+    pendingImage = null;
+    removeExistingImage = false;
+    $("photo-preview").style.display = "none";
+    $("lookup-hint").textContent = "";
+    $("f-photo").value = "";
+
+    if (id) {
+      const b = CELLAR.bottles.find(function (x) { return x.id === id; });
+      if (!b) return;
+      $("form-title").textContent = "Edit Bottle";
+      $("form-sub").textContent = b.name || "Adjust the entry";
+      $("f-id").value = b.id;
+      $("f-name").value = b.name || "";
+      $("f-brand").value = b.brand || "";
+      $("f-category").value = b.category || "Other";
+      $("f-abv").value = b.abv || "";
+      $("f-volume").value = b.volume_ml || "";
+      $("f-qty").value = b.qty || 1;
+      $("f-opened").checked = !!b.opened;
+      $("f-remaining").value = typeof b.remaining_pct === "number" ? b.remaining_pct : 100;
+      $("f-notes").value = b.notes || "";
+      $("f-public").checked = b.public !== false;
+      if (b.image_path) {
+        $("photo-preview").style.display = "block";
+        $("photo-preview-img").src = b.image_path + "?t=" + Date.now();
+      }
+    } else {
+      $("form-title").textContent = "Add a Bottle";
+      $("form-sub").textContent = "A new entry for the reserve";
+      $("f-id").value = "";
+      $("f-qty").value = 1;
+      $("f-public").checked = true;
+      $("f-remaining").value = 100;
+    }
+    syncRemaining();
+    showOverlay("form-overlay");
+    setTimeout(function () { $("f-name").focus(); }, 300);
+  }
+
+  function syncRemaining() {
+    $("remaining-block").style.display = $("f-opened").checked ? "block" : "none";
+    $("remaining-val").textContent = $("f-remaining").value + "%";
+  }
+
+  async function saveBottle(e) {
+    e.preventDefault();
+    const cfg = getCfg();
+    if (!cfg.token || !cfg.repo) { toast("Set your GitHub token and repo first (⚙).", "err"); showOverlay("settings-overlay"); return; }
+
+    const name = $("f-name").value.trim();
+    if (!name) { toast("A name is required.", "err"); $("f-name").focus(); return; }
+
+    const saveBtn = $("form-save");
+    const original = saveBtn.innerHTML;
+    saveBtn.disabled = true;
+    saveBtn.innerHTML = '<span class="spin"></span> Saving…';
+
+    try {
+      // Ensure we have a fresh cellar + sha
+      await loadCellar();
+
+      const editId = $("f-id").value;
+      const id = editId || uuid();
+      const existing = editId ? CELLAR.bottles.find(function (x) { return x.id === id; }) : null;
+
+      const bottle = {
+        id: id,
+        name: name,
+        brand: $("f-brand").value.trim(),
+        category: $("f-category").value,
+        abv: parseFloat($("f-abv").value) || 0,
+        volume_ml: parseInt($("f-volume").value, 10) || 0,
+        qty: parseInt($("f-qty").value, 10) || 1,
+        opened: $("f-opened").checked,
+        remaining_pct: $("f-opened").checked ? (parseInt($("f-remaining").value, 10)) : 100,
+        notes: $("f-notes").value.trim(),
+        image_path: existing ? (existing.image_path || "") : "",
+        public: $("f-public").checked
+      };
+
+      // --- image work ---
+      if (pendingImage) {
+        saveBtn.innerHTML = '<span class="spin"></span> Uploading photo…';
+        const imgPath = "images/" + id + ".jpg";
+        // need sha if overwriting
+        let imgSha = null;
+        const existingImg = await ghGetFile(imgPath);
+        if (existingImg) imgSha = existingImg.sha;
+        await ghPutFile(imgPath, pendingImage.base64, imgSha, "Add photo for " + name);
+        bottle.image_path = imgPath;
+      } else if (removeExistingImage && existing && existing.image_path) {
+        bottle.image_path = "";
+      }
+
+      // --- upsert ---
+      if (existing) {
+        const idx = CELLAR.bottles.findIndex(function (x) { return x.id === id; });
+        CELLAR.bottles[idx] = bottle;
+      } else {
+        CELLAR.bottles.push(bottle);
+      }
+
+      saveBtn.innerHTML = '<span class="spin"></span> Committing…';
+      await saveCellar((existing ? "Update bottle: " : "Add bottle: ") + name);
+
+      hideOverlay("form-overlay");
+      render();
+      toast((existing ? "Updated " : "Added ") + name + ".", "ok");
+    } catch (err) {
+      toast(err.message, "err");
+    } finally {
+      saveBtn.disabled = false;
+      saveBtn.innerHTML = original;
+    }
+  }
+
+  async function deleteBottle(id) {
+    const b = CELLAR.bottles.find(function (x) { return x.id === id; });
+    if (!b) return;
+    if (!confirm("Remove “" + (b.name || "this bottle") + "” from the cellar? This commits to the repo.")) return;
+
+    toast("Removing " + (b.name || "bottle") + "…");
+    try {
+      await loadCellar();
+      // delete image if present
+      if (b.image_path) {
+        try {
+          const imgFile = await ghGetFile(b.image_path);
+          if (imgFile) await ghDeleteFile(b.image_path, imgFile.sha, "Remove photo for " + (b.name||"bottle"));
+        } catch (imgErr) {
+          // non-fatal: keep going so the record still gets removed
+          console.warn("Image delete failed:", imgErr.message);
+        }
+      }
+      CELLAR.bottles = CELLAR.bottles.filter(function (x) { return x.id !== id; });
+      await saveCellar("Remove bottle: " + (b.name || id));
+      render();
+      toast("Removed " + (b.name || "bottle") + ".", "ok");
+    } catch (err) {
+      toast(err.message, "err");
+    }
+  }
+
+  /* ============================================================
+     Overlays
+     ============================================================ */
+  function showOverlay(id) { $(id).classList.add("show"); document.body.style.overflow = "hidden"; }
+  function hideOverlay(id) { $(id).classList.remove("show"); document.body.style.overflow = ""; }
+
+  /* ============================================================
+     QR code
+     ============================================================ */
+  function guestUrl() {
+    const cfg = getCfg();
+    if (cfg.repo && cfg.repo.indexOf("/") > -1) {
+      const parts = cfg.repo.split("/");
+      return "https://" + parts[0] + ".github.io/" + parts[1] + "/guest.html";
+    }
+    // fallback: derive from current location
+    return location.href.replace(/[^/]*$/, "guest.html");
+  }
+
+  function openQR() {
+    const url = guestUrl();
+    $("qr-url").textContent = url;
+    const box = $("qrbox");
+    box.innerHTML = "";
+    new QRCode(box, {
+      text: url,
+      width: 240,
+      height: 240,
+      colorDark: "#0c0a09",
+      colorLight: "#ffffff",
+      correctLevel: QRCode.CorrectLevel.M
+    });
+    showOverlay("qr-overlay");
+  }
+
+  function downloadQR() {
+    const box = $("qrbox");
+    const canvas = box.querySelector("canvas");
+    let dataUrl;
+    if (canvas) {
+      dataUrl = canvas.toDataURL("image/png");
+    } else {
+      const img = box.querySelector("img");
+      if (!img) { toast("QR not ready yet.", "err"); return; }
+      dataUrl = img.src;
+    }
+    const a = document.createElement("a");
+    a.href = dataUrl;
+    a.download = "cellar-guest-qr.png";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    toast("QR downloaded.", "ok");
+  }
+
+  /* ============================================================
+     Settings
+     ============================================================ */
+  function openSettings() {
+    const cfg = getCfg();
+    $("s-repo").value = cfg.repo;
+    $("s-branch").value = cfg.branch;
+    $("s-token").value = cfg.token;
+    showOverlay("settings-overlay");
+  }
+
+  async function saveSettings() {
+    const repo = $("s-repo").value.trim().replace(/^https?:\/\/github\.com\//, "").replace(/\.git$/, "").replace(/\/$/, "");
+    const branch = $("s-branch").value.trim() || "main";
+    const token = $("s-token").value.trim();
+    if (!/^[^/]+\/[^/]+$/.test(repo)) { toast("Repository must look like owner/repo.", "err"); return; }
+    if (!token) { toast("A token is required.", "err"); return; }
+
+    const btn = $("settings-save");
+    const orig = btn.innerHTML;
+    btn.disabled = true; btn.innerHTML = '<span class="spin"></span> Verifying…';
+    try {
+      // verify by hitting the repo endpoint
+      const res = await fetch("https://api.github.com/repos/" + repo, { headers: ghHeaders(token) });
+      if (!res.ok) throw new Error(await ghError(res));
+      localStorage.setItem(LS.token, token);
+      localStorage.setItem(LS.repo, repo);
+      localStorage.setItem(LS.branch, branch);
+      hideOverlay("settings-overlay");
+      toast("Connected to " + repo + ".", "ok");
+      btn.disabled = false; btn.innerHTML = orig;
+      // refresh data
+      await refresh();
+    } catch (err) {
+      toast(err.message, "err");
+      btn.disabled = false; btn.innerHTML = orig;
+    }
+  }
+
+  async function refresh() {
+    const cfg = getCfg();
+    if (!cfg.token || !cfg.repo) { render(); return; }
+    try {
+      await loadCellar();
+      render();
+    } catch (err) {
+      toast(err.message, "err");
+      render();
+    }
+  }
+
+  /* ============================================================
+     Unlock flow
+     ============================================================ */
+  async function attemptUnlock(e) {
+    if (e) e.preventDefault();
+    const msg = $("lock-msg");
+    const val = $("pw").value;
+    if (!val) { msg.textContent = "Enter the passphrase."; return; }
+    msg.textContent = "";
+    try {
+      const h = await _digest(val);
+      if (h === _gate) {
+        sessionStorage.setItem(LS.session, "1");
+        unlock();
+      } else {
+        msg.textContent = "Incorrect passphrase.";
+        $("pw").value = "";
+        $("pw").focus();
+      }
+    } catch (err) {
+      msg.textContent = "This page must be served over https (or localhost) for the crypto API.";
+    }
+  }
+
+  function unlock() {
+    $("lock").style.display = "none";
+    $("app").style.display = "block";
+    $("fab").style.display = "flex";
+    const cfg = getCfg();
+    if (!cfg.token || !cfg.repo) {
+      // first run — prompt for connection
+      openSettings();
+      render();
+    } else {
+      refresh();
+    }
+  }
+
+  function lock() {
+    sessionStorage.removeItem(LS.session);
+    location.reload();
+  }
+
+  /* ============================================================
+     Wire up
+     ============================================================ */
+  function init() {
+    $("lock-form").addEventListener("submit", attemptUnlock);
+
+    $("fab").addEventListener("click", function () { openForm(null); });
+    $("btn-qr").addEventListener("click", openQR);
+    $("btn-settings").addEventListener("click", openSettings);
+    $("btn-lock").addEventListener("click", lock);
+
+    $("bottle-form").addEventListener("submit", saveBottle);
+    $("form-cancel").addEventListener("click", function () { hideOverlay("form-overlay"); });
+    $("f-opened").addEventListener("change", syncRemaining);
+    $("f-remaining").addEventListener("input", syncRemaining);
+
+    $("btn-lookup").addEventListener("click", function () {
+      const code = $("f-barcode").value.trim();
+      if (!code) { $("lookup-hint").style.color = "var(--muted)"; $("lookup-hint").textContent = "Enter a barcode number first."; return; }
+      barcodeLookup(code);
+    });
+
+    $("f-photo").addEventListener("change", async function () {
+      const file = this.files && this.files[0];
+      if (!file) return;
+      try {
+        const out = await processImage(file);
+        pendingImage = out;
+        removeExistingImage = false;
+        $("photo-preview").style.display = "block";
+        $("photo-preview-img").src = out.dataUrl;
+      } catch (err) {
+        toast(err.message, "err");
+      }
+    });
+
+    $("settings-save").addEventListener("click", saveSettings);
+    $("settings-cancel").addEventListener("click", function () {
+      const cfg = getCfg();
+      if (!cfg.token || !cfg.repo) { toast("Connect a repo to use the console.", "err"); return; }
+      hideOverlay("settings-overlay");
+    });
+
+    $("qr-close").addEventListener("click", function () { hideOverlay("qr-overlay"); });
+    $("qr-download").addEventListener("click", downloadQR);
+
+    // tap outside sheet to dismiss (except settings on first run)
+    document.querySelectorAll(".overlay").forEach(function (ov) {
+      ov.addEventListener("click", function (e) {
+        if (e.target !== ov) return;
+        if (ov.id === "settings-overlay") {
+          const cfg = getCfg();
+          if (!cfg.token || !cfg.repo) return;
+        }
+        hideOverlay(ov.id);
+      });
+    });
+
+    // keep session unlocked across reloads within the tab
+    if (sessionStorage.getItem(LS.session) === "1") {
+      unlock();
+    } else {
+      setTimeout(function () { $("pw").focus(); }, 200);
+    }
+  }
+
+  init();
+})();
+</script>
+</body>
+</html>
