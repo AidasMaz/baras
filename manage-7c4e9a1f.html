@@ -886,13 +886,9 @@
      QR code
      ============================================================ */
   function guestUrl() {
-    const cfg = getCfg();
-    if (cfg.repo && cfg.repo.indexOf("/") > -1) {
-      const parts = cfg.repo.split("/");
-      return "https://" + parts[0] + ".github.io/" + parts[1] + "/guest.html";
-    }
-    // fallback: derive from current location
-    return location.href.replace(/[^/]*$/, "guest.html");
+    // guest.html is always a sibling of this panel — derive from the live URL.
+    // Robust across repo root, subfolders, and custom domains.
+    return location.href.replace(/[?#].*$/, "").replace(/[^/]*$/, "guest.html");
   }
 
   function openQR() {
