@@ -425,6 +425,11 @@
         <button type="button" class="chip" data-group="alcoholic">Alcoholic</button>
         <button type="button" class="chip" data-group="nonalcoholic">Non-Alcoholic</button>
       </div>
+      <div class="chip-row" id="status-chips">
+        <button type="button" class="chip active" data-status="all">Any</button>
+        <button type="button" class="chip" data-status="opened">Open now</button>
+        <button type="button" class="chip" data-status="sealed">Sealed</button>
+      </div>
       <select id="type-select" class="type-select"><option value="all">All types</option></select>
     </div>
 
@@ -552,7 +557,7 @@
 
   /* ---------- Filtering ---------- */
   var MENU = [];
-  var FILTER = { q: "", group: "all", type: "all" };
+  var FILTER = { q: "", group: "all", type: "all", status: "all" };
   var GROUPS_ALC = ["Whisky", "Gin", "Rum", "Tequila", "Vodka", "Liqueur", "Wine", "Beer"];
   var GROUPS_NON = ["Soda", "Energy Drink", "Juice", "Mixer", "Water"];
 
@@ -596,6 +601,13 @@
       buildTypeOptions();
       applyFilters();
     });
+    document.getElementById("status-chips").addEventListener("click", function (e) {
+      var btn = e.target.closest(".chip");
+      if (!btn) return;
+      FILTER.status = btn.getAttribute("data-status");
+      this.querySelectorAll(".chip").forEach(function (c) { c.classList.toggle("active", c === btn); });
+      applyFilters();
+    });
     document.getElementById("type-select").addEventListener("change", function () {
       FILTER.type = this.value;
       applyFilters();
@@ -622,6 +634,8 @@
     var cat = b.category || "Other";
     if (FILTER.group !== "all" && groupOf(cat) !== FILTER.group) return false;
     if (FILTER.type !== "all" && cat !== FILTER.type) return false;
+    if (FILTER.status === "opened" && openedLevels(b).length === 0) return false;
+    if (FILTER.status === "sealed" && openedLevels(b).length > 0) return false;
     if (FILTER.q) {
       var hay = ((b.name || "") + " " + (b.brand || "") + " " + cat).toLowerCase();
       if (hay.indexOf(FILTER.q) === -1) return false;
