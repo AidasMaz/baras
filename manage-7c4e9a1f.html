@@ -1187,7 +1187,9 @@
      ============================================================ */
   const IMPORT_CATS = CAT_ORDER; // full category list for the review dropdown
   const IMPORT_PROMPT =
-    "Look at the attached photo of drink bottles. For EACH distinct bottle you can see, create one object. " +
+    "Look at the attached photo of drink bottles. Create one object per distinct product. " +
+    "If you see several identical bottles of the same product, return ONE object for them and set qty to how many you count. " +
+    "Use separate objects only for different products. " +
     "Return ONLY a JSON array — no markdown fences, no commentary. Each object must have these keys:\n" +
     "name (string), brand (string), " +
     "category (one of: " + IMPORT_CATS.join(", ") + "), " +
