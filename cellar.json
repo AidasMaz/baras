@@ -227,10 +227,15 @@
       "container": "Glass bottle",
       "location": "Unknown",
       "qty": 1,
-      "notes": "Vodka & fruit liquor, melon flavour; 18% vol",
-      "source": {
-        "volume_ml": "estimated"
-      }
+      "opened": true,
+      "opened_qty": 1,
+      "opened_levels": [
+        10
+      ],
+      "remaining_pct": 10,
+      "notes": "Vodka & fruit liquor, melon flavour;",
+      "image_path": "",
+      "public": true
     },
     {
       "id": "7757055f-918b-4bc6-9814-f1b50bfe64f6",
