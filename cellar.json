@@ -1201,6 +1201,24 @@
       "notes": "",
       "image_path": "images/747954b0-3861-4412-85b8-072058f92823.jpg",
       "public": true
+    },
+    {
+      "id": "1b3db75a-ca29-41ff-bb95-4d88cda5b5cf",
+      "name": "Sprite",
+      "brand": "Sprite",
+      "category": "Soda",
+      "abv": 0,
+      "volume_ml": 330,
+      "container": "Can",
+      "location": "Unknown",
+      "qty": 1,
+      "opened": false,
+      "opened_qty": 0,
+      "opened_levels": [],
+      "remaining_pct": 100,
+      "notes": "",
+      "image_path": "images/1b3db75a-ca29-41ff-bb95-4d88cda5b5cf.jpg",
+      "public": true
     }
   ]
 }
