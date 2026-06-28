@@ -907,6 +907,24 @@
       "notes": "",
       "image_path": "images/37d3617d-dd0d-4807-b6fc-182143e7f2c3.jpg",
       "public": true
+    },
+    {
+      "id": "cce93df1-897d-46dd-a20e-00905e6e3b0d",
+      "name": "Gin tonic Mango mocktail",
+      "brand": "Mix",
+      "category": "Other",
+      "abv": 0,
+      "volume_ml": 330,
+      "container": "Glass bottle",
+      "location": "Unknown",
+      "qty": 2,
+      "opened": false,
+      "opened_qty": 0,
+      "opened_levels": [],
+      "remaining_pct": 100,
+      "notes": "",
+      "image_path": "images/cce93df1-897d-46dd-a20e-00905e6e3b0d.jpg",
+      "public": true
     }
   ]
 }
