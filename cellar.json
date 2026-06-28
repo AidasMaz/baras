@@ -131,11 +131,16 @@
       "category": "Water",
       "abv": 0,
       "volume_ml": 500,
+      "container": "Unknown",
+      "location": "Unknown",
       "qty": 1,
+      "opened": false,
+      "opened_qty": 0,
+      "opened_levels": [],
+      "remaining_pct": 100,
       "notes": "Vitamin drink C/B6/B12; strawberry-rhubarb",
-      "source": {
-        "volume_ml": "estimated"
-      }
+      "image_path": "images/7757055f-918b-4bc6-9814-f1b50bfe64g6.jpg",
+      "public": true
     },
     {
       "id": "7757055f-918b-4bc6-9814-f1b50bfe64g5",
