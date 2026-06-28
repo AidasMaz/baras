@@ -835,6 +835,24 @@
       "notes": "",
       "image_path": "images/c915ead2-9cbe-44dc-b35b-6ca99a05c978.jpg",
       "public": true
+    },
+    {
+      "id": "99454ec0-1444-461f-b595-61828b719120",
+      "name": "Mimosa style sparkling tea",
+      "brand": "Acala",
+      "category": "Other",
+      "abv": 0,
+      "volume_ml": 330,
+      "container": "Glass bottle",
+      "location": "Unknown",
+      "qty": 1,
+      "opened": false,
+      "opened_qty": 0,
+      "opened_levels": [],
+      "remaining_pct": 100,
+      "notes": "",
+      "image_path": "images/99454ec0-1444-461f-b595-61828b719120.jpg",
+      "public": true
     }
   ]
 }
