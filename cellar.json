@@ -745,6 +745,24 @@
       "notes": "",
       "image_path": "images/74e12e01-81ff-4be7-8b1b-f637b5c3c80f.jpg",
       "public": true
+    },
+    {
+      "id": "cb45f927-25b1-4df2-96e9-0ad67b260127",
+      "name": "Ballantine's KISS edition",
+      "brand": "Ballantine's",
+      "category": "Whisky",
+      "abv": 40,
+      "volume_ml": 700,
+      "container": "Glass bottle",
+      "location": "Unknown",
+      "qty": 1,
+      "opened": false,
+      "opened_qty": 0,
+      "opened_levels": [],
+      "remaining_pct": 100,
+      "notes": "",
+      "image_path": "images/cb45f927-25b1-4df2-96e9-0ad67b260127.jpg",
+      "public": true
     }
   ]
 }
