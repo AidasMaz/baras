@@ -1313,6 +1313,24 @@
       "notes": "",
       "image_path": "images/0f064648-0c43-4b95-bc7c-5abdfe0f16c3.jpg",
       "public": true
+    },
+    {
+      "id": "ce3e490f-cd32-494b-a311-1c8bb1a50bba",
+      "name": "Classic sweet sparkling wine 0%",
+      "brand": "Alita",
+      "category": "Wine",
+      "abv": 0,
+      "volume_ml": 750,
+      "container": "Glass bottle",
+      "location": "Unknown",
+      "qty": 1,
+      "opened": false,
+      "opened_qty": 0,
+      "opened_levels": [],
+      "remaining_pct": 100,
+      "notes": "",
+      "image_path": "images/ce3e490f-cd32-494b-a311-1c8bb1a50bba.jpg",
+      "public": true
     }
   ]
 }
