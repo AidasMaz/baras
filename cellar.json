@@ -1441,6 +1441,24 @@
       "notes": "",
       "image_path": "images/3e8ab1cb-4cf2-4fa9-b8d3-d95ac1a6b9dc.jpg",
       "public": true
+    },
+    {
+      "id": "cff44ac1-afd4-406d-aaad-70f2d7d0feec",
+      "name": "Medium dry white sparkling wine",
+      "brand": "Alita",
+      "category": "Wine",
+      "abv": 11,
+      "volume_ml": 200,
+      "container": "Glass bottle",
+      "location": "Unknown",
+      "qty": 1,
+      "opened": false,
+      "opened_qty": 0,
+      "opened_levels": [],
+      "remaining_pct": 100,
+      "notes": "",
+      "image_path": "images/cff44ac1-afd4-406d-aaad-70f2d7d0feec.jpg",
+      "public": true
     }
   ]
 }
