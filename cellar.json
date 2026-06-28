@@ -871,6 +871,24 @@
       "notes": "",
       "image_path": "images/140a840d-b126-4f01-8d7c-52ab1c7bb346.jpg",
       "public": true
+    },
+    {
+      "id": "5df6836c-e49d-4e84-ab39-16826487b9f2",
+      "name": "Session Mead with cranberries juice",
+      "brand": "Stakliškės",
+      "category": "Other",
+      "abv": 6,
+      "volume_ml": 330,
+      "container": "Can",
+      "location": "Unknown",
+      "qty": 1,
+      "opened": false,
+      "opened_qty": 0,
+      "opened_levels": [],
+      "remaining_pct": 100,
+      "notes": "",
+      "image_path": "images/5df6836c-e49d-4e84-ab39-16826487b9f2.jpg",
+      "public": true
     }
   ]
 }
