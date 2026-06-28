@@ -313,11 +313,16 @@
       "category": "Other",
       "abv": 0,
       "volume_ml": 500,
-      "qty": 1,
-      "notes": "Non-alcoholic apple cider (0.0%); craft sidras",
-      "source": {
-        "volume_ml": "estimated"
-      }
+      "container": "Can",
+      "location": "Unknown",
+      "qty": 2,
+      "opened": false,
+      "opened_qty": 0,
+      "opened_levels": [],
+      "remaining_pct": 100,
+      "notes": "Non-alcoholic apple cider (0.0%)",
+      "image_path": "images/7757055f-918b-4bc6-9814-f1b50bfe64f5.jpg",
+      "public": true
     },
     {
       "id": "7757055f-918b-4bc6-9814-f1b50bfe64f4",
