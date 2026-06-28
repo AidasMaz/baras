@@ -1331,6 +1331,24 @@
       "notes": "",
       "image_path": "images/ce3e490f-cd32-494b-a311-1c8bb1a50bba.jpg",
       "public": true
+    },
+    {
+      "id": "0994c2df-425e-44e7-bc64-3856d17bd1dc",
+      "name": "Ginger beer with raspberry taste",
+      "brand": "ScottyWest",
+      "category": "Beer",
+      "abv": 0,
+      "volume_ml": 1000,
+      "container": "Glass bottle",
+      "location": "Unknown",
+      "qty": 1,
+      "opened": false,
+      "opened_qty": 0,
+      "opened_levels": [],
+      "remaining_pct": 100,
+      "notes": "",
+      "image_path": "images/0994c2df-425e-44e7-bc64-3856d17bd1dc.jpg",
+      "public": true
     }
   ]
 }
