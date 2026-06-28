@@ -1,201 +1,241 @@
 {
-    "bottles": [{
-            "name": "Lech Elderflower Lemon",
-            "brand": "Lech",
-            "category": "Beer",
-            "abv": 4,
-            "volume_ml": 500,
-            "qty": 3,
-            "notes": "From Poland trip",
-            "source": {}
-        }, {
-            "name": "Licorne Black",
-            "brand": "Licorne",
-            "category": "Beer",
-            "abv": 6,
-            "volume_ml": 500,
-            "qty": 1,
-            "notes": "",
-            "source": {}
-        }, {
-            "name": "Vyšnių Kriek",
-            "brand": "Vilkmergės",
-            "category": "Beer",
-            "abv": 5,
-            "volume_ml": 500,
-            "qty": 1,
-            "notes": "First Lithuanian cherry kriek ale",
-            "source": {
-                "abv": "web",
-                "volume_ml": "web"
-            }
-        }, {
-            "name": "Ballantine's Sunshine",
-            "brand": "Ballantine's",
-            "category": "Whisky",
-            "abv": 30,
-            "volume_ml": 700,
-            "qty": 1,
-            "notes": "Spirit drink made with Scotch whisky and pineapple flavourings",
-            "source": {}
-        }, {
-            "name": "Ballantine's Brasil",
-            "brand": "Ballantine's",
-            "category": "Whisky",
-            "abv": 30,
-            "volume_ml": 700,
-            "qty": 1,
-            "notes": "Spirit drink made with Scotch whisky and lime flavourings",
-            "source": {}
-        }, {
-            "name": "Malibu Original",
-            "brand": "Malibu",
-            "category": "Rum",
-            "abv": 18,
-            "volume_ml": 700,
-            "qty": 1,
-            "notes": "Coconut flavour liqueur with white rum",
-            "source": {}
-        }, {
-            "name": "Desperados Mojito",
-            "brand": "Desperados",
-            "category": "Beer",
-            "abv": 5.9,
-            "volume_ml": 400,
-            "qty": 3,
-            "notes": "Beer flavoured with aguardiente, mint & lime;",
-            "source": {}
-        }, {
-            "name": "Uniqa Vitamins Good Mood",
-            "brand": "Uniqa",
-            "category": "Water",
-            "abv": 0,
-            "volume_ml": 500,
-            "qty": 1,
-            "notes": "Vitamin drink C/B6/B12; strawberry-rhubarb",
-            "source": {
-                "volume_ml": "estimated"
-            }
-        }, {
-            "name": "Prosecco D.O.C.",
-            "brand": "Martini",
-            "category": "Wine",
-            "abv": 11,
-            "volume_ml": 750,
-            "qty": 1,
-            "notes": "Sparkling Prosecco D.O.C., produced in Italy",
-            "source": {}
-        }, {
-            "name": "Limoncello",
-            "brand": "Summer Garden",
-            "category": "Liqueur",
-            "abv": 15,
-            "volume_ml": 500,
-            "qty": 1,
-            "notes": "Lemon liqueur",
-            "source": {}
-        }, {
-            "name": "Rose Lemonade",
-            "brand": "Fentimans",
-            "category": "Soda",
-            "abv": 0,
-            "volume_ml": 750,
-            "qty": 1,
-            "notes": "Botanically brewed; made with pure rose extract",
-            "source": {}
-        }, {
-            "name": "Riga Black Balsam Cherry",
-            "brand": "Riga Black Balsam",
-            "category": "Liqueur",
-            "abv": 30,
-            "volume_ml": 200,
-            "qty": 1,
-            "notes": "",
-            "source": {}
-        }, {
-            "name": "Bosca Anniversary Alcohol Free",
-            "brand": "Bosca",
-            "category": "Wine",
-            "abv": 0,
-            "volume_ml": 750,
-            "qty": 1,
-            "notes": "Alcohol-free sparkling wine",
-            "source": {
-                "volume_ml": "estimated"
-            }
-        }, {
-            "name": "Riga Black Balsam Tropical",
-            "brand": "Riga Black Balsam",
-            "category": "Liqueur",
-            "abv": 30,
-            "volume_ml": 700,
-            "qty": 1,
-            "notes": "",
-            "source": {}
-        }, {
-            "name": "Acala Sparkling Tea White Wine Style",
-            "brand": "Acala",
-            "category": "Other",
-            "abv": 0,
-            "volume_ml": 750,
-            "qty": 1,
-            "notes": "Dry, non-alcoholic, organic sparkling tea; white wine style",
-            "source": {
-                "volume_ml": "estimated"
-            }
-        }, {
-            "name": "Keglevich Melone",
-            "brand": "Keglevich",
-            "category": "Vodka",
-            "abv": 18,
-            "volume_ml": 700,
-            "qty": 1,
-            "notes": "Vodka & fruit liquor, melon flavour; 18% vol",
-            "source": {
-                "volume_ml": "estimated"
-            }
-        }, {
-            "name": "San Pellegrino Sparkling Mineral Water",
-            "brand": "San Pellegrino",
-            "category": "Water",
-            "abv": 0,
-            "volume_ml": 250,
-            "qty": 1,
-            "notes": "Sparkling natural mineral water; 250 ml on label",
-            "source": {}
-        }, {
-            "name": "Sidras Nealkoholinis Obuolių",
-            "brand": "Volfas Engelman",
-            "category": "Other",
-            "abv": 0,
-            "volume_ml": 500,
-            "qty": 1,
-            "notes": "Non-alcoholic apple cider (0.0%); craft sidras",
-            "source": {
-                "volume_ml": "estimated"
-            }
-        }, {
-            "name": "Acala Sparkling Tea Rose Wine Style",
-            "brand": "Acala",
-            "category": "Other",
-            "abv": 0,
-            "volume_ml": 200,
-            "qty": 2,
-            "notes": "Extra dry, non-alcoholic, organic sparkling tea; rose wine style; small bottle",
-            "source": {
-                "volume_ml": "estimated"
-            }
-        }, {
-            "name": "Neptūnas Sparkling Mineral Water",
-            "brand": "Neptūnas",
-            "category": "Water",
-            "abv": 0,
-            "volume_ml": 500,
-            "qty": 1,
-            "notes": "Natural sparkling mineral water (gazuotas)",
-            "source": {
-                "volume_ml": "estimated"
-            }
-        }
-    ]
+  "bottles": [
+    {
+      "name": "Lech Elderflower Lemon",
+      "brand": "Lech",
+      "category": "Beer",
+      "abv": 4,
+      "volume_ml": 500,
+      "qty": 3,
+      "notes": "From Poland trip",
+      "source": {}
+    },
+    {
+      "name": "Licorne Black",
+      "brand": "Licorne",
+      "category": "Beer",
+      "abv": 6,
+      "volume_ml": 500,
+      "qty": 1,
+      "notes": "",
+      "source": {}
+    },
+    {
+      "name": "Vyšnių Kriek",
+      "brand": "Vilkmergės",
+      "category": "Beer",
+      "abv": 5,
+      "volume_ml": 500,
+      "qty": 1,
+      "notes": "First Lithuanian cherry kriek ale",
+      "source": {
+        "abv": "web",
+        "volume_ml": "web"
+      }
+    },
+    {
+      "name": "Ballantine's Sunshine",
+      "brand": "Ballantine's",
+      "category": "Whisky",
+      "abv": 30,
+      "volume_ml": 700,
+      "qty": 1,
+      "notes": "Spirit drink made with Scotch whisky and pineapple flavourings",
+      "source": {}
+    },
+    {
+      "name": "Ballantine's Brasil",
+      "brand": "Ballantine's",
+      "category": "Whisky",
+      "abv": 30,
+      "volume_ml": 700,
+      "qty": 1,
+      "notes": "Spirit drink made with Scotch whisky and lime flavourings",
+      "source": {}
+    },
+    {
+      "name": "Malibu Original",
+      "brand": "Malibu",
+      "category": "Rum",
+      "abv": 18,
+      "volume_ml": 700,
+      "qty": 1,
+      "notes": "Coconut flavour liqueur with white rum",
+      "source": {}
+    },
+    {
+      "name": "Desperados Mojito",
+      "brand": "Desperados",
+      "category": "Beer",
+      "abv": 5.9,
+      "volume_ml": 400,
+      "qty": 3,
+      "notes": "Beer flavoured with aguardiente, mint & lime;",
+      "source": {}
+    },
+    {
+      "name": "Uniqa Vitamins Good Mood",
+      "brand": "Uniqa",
+      "category": "Water",
+      "abv": 0,
+      "volume_ml": 500,
+      "qty": 1,
+      "notes": "Vitamin drink C/B6/B12; strawberry-rhubarb",
+      "source": {
+        "volume_ml": "estimated"
+      }
+    },
+    {
+      "name": "Prosecco D.O.C.",
+      "brand": "Martini",
+      "category": "Wine",
+      "abv": 11,
+      "volume_ml": 750,
+      "qty": 1,
+      "notes": "Sparkling Prosecco D.O.C., produced in Italy",
+      "source": {}
+    },
+    {
+      "name": "Limoncello",
+      "brand": "Summer Garden",
+      "category": "Liqueur",
+      "abv": 15,
+      "volume_ml": 500,
+      "qty": 1,
+      "notes": "Lemon liqueur",
+      "source": {}
+    },
+    {
+      "name": "Rose Lemonade",
+      "brand": "Fentimans",
+      "category": "Soda",
+      "abv": 0,
+      "volume_ml": 750,
+      "qty": 1,
+      "notes": "Botanically brewed; made with pure rose extract",
+      "source": {}
+    },
+    {
+      "name": "Riga Black Balsam Cherry",
+      "brand": "Riga Black Balsam",
+      "category": "Liqueur",
+      "abv": 30,
+      "volume_ml": 200,
+      "qty": 1,
+      "notes": "",
+      "source": {}
+    },
+    {
+      "name": "Bosca Anniversary Alcohol Free",
+      "brand": "Bosca",
+      "category": "Wine",
+      "abv": 0,
+      "volume_ml": 750,
+      "qty": 1,
+      "notes": "Alcohol-free sparkling wine",
+      "source": {
+        "volume_ml": "estimated"
+      }
+    },
+    {
+      "name": "Riga Black Balsam Tropical",
+      "brand": "Riga Black Balsam",
+      "category": "Liqueur",
+      "abv": 30,
+      "volume_ml": 700,
+      "qty": 1,
+      "notes": "",
+      "source": {}
+    },
+    {
+      "name": "Acala Sparkling Tea White Wine Style",
+      "brand": "Acala",
+      "category": "Other",
+      "abv": 0,
+      "volume_ml": 750,
+      "qty": 1,
+      "notes": "Dry, non-alcoholic, organic sparkling tea; white wine style",
+      "source": {
+        "volume_ml": "estimated"
+      }
+    },
+    {
+      "name": "Keglevich Melone",
+      "brand": "Keglevich",
+      "category": "Vodka",
+      "abv": 18,
+      "volume_ml": 700,
+      "qty": 1,
+      "notes": "Vodka & fruit liquor, melon flavour; 18% vol",
+      "source": {
+        "volume_ml": "estimated"
+      }
+    },
+    {
+      "name": "San Pellegrino Sparkling Mineral Water",
+      "brand": "San Pellegrino",
+      "category": "Water",
+      "abv": 0,
+      "volume_ml": 250,
+      "qty": 1,
+      "notes": "Sparkling natural mineral water; 250 ml on label",
+      "source": {}
+    },
+    {
+      "name": "Sidras Nealkoholinis Obuolių",
+      "brand": "Volfas Engelman",
+      "category": "Other",
+      "abv": 0,
+      "volume_ml": 500,
+      "qty": 1,
+      "notes": "Non-alcoholic apple cider (0.0%); craft sidras",
+      "source": {
+        "volume_ml": "estimated"
+      }
+    },
+    {
+      "name": "Acala Sparkling Tea Rose Wine Style",
+      "brand": "Acala",
+      "category": "Other",
+      "abv": 0,
+      "volume_ml": 200,
+      "qty": 2,
+      "notes": "Extra dry, non-alcoholic, organic sparkling tea; rose wine style; small bottle",
+      "source": {
+        "volume_ml": "estimated"
+      }
+    },
+    {
+      "name": "Neptūnas Sparkling Mineral Water",
+      "brand": "Neptūnas",
+      "category": "Water",
+      "abv": 0,
+      "volume_ml": 500,
+      "qty": 1,
+      "notes": "Natural sparkling mineral water (gazuotas)",
+      "source": {
+        "volume_ml": "estimated"
+      }
+    },
+    {
+      "id": "7757055f-918b-4bc6-9814-f1b50bfe64f2",
+      "name": "Test",
+      "brand": "brand",
+      "category": "Whisky",
+      "abv": 99,
+      "volume_ml": 999,
+      "container": "Glass bottle",
+      "location": "A",
+      "qty": 2,
+      "opened": true,
+      "opened_qty": 1,
+      "opened_levels": [
+        55
+      ],
+      "remaining_pct": 55,
+      "notes": "",
+      "image_path": "",
+      "public": true
+    }
+  ]
 }
