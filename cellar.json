@@ -392,6 +392,24 @@
       "notes": "",
       "image_path": "",
       "public": true
+    },
+    {
+      "id": "fd850e3a-f50b-4beb-82ea-2746abadbf98",
+      "name": "Martinis",
+      "brand": "Martini",
+      "category": "Wine",
+      "abv": 7.5,
+      "volume_ml": 750,
+      "container": "Glass bottle",
+      "location": "Unknown",
+      "qty": 1,
+      "opened": false,
+      "opened_qty": 0,
+      "opened_levels": [],
+      "remaining_pct": 100,
+      "notes": "",
+      "image_path": "",
+      "public": true
     }
   ]
 }
