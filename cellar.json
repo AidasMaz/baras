@@ -1091,6 +1091,24 @@
       "notes": "",
       "image_path": "images/8a048c03-5adf-4ab6-9d5d-b28157e4eede.jpg",
       "public": true
+    },
+    {
+      "id": "50d5d527-6b92-4363-88bd-32a76f30015e",
+      "name": "Šeštas mėnuo non alko milkshake ale with mint and raspberries",
+      "brand": "Genys",
+      "category": "Beer",
+      "abv": 0,
+      "volume_ml": 440,
+      "container": "Can",
+      "location": "Unknown",
+      "qty": 1,
+      "opened": false,
+      "opened_qty": 0,
+      "opened_levels": [],
+      "remaining_pct": 100,
+      "notes": "",
+      "image_path": "images/50d5d527-6b92-4363-88bd-32a76f30015e.jpg",
+      "public": true
     }
   ]
 }
