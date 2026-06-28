@@ -458,6 +458,24 @@
       "notes": "",
       "image_path": "",
       "public": true
+    },
+    {
+      "id": "164bc27f-6140-4b90-838e-4df9a5c7d2ad",
+      "name": "Deluxe Mulled Red Wine with Jamaican Rum",
+      "brand": "Deluxe",
+      "category": "Wine",
+      "abv": 14.5,
+      "volume_ml": 750,
+      "container": "Glass bottle",
+      "location": "Unknown",
+      "qty": 1,
+      "opened": false,
+      "opened_qty": 0,
+      "opened_levels": [],
+      "remaining_pct": 100,
+      "notes": "",
+      "image_path": "",
+      "public": true
     }
   ]
 }
