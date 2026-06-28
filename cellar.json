@@ -459,7 +459,7 @@
       "image_path": "",
       "public": true
     },
-	{
+    {
       "id": "5ab20e9d-b66c-49e9-b01d-0d3a5b7c4fe0",
       "name": "ROCHESTER Ginger Dickensian Recipe",
       "brand": "ROCHESTER",
@@ -510,6 +510,24 @@
       "opened_levels": [],
       "remaining_pct": 100,
       "notes": "Sweet",
+      "image_path": "",
+      "public": true
+    },
+    {
+      "id": "eebb797e-5e67-4a16-86b7-1e03cce9fbfb",
+      "name": "Bosca Toselli Red Sweet Spawcling Wine",
+      "brand": "Bosca",
+      "category": "Wine",
+      "abv": 0,
+      "volume_ml": 750,
+      "container": "Glass bottle",
+      "location": "Unknown",
+      "qty": 1,
+      "opened": false,
+      "opened_qty": 0,
+      "opened_levels": [],
+      "remaining_pct": 100,
+      "notes": "",
       "image_path": "",
       "public": true
     }
