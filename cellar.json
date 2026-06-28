@@ -1055,6 +1055,24 @@
       "notes": "",
       "image_path": "images/54da619c-23c6-4ddc-97bf-294c551a411b.jpg",
       "public": true
+    },
+    {
+      "id": "187629fa-8d1b-48e8-a4b2-e0c9edba2626",
+      "name": "Raki",
+      "brand": "Yeni",
+      "category": "Other",
+      "abv": 45,
+      "volume_ml": 500,
+      "container": "Glass bottle",
+      "location": "Unknown",
+      "qty": 1,
+      "opened": false,
+      "opened_qty": 0,
+      "opened_levels": [],
+      "remaining_pct": 100,
+      "notes": "Grapes with aniseeds",
+      "image_path": "images/187629fa-8d1b-48e8-a4b2-e0c9edba2626.jpg",
+      "public": true
     }
   ]
 }
