@@ -1513,6 +1513,26 @@
       "notes": "",
       "image_path": "images/b6a9aa69-71e6-488d-a7fc-0eee20d4a4f0.jpg",
       "public": true
+    },
+    {
+      "id": "48b38d4b-faa0-45f2-81b0-e874edd6769c",
+      "name": "Jack Daniel's original",
+      "brand": "Jack Daniel's",
+      "category": "Whisky",
+      "abv": 40,
+      "volume_ml": 350,
+      "container": "Glass bottle",
+      "location": "Unknown",
+      "qty": 1,
+      "opened": true,
+      "opened_qty": 1,
+      "opened_levels": [
+        50
+      ],
+      "remaining_pct": 50,
+      "notes": "",
+      "image_path": "images/48b38d4b-faa0-45f2-81b0-e874edd6769c.jpg",
+      "public": true
     }
   ]
 }
