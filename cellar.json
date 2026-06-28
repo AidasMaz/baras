@@ -1219,6 +1219,24 @@
       "notes": "",
       "image_path": "images/1b3db75a-ca29-41ff-bb95-4d88cda5b5cf.jpg",
       "public": true
+    },
+    {
+      "id": "16e26cac-eec6-4e66-b96d-e0314e11717e",
+      "name": "Sparkling Canabis birch sap",
+      "brand": "Sip sap",
+      "category": "Other",
+      "abv": 0,
+      "volume_ml": 250,
+      "container": "Can",
+      "location": "Unknown",
+      "qty": 1,
+      "opened": false,
+      "opened_qty": 0,
+      "opened_levels": [],
+      "remaining_pct": 100,
+      "notes": "",
+      "image_path": "images/16e26cac-eec6-4e66-b96d-e0314e11717e.jpg",
+      "public": true
     }
   ]
 }
