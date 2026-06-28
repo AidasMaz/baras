@@ -21,6 +21,8 @@
       "category": "Rum",
       "abv": 0,
       "volume_ml": 0,
+      "container": "Glass bottle",
+      "location": "",
       "qty": 2,
       "opened": true,
       "opened_qty": 2,
