@@ -1495,6 +1495,24 @@
       "notes": "",
       "image_path": "images/2df44858-4627-4fba-bba4-582050d0cb7d.jpg",
       "public": true
+    },
+    {
+      "id": "b6a9aa69-71e6-488d-a7fc-0eee20d4a4f0",
+      "name": "Pizzolato rose sparkling wine",
+      "brand": "Spumante",
+      "category": "Wine",
+      "abv": 11,
+      "volume_ml": 200,
+      "container": "Glass bottle",
+      "location": "Unknown",
+      "qty": 1,
+      "opened": false,
+      "opened_qty": 0,
+      "opened_levels": [],
+      "remaining_pct": 100,
+      "notes": "",
+      "image_path": "images/b6a9aa69-71e6-488d-a7fc-0eee20d4a4f0.jpg",
+      "public": true
     }
   ]
 }
