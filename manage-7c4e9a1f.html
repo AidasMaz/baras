@@ -438,6 +438,25 @@
         <input class="field" id="f-qty" type="number" min="1" inputmode="numeric" value="1" />
       </div>
 
+      <div class="two-col">
+        <div>
+          <label class="lbl">Container</label>
+          <select class="field" id="f-container">
+            <option>Glass bottle</option>
+            <option>Plastic bottle</option>
+            <option>Can</option>
+          </select>
+        </div>
+        <div>
+          <label class="lbl">Location</label>
+          <select class="field" id="f-location">
+            <option value="">—</option>
+            <option>A</option><option>B</option><option>C</option>
+            <option>D</option><option>E</option><option>F</option>
+          </select>
+        </div>
+      </div>
+
       <div class="toggle-row">
         <div class="t-label">Opened<small>Has the seal been broken?</small></div>
         <label class="switch"><input type="checkbox" id="f-opened" /><span class="slider"></span></label>
@@ -972,6 +991,8 @@
         if (b.abv) mini.push(esc(b.abv) + "% ABV");
         if (b.volume_ml) mini.push(esc(fmtVol(b.volume_ml)));
         if (b.qty > 1) mini.push("×" + esc(b.qty));
+        if (b.container) mini.push(esc(b.container));
+        if (b.location) mini.push("📍 " + esc(b.location));
         const pills = [];
         pills.push(b.public ? '<span class="pill pub">On menu</span>' : '<span class="pill priv">Private</span>');
         const levels = openedLevels(b);
@@ -1117,6 +1138,8 @@
       $("f-abv").value = b.abv || "";
       $("f-volume").value = b.volume_ml || "";
       $("f-qty").value = b.qty || 1;
+      $("f-container").value = b.container || "Glass bottle";
+      $("f-location").value = b.location || "";
       const _levels = openedLevels(b);
       $("f-opened").checked = _levels.length > 0;
       setOpenedRows(_levels);
@@ -1187,6 +1210,8 @@
         category: $("f-category").value,
         abv: parseFloat($("f-abv").value) || 0,
         volume_ml: parseInt($("f-volume").value, 10) || 0,
+        container: $("f-container").value,
+        location: $("f-location").value,
         qty: qty,
         opened: levels.length > 0,
         opened_qty: levels.length,
