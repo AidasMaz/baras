@@ -1533,6 +1533,24 @@
       "notes": "",
       "image_path": "images/48b38d4b-faa0-45f2-81b0-e874edd6769c.jpg",
       "public": true
+    },
+    {
+      "id": "9d0dc435-9924-4499-9901-099421162ffd",
+      "name": "Medalus with lemon",
+      "brand": "Bruvets riga",
+      "category": "Beer",
+      "abv": 5.5,
+      "volume_ml": 500,
+      "container": "Glass bottle",
+      "location": "Unknown",
+      "qty": 1,
+      "opened": false,
+      "opened_qty": 0,
+      "opened_levels": [],
+      "remaining_pct": 100,
+      "notes": "",
+      "image_path": "images/9d0dc435-9924-4499-9901-099421162ffd.jpg",
+      "public": true
     }
   ]
 }
