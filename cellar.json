@@ -1255,6 +1255,24 @@
       "notes": "Has name Aidas",
       "image_path": "images/671b4496-92e4-4856-921b-50e5c4a1a724.jpg",
       "public": true
+    },
+    {
+      "id": "e5ea1db2-2475-4c74-b613-4570cffb2bce",
+      "name": "Sparkling pear cider",
+      "brand": "Somersby",
+      "category": "Other",
+      "abv": 4.5,
+      "volume_ml": 500,
+      "container": "Can",
+      "location": "Unknown",
+      "qty": 1,
+      "opened": false,
+      "opened_qty": 0,
+      "opened_levels": [],
+      "remaining_pct": 100,
+      "notes": "",
+      "image_path": "images/e5ea1db2-2475-4c74-b613-4570cffb2bce.jpg",
+      "public": true
     }
   ]
 }
