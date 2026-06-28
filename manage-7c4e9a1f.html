@@ -443,6 +443,7 @@
         <div>
           <label class="lbl">Container</label>
           <select class="field" id="f-container">
+            <option>Unknown</option>
             <option>Glass bottle</option>
             <option>Plastic bottle</option>
             <option>Can</option>
@@ -451,7 +452,7 @@
         <div>
           <label class="lbl">Location</label>
           <select class="field" id="f-location">
-            <option value="">—</option>
+            <option>Unknown</option>
             <option>A</option><option>B</option><option>C</option>
             <option>D</option><option>E</option><option>F</option>
           </select>
@@ -992,10 +993,10 @@
         if (b.abv) mini.push(esc(b.abv) + "% ABV");
         if (b.volume_ml) mini.push(esc(fmtVol(b.volume_ml)));
         if (b.qty > 1) mini.push("×" + esc(b.qty));
-        if (b.location) mini.push("📍 " + esc(b.location));
+        if (b.location && b.location !== "Unknown") mini.push("📍 " + esc(b.location));
         const pills = [];
         pills.push(b.public ? '<span class="pill pub">On menu</span>' : '<span class="pill priv">Private</span>');
-        if (b.container) pills.push('<span class="pill cont">' + esc(b.container) + '</span>');
+        if (b.container && b.container !== "Unknown") pills.push('<span class="pill cont">' + esc(b.container) + '</span>');
         const levels = openedLevels(b);
         if (levels.length) {
           const lvlStr = levels.map(function (x) { return esc(x) + "%"; }).join(", ");
@@ -1139,8 +1140,8 @@
       $("f-abv").value = b.abv || "";
       $("f-volume").value = b.volume_ml || "";
       $("f-qty").value = b.qty || 1;
-      $("f-container").value = b.container || "Glass bottle";
-      $("f-location").value = b.location || "";
+      $("f-container").value = b.container || "Unknown";
+      $("f-location").value = b.location || "Unknown";
       const _levels = openedLevels(b);
       $("f-opened").checked = _levels.length > 0;
       setOpenedRows(_levels);
