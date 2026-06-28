@@ -1037,6 +1037,24 @@
       "notes": "",
       "image_path": "images/83436e64-c798-49f4-b49b-3289286791c8.jpg",
       "public": true
+    },
+    {
+      "id": "54da619c-23c6-4ddc-97bf-294c551a411b",
+      "name": "Bajtra (cactus fruit) liqueur",
+      "brand": "Zeppi's",
+      "category": "Liqueur",
+      "abv": 21,
+      "volume_ml": 500,
+      "container": "Glass bottle",
+      "location": "Unknown",
+      "qty": 1,
+      "opened": false,
+      "opened_qty": 0,
+      "opened_levels": [],
+      "remaining_pct": 100,
+      "notes": "",
+      "image_path": "images/54da619c-23c6-4ddc-97bf-294c551a411b.jpg",
+      "public": true
     }
   ]
 }
