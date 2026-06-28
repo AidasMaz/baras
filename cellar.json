@@ -1237,6 +1237,24 @@
       "notes": "",
       "image_path": "images/16e26cac-eec6-4e66-b96d-e0314e11717e.jpg",
       "public": true
+    },
+    {
+      "id": "671b4496-92e4-4856-921b-50e5c4a1a724",
+      "name": "CocaCola Aidas",
+      "brand": "CocaCola",
+      "category": "Soda",
+      "abv": 0,
+      "volume_ml": 500,
+      "container": "Plastic bottle",
+      "location": "Unknown",
+      "qty": 1,
+      "opened": false,
+      "opened_qty": 0,
+      "opened_levels": [],
+      "remaining_pct": 100,
+      "notes": "Has name Aidas",
+      "image_path": "images/671b4496-92e4-4856-921b-50e5c4a1a724.jpg",
+      "public": true
     }
   ]
 }
