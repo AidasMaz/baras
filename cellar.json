@@ -1273,6 +1273,24 @@
       "notes": "",
       "image_path": "images/e5ea1db2-2475-4c74-b613-4570cffb2bce.jpg",
       "public": true
+    },
+    {
+      "id": "a2198be4-7317-495a-bef3-29c74405097e",
+      "name": "Original green danish",
+      "brand": "Tuborg",
+      "category": "Beer",
+      "abv": 4.6,
+      "volume_ml": 568,
+      "container": "Can",
+      "location": "Unknown",
+      "qty": 1,
+      "opened": false,
+      "opened_qty": 0,
+      "opened_levels": [],
+      "remaining_pct": 100,
+      "notes": "",
+      "image_path": "images/a2198be4-7317-495a-bef3-29c74405097e.jpg",
+      "public": true
     }
   ]
 }
