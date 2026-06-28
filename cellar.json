@@ -925,6 +925,24 @@
       "notes": "",
       "image_path": "images/cce93df1-897d-46dd-a20e-00905e6e3b0d.jpg",
       "public": true
+    },
+    {
+      "id": "a7aca3ae-c407-4068-9d8c-a3ffba148e0b",
+      "name": "Kronenbourg 1664 Blanc 0%",
+      "brand": "Kronenbourg 1664",
+      "category": "Beer",
+      "abv": 0,
+      "volume_ml": 330,
+      "container": "Glass bottle",
+      "location": "Unknown",
+      "qty": 1,
+      "opened": false,
+      "opened_qty": 0,
+      "opened_levels": [],
+      "remaining_pct": 100,
+      "notes": "",
+      "image_path": "images/a7aca3ae-c407-4068-9d8c-a3ffba148e0b.jpg",
+      "public": true
     }
   ]
 }
