@@ -1127,6 +1127,24 @@
       "notes": "",
       "image_path": "images/c9725b9f-6fb6-488e-98f6-2ad321a46d72.jpg",
       "public": true
+    },
+    {
+      "id": "5defb86b-c777-48fd-a6b6-f8b0b941b52b",
+      "name": "Šviesus nealkoholinis",
+      "brand": "Utenos",
+      "category": "Beer",
+      "abv": 0,
+      "volume_ml": 500,
+      "container": "Can",
+      "location": "Unknown",
+      "qty": 1,
+      "opened": false,
+      "opened_qty": 0,
+      "opened_levels": [],
+      "remaining_pct": 100,
+      "notes": "",
+      "image_path": "images/5defb86b-c777-48fd-a6b6-f8b0b941b52b.jpg",
+      "public": true
     }
   ]
 }
