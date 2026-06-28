@@ -943,6 +943,26 @@
       "notes": "",
       "image_path": "images/a7aca3ae-c407-4068-9d8c-a3ffba148e0b.jpg",
       "public": true
+    },
+    {
+      "id": "294ee1db-74ad-4553-9ee5-1d9653dfc258",
+      "name": "Crema di Pistacchio",
+      "brand": "Moreli",
+      "category": "Liqueur",
+      "abv": 17,
+      "volume_ml": 500,
+      "container": "Glass bottle",
+      "location": "Unknown",
+      "qty": 1,
+      "opened": true,
+      "opened_qty": 1,
+      "opened_levels": [
+        70
+      ],
+      "remaining_pct": 70,
+      "notes": "",
+      "image_path": "images/294ee1db-74ad-4553-9ee5-1d9653dfc258.jpg",
+      "public": true
     }
   ]
 }
