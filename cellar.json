@@ -1349,6 +1349,24 @@
       "notes": "",
       "image_path": "images/0994c2df-425e-44e7-bc64-3856d17bd1dc.jpg",
       "public": true
+    },
+    {
+      "id": "24c81f5f-7817-4a5e-9304-30e8c7307974",
+      "name": "Pineapple soda",
+      "brand": "Three cents",
+      "category": "Soda",
+      "abv": 0,
+      "volume_ml": 220,
+      "container": "Glass bottle",
+      "location": "Unknown",
+      "qty": 1,
+      "opened": false,
+      "opened_qty": 0,
+      "opened_levels": [],
+      "remaining_pct": 100,
+      "notes": "",
+      "image_path": "images/24c81f5f-7817-4a5e-9304-30e8c7307974.jpg",
+      "public": true
     }
   ]
 }
