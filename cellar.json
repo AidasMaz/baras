@@ -278,26 +278,6 @@
       "notes": "Natural sparkling mineral water (gazuotas)",
       "image_path": "",
       "public": true
-    },
-    {
-      "id": "7757055f-918b-4bc6-9814-f1b50bfe64f2",
-      "name": "Test",
-      "brand": "brand",
-      "category": "Whisky",
-      "abv": 99,
-      "volume_ml": 999,
-      "container": "Glass bottle",
-      "location": "A",
-      "qty": 2,
-      "opened": true,
-      "opened_qty": 1,
-      "opened_levels": [
-        55
-      ],
-      "remaining_pct": 55,
-      "notes": "",
-      "image_path": "",
-      "public": true
     }
   ]
 }
