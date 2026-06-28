@@ -1367,6 +1367,24 @@
       "notes": "",
       "image_path": "images/24c81f5f-7817-4a5e-9304-30e8c7307974.jpg",
       "public": true
+    },
+    {
+      "id": "0f8ef083-9bfa-41d9-bb22-4fa2f63ec63a",
+      "name": "Riga black balsam black currant",
+      "brand": "Riga black balsam",
+      "category": "Liqueur",
+      "abv": 30,
+      "volume_ml": 200,
+      "container": "Glass bottle",
+      "location": "Unknown",
+      "qty": 1,
+      "opened": false,
+      "opened_qty": 0,
+      "opened_levels": [],
+      "remaining_pct": 100,
+      "notes": "",
+      "image_path": "images/0f8ef083-9bfa-41d9-bb22-4fa2f63ec63a.jpg",
+      "public": true
     }
   ]
 }
