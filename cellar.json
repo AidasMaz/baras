@@ -1019,6 +1019,24 @@
       "notes": "",
       "image_path": "images/4ccb2367-995d-422e-9592-04aaca574dfe.jpg",
       "public": true
+    },
+    {
+      "id": "83436e64-c798-49f4-b49b-3289286791c8",
+      "name": "Beržų sūla su mėta",
+      "brand": "Sip Sap",
+      "category": "Other",
+      "abv": 0,
+      "volume_ml": 330,
+      "container": "Glass bottle",
+      "location": "Unknown",
+      "qty": 1,
+      "opened": false,
+      "opened_qty": 0,
+      "opened_levels": [],
+      "remaining_pct": 100,
+      "notes": "",
+      "image_path": "images/83436e64-c798-49f4-b49b-3289286791c8.jpg",
+      "public": true
     }
   ]
 }
