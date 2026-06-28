@@ -34,6 +34,24 @@
       "notes": "",
       "image_path": "",
       "public": true
+    },
+    {
+      "id": "c41ab48d-db8a-4bbd-9b4c-490b3069bdc6",
+      "name": "Jack D",
+      "brand": "",
+      "category": "Whisky",
+      "abv": 0,
+      "volume_ml": 500,
+      "container": "Plastic bottle",
+      "location": "",
+      "qty": 1,
+      "opened": false,
+      "opened_qty": 0,
+      "opened_levels": [],
+      "remaining_pct": 100,
+      "notes": "",
+      "image_path": "",
+      "public": true
     }
   ]
 }
