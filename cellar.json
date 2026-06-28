@@ -1145,6 +1145,24 @@
       "notes": "",
       "image_path": "images/5defb86b-c777-48fd-a6b6-f8b0b941b52b.jpg",
       "public": true
+    },
+    {
+      "id": "737337a3-18a9-41e7-ac5f-bbde39d13b88",
+      "name": "Radler 0% grapefruit",
+      "brand": "Utenos",
+      "category": "Beer",
+      "abv": 0,
+      "volume_ml": 500,
+      "container": "Can",
+      "location": "Unknown",
+      "qty": 2,
+      "opened": false,
+      "opened_qty": 0,
+      "opened_levels": [],
+      "remaining_pct": 100,
+      "notes": "",
+      "image_path": "images/737337a3-18a9-41e7-ac5f-bbde39d13b88.jpg",
+      "public": true
     }
   ]
 }
