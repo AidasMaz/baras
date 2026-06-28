@@ -568,6 +568,24 @@
       "notes": "",
       "image_path": "",
       "public": true
+    },
+    {
+      "id": "39c5a14a-c19a-4450-9ad4-0f0a714dc2c2",
+      "name": "Pineapple joice",
+      "brand": "Cido",
+      "category": "Juice",
+      "abv": 0,
+      "volume_ml": 1000,
+      "container": "Unknown",
+      "location": "Unknown",
+      "qty": 1,
+      "opened": false,
+      "opened_qty": 0,
+      "opened_levels": [],
+      "remaining_pct": 100,
+      "notes": "",
+      "image_path": "",
+      "public": true
     }
   ]
 }
