@@ -889,6 +889,24 @@
       "notes": "",
       "image_path": "images/5df6836c-e49d-4e84-ab39-16826487b9f2.jpg",
       "public": true
+    },
+    {
+      "id": "37d3617d-dd0d-4807-b6fc-182143e7f2c3",
+      "name": "Mojito mocktail",
+      "brand": "Mix",
+      "category": "Other",
+      "abv": 0,
+      "volume_ml": 330,
+      "container": "Glass bottle",
+      "location": "Unknown",
+      "qty": 1,
+      "opened": false,
+      "opened_qty": 0,
+      "opened_levels": [],
+      "remaining_pct": 100,
+      "notes": "",
+      "image_path": "images/37d3617d-dd0d-4807-b6fc-182143e7f2c3.jpg",
+      "public": true
     }
   ]
 }
