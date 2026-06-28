@@ -530,6 +530,26 @@
       "notes": "",
       "image_path": "",
       "public": true
+    },
+    {
+      "id": "699e35b1-cc1a-4844-97ef-30ed4c647a54",
+      "name": "Koum Kouat (citrus-ish) Corfu Liqueur",
+      "brand": "Mavromatis",
+      "category": "Liqueur",
+      "abv": 20,
+      "volume_ml": 500,
+      "container": "Glass bottle",
+      "location": "Unknown",
+      "qty": 1,
+      "opened": true,
+      "opened_qty": 1,
+      "opened_levels": [
+        30
+      ],
+      "remaining_pct": 30,
+      "notes": "Greece citrusy drink",
+      "image_path": "",
+      "public": true
     }
   ]
 }
