@@ -709,6 +709,24 @@
       "notes": "",
       "image_path": "images/cd6cbb6f-c640-45a1-ba71-bea38ee37fe2.jpg",
       "public": true
+    },
+    {
+      "id": "a84cc9b1-b4d9-4abf-a950-b3ebc72ff6e3",
+      "name": "Mojito mocktail",
+      "brand": "Sir James 101",
+      "category": "Other",
+      "abv": 0,
+      "volume_ml": 250,
+      "container": "Glass bottle",
+      "location": "Unknown",
+      "qty": 1,
+      "opened": false,
+      "opened_qty": 0,
+      "opened_levels": [],
+      "remaining_pct": 100,
+      "notes": "",
+      "image_path": "images/a84cc9b1-b4d9-4abf-a950-b3ebc72ff6e3.jpg",
+      "public": true
     }
   ]
 }
