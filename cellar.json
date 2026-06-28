@@ -139,7 +139,7 @@
     },
     {
       "id": "7757055f-918b-4bc6-9814-f1b50bfe64g5",
-      "name": "Prosecco D.O.C.",
+      "name": "Martini Prosecco D.O.C.",
       "brand": "Martini",
       "category": "Wine",
       "abv": 11,
@@ -147,8 +147,13 @@
       "container": "Glass bottle",
       "location": "Unknown",
       "qty": 1,
+      "opened": false,
+      "opened_qty": 0,
+      "opened_levels": [],
+      "remaining_pct": 100,
       "notes": "Sparkling Prosecco D.O.C., produced in Italy",
-      "source": {}
+      "image_path": "",
+      "public": true
     },
     {
       "id": "7757055f-918b-4bc6-9814-f1b50bfe64g4",
