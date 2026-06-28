@@ -1405,6 +1405,24 @@
       "notes": "",
       "image_path": "images/df5008c5-cf0d-4673-a28d-2a1db7ee18db.jpg",
       "public": true
+    },
+    {
+      "id": "8e6e60f8-d22f-4ca1-92ed-30af6fa7f826",
+      "name": "Caramel cream",
+      "brand": "Koskenkorva",
+      "category": "Liqueur",
+      "abv": 15,
+      "volume_ml": 500,
+      "container": "Glass bottle",
+      "location": "Unknown",
+      "qty": 1,
+      "opened": false,
+      "opened_qty": 0,
+      "opened_levels": [],
+      "remaining_pct": 100,
+      "notes": "",
+      "image_path": "images/8e6e60f8-d22f-4ca1-92ed-30af6fa7f826.jpg",
+      "public": true
     }
   ]
 }
