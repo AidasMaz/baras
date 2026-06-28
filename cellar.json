@@ -1459,6 +1459,24 @@
       "notes": "",
       "image_path": "images/cff44ac1-afd4-406d-aaad-70f2d7d0feec.jpg",
       "public": true
+    },
+    {
+      "id": "4d6a8335-a4c5-465f-b0f7-70698a31d3dd",
+      "name": "Prosecco doc treviso brut",
+      "brand": "Mionetto",
+      "category": "Wine",
+      "abv": 11,
+      "volume_ml": 200,
+      "container": "Glass bottle",
+      "location": "Unknown",
+      "qty": 1,
+      "opened": false,
+      "opened_qty": 0,
+      "opened_levels": [],
+      "remaining_pct": 100,
+      "notes": "",
+      "image_path": "images/4d6a8335-a4c5-465f-b0f7-70698a31d3dd.jpg",
+      "public": true
     }
   ]
 }
