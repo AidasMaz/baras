@@ -817,6 +817,24 @@
       "notes": "",
       "image_path": "images/99d6c90d-49c1-4703-800c-2d69634c51d7.jpg",
       "public": true
+    },
+    {
+      "id": "c915ead2-9cbe-44dc-b35b-6ca99a05c978",
+      "name": "Passion fruit martini moctail mixer",
+      "brand": "Teisseire",
+      "category": "Mixer",
+      "abv": 0,
+      "volume_ml": 600,
+      "container": "Can",
+      "location": "Unknown",
+      "qty": 1,
+      "opened": false,
+      "opened_qty": 0,
+      "opened_levels": [],
+      "remaining_pct": 100,
+      "notes": "",
+      "image_path": "images/c915ead2-9cbe-44dc-b35b-6ca99a05c978.jpg",
+      "public": true
     }
   ]
 }
