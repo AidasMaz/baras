@@ -214,10 +214,13 @@
       "container": "Glass bottle",
       "location": "Unknown",
       "qty": 1,
-      "notes": "Alcohol-free sparkling wine",
-      "source": {
-        "volume_ml": "estimated"
-      }
+      "opened": false,
+      "opened_qty": 0,
+      "opened_levels": [],
+      "remaining_pct": 100,
+      "notes": "Alcohol-free white sparkling wine; Semi sweet",
+      "image_path": "",
+      "public": true
     },
     {
       "id": "7757055f-918b-4bc6-9814-f1b50bfe64f9",
