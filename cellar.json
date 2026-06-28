@@ -963,6 +963,26 @@
       "notes": "",
       "image_path": "images/294ee1db-74ad-4553-9ee5-1d9653dfc258.jpg",
       "public": true
+    },
+    {
+      "id": "210a1246-367a-467b-b1b7-a1f3b3365a8c",
+      "name": "Pornstar martini coctail",
+      "brand": "Punch Club",
+      "category": "Other",
+      "abv": 14.9,
+      "volume_ml": 500,
+      "container": "Glass bottle",
+      "location": "Unknown",
+      "qty": 1,
+      "opened": true,
+      "opened_qty": 1,
+      "opened_levels": [
+        35
+      ],
+      "remaining_pct": 35,
+      "notes": "",
+      "image_path": "images/210a1246-367a-467b-b1b7-a1f3b3365a8c.jpg",
+      "public": true
     }
   ]
 }
