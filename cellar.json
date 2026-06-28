@@ -604,6 +604,26 @@
       "notes": "",
       "image_path": "",
       "public": true
+    },
+    {
+      "id": "4087eab8-11e0-4a01-b60c-3efb9c200d5f",
+      "name": "Gin Sour Grapefruit coctail",
+      "brand": "Punch Club",
+      "category": "Other",
+      "abv": 12.5,
+      "volume_ml": 1500,
+      "container": "Unknown",
+      "location": "Unknown",
+      "qty": 1,
+      "opened": true,
+      "opened_qty": 1,
+      "opened_levels": [
+        20
+      ],
+      "remaining_pct": 20,
+      "notes": "",
+      "image_path": "",
+      "public": true
     }
   ]
 }
