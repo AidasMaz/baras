@@ -6,6 +6,8 @@
       "category": "Beer",
       "abv": 4,
       "volume_ml": 500,
+	  "container": "Can",
+      "location": "Unknown",
       "qty": 3,
       "notes": "From Poland trip",
       "source": {}
@@ -16,6 +18,8 @@
       "category": "Beer",
       "abv": 6,
       "volume_ml": 500,
+	  "container": "Can",
+      "location": "Unknown",
       "qty": 1,
       "notes": "",
       "source": {}
@@ -39,6 +43,8 @@
       "category": "Whisky",
       "abv": 30,
       "volume_ml": 700,
+	  "container": "Glass bottle",
+      "location": "Unknown",
       "qty": 1,
       "notes": "Spirit drink made with Scotch whisky and pineapple flavourings",
       "source": {}
@@ -49,6 +55,8 @@
       "category": "Whisky",
       "abv": 30,
       "volume_ml": 700,
+	  "container": "Glass bottle",
+      "location": "Unknown",
       "qty": 1,
       "notes": "Spirit drink made with Scotch whisky and lime flavourings",
       "source": {}
@@ -59,6 +67,8 @@
       "category": "Rum",
       "abv": 18,
       "volume_ml": 700,
+	  "container": "Glass bottle",
+      "location": "Unknown",
       "qty": 1,
       "notes": "Coconut flavour liqueur with white rum",
       "source": {}
@@ -69,6 +79,8 @@
       "category": "Beer",
       "abv": 5.9,
       "volume_ml": 400,
+	  "container": "Glass bottle",
+      "location": "Unknown",
       "qty": 3,
       "notes": "Beer flavoured with aguardiente, mint & lime;",
       "source": {}
@@ -91,6 +103,8 @@
       "category": "Wine",
       "abv": 11,
       "volume_ml": 750,
+	  "container": "Glass bottle",
+      "location": "Unknown",
       "qty": 1,
       "notes": "Sparkling Prosecco D.O.C., produced in Italy",
       "source": {}
@@ -101,6 +115,8 @@
       "category": "Liqueur",
       "abv": 15,
       "volume_ml": 500,
+	  "container": "Glass bottle",
+      "location": "Unknown",
       "qty": 1,
       "notes": "Lemon liqueur",
       "source": {}
@@ -111,6 +127,8 @@
       "category": "Soda",
       "abv": 0,
       "volume_ml": 750,
+	  "container": "Glass bottle",
+      "location": "Unknown",
       "qty": 1,
       "notes": "Botanically brewed; made with pure rose extract",
       "source": {}
@@ -121,6 +139,8 @@
       "category": "Liqueur",
       "abv": 30,
       "volume_ml": 200,
+	  "container": "Glass bottle",
+      "location": "Unknown",
       "qty": 1,
       "notes": "",
       "source": {}
@@ -131,6 +151,8 @@
       "category": "Wine",
       "abv": 0,
       "volume_ml": 750,
+	  "container": "Glass bottle",
+      "location": "Unknown",
       "qty": 1,
       "notes": "Alcohol-free sparkling wine",
       "source": {
@@ -143,6 +165,8 @@
       "category": "Liqueur",
       "abv": 30,
       "volume_ml": 700,
+	  "container": "Glass bottle",
+      "location": "Unknown",
       "qty": 1,
       "notes": "",
       "source": {}
@@ -153,6 +177,8 @@
       "category": "Other",
       "abv": 0,
       "volume_ml": 750,
+	  "container": "Glass bottle",
+      "location": "Unknown",
       "qty": 1,
       "notes": "Dry, non-alcoholic, organic sparkling tea; white wine style",
       "source": {
@@ -165,6 +191,8 @@
       "category": "Vodka",
       "abv": 18,
       "volume_ml": 700,
+	  "container": "Glass bottle",
+      "location": "Unknown",
       "qty": 1,
       "notes": "Vodka & fruit liquor, melon flavour; 18% vol",
       "source": {
@@ -177,6 +205,8 @@
       "category": "Water",
       "abv": 0,
       "volume_ml": 250,
+	  "container": "Glass bottle",
+      "location": "Unknown",
       "qty": 1,
       "notes": "Sparkling natural mineral water; 250 ml on label",
       "source": {}
@@ -199,6 +229,8 @@
       "category": "Other",
       "abv": 0,
       "volume_ml": 200,
+	  "container": "Glass bottle",
+      "location": "Unknown",
       "qty": 2,
       "notes": "Extra dry, non-alcoholic, organic sparkling tea; rose wine style; small bottle",
       "source": {
