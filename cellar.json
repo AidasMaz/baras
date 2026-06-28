@@ -673,6 +673,24 @@
       "notes": "",
       "image_path": "images/2a7ef96c-93a3-4bc1-aeeb-9453fb01a017.jpg",
       "public": true
+    },
+    {
+      "id": "9116b4bb-3a23-4e05-97f8-7c0366458469",
+      "name": "Cream liqueur strawberry ice cream",
+      "brand": "Koskenkorva",
+      "category": "Liqueur",
+      "abv": 15,
+      "volume_ml": 500,
+      "container": "Glass bottle",
+      "location": "Unknown",
+      "qty": 1,
+      "opened": false,
+      "opened_qty": 0,
+      "opened_levels": [],
+      "remaining_pct": 100,
+      "notes": "",
+      "image_path": "images/9116b4bb-3a23-4e05-97f8-7c0366458469.jpg",
+      "public": true
     }
   ]
 }
