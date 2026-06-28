@@ -418,6 +418,26 @@
       "notes": "Sparkling Asti D.O.C.G. sweet, produced in Italy",
       "image_path": "",
       "public": true
+    },
+    {
+      "id": "ed5867f2-ca0f-4c1d-8f1a-67ef5b5943bb",
+      "name": "Torres Natureo Muscat",
+      "brand": "Torres",
+      "category": "Wine",
+      "abv": 0,
+      "volume_ml": 750,
+      "container": "Glass bottle",
+      "location": "Unknown",
+      "qty": 1,
+      "opened": true,
+      "opened_qty": 1,
+      "opened_levels": [
+        25
+      ],
+      "remaining_pct": 25,
+      "notes": "",
+      "image_path": "",
+      "public": true
     }
   ]
 }
