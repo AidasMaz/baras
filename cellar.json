@@ -335,6 +335,24 @@
       "notes": "Natural sparkling mineral water (gazuotas)",
       "image_path": "",
       "public": true
+    },
+    {
+      "id": "4e10f005-292f-410c-b5c9-e2936c184510",
+      "name": "Voruta Winterspice Cherry and spices",
+      "brand": "Voruta",
+      "category": "Wine",
+      "abv": 0,
+      "volume_ml": 750,
+      "container": "Glass bottle",
+      "location": "Unknown",
+      "qty": 2,
+      "opened": false,
+      "opened_qty": 0,
+      "opened_levels": [],
+      "remaining_pct": 100,
+      "notes": "",
+      "image_path": "",
+      "public": true
     }
   ]
 }
