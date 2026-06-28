@@ -1109,6 +1109,24 @@
       "notes": "",
       "image_path": "images/50d5d527-6b92-4363-88bd-32a76f30015e.jpg",
       "public": true
+    },
+    {
+      "id": "c9725b9f-6fb6-488e-98f6-2ad321a46d72",
+      "name": "Šviesus kadaginis kolch",
+      "brand": "Aukštaitijos bravorai",
+      "category": "Beer",
+      "abv": 4.6,
+      "volume_ml": 500,
+      "container": "Glass bottle",
+      "location": "Unknown",
+      "qty": 1,
+      "opened": false,
+      "opened_qty": 0,
+      "opened_levels": [],
+      "remaining_pct": 100,
+      "notes": "",
+      "image_path": "images/c9725b9f-6fb6-488e-98f6-2ad321a46d72.jpg",
+      "public": true
     }
   ]
 }
