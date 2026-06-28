@@ -629,6 +629,24 @@
       "notes": "",
       "image_path": "",
       "public": true
+    },
+    {
+      "id": "3624ea9c-5946-4e42-8c38-2cf4689714c3",
+      "name": "Haig Club Clubman Single Grain",
+      "brand": "Haig Club",
+      "category": "Whisky",
+      "abv": 40,
+      "volume_ml": 700,
+      "container": "Glass bottle",
+      "location": "Unknown",
+      "qty": 1,
+      "opened": false,
+      "opened_qty": 0,
+      "opened_levels": [],
+      "remaining_pct": 100,
+      "notes": "Scotish whisky gift from Goda for hard times",
+      "image_path": "images/3624ea9c-5946-4e42-8c38-2cf4689714c3.jpg",
+      "public": true
     }
   ]
 }
