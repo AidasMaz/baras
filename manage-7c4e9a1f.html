@@ -190,6 +190,7 @@
   .pill.priv { color: var(--danger); border-color: rgba(194,91,74,.4); }
   .pill.pub { color: var(--ok); border-color: rgba(111,174,115,.4); }
   .pill.opened { color:#d98b5f; border-color: rgba(217,139,95,.4); }
+  .pill.cont { color:#8fb6c9; border-color: rgba(143,182,201,.4); }
   .row-actions { flex-shrink:0; display:grid; grid-template-columns: 1fr 1fr; gap: 6px; }
   .iconbtn-sm {
     width: 38px; height: 34px; border:1px solid var(--line); border-radius: var(--radius);
@@ -991,10 +992,10 @@
         if (b.abv) mini.push(esc(b.abv) + "% ABV");
         if (b.volume_ml) mini.push(esc(fmtVol(b.volume_ml)));
         if (b.qty > 1) mini.push("×" + esc(b.qty));
-        if (b.container) mini.push(esc(b.container));
         if (b.location) mini.push("📍 " + esc(b.location));
         const pills = [];
         pills.push(b.public ? '<span class="pill pub">On menu</span>' : '<span class="pill priv">Private</span>');
+        if (b.container) pills.push('<span class="pill cont">' + esc(b.container) + '</span>');
         const levels = openedLevels(b);
         if (levels.length) {
           const lvlStr = levels.map(function (x) { return esc(x) + "%"; }).join(", ");
