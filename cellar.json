@@ -476,6 +476,24 @@
       "notes": "",
       "image_path": "",
       "public": true
+    },
+    {
+      "id": "d08bfd2b-d721-4b2d-bcd0-a707f46eaf34",
+      "name": "Dorato White sparkling wine",
+      "brand": "Dorato",
+      "category": "Wine",
+      "abv": 10,
+      "volume_ml": 750,
+      "container": "Glass bottle",
+      "location": "Unknown",
+      "qty": 1,
+      "opened": false,
+      "opened_qty": 0,
+      "opened_levels": [],
+      "remaining_pct": 100,
+      "notes": "",
+      "image_path": "",
+      "public": true
     }
   ]
 }
