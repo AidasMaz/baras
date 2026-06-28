@@ -353,6 +353,24 @@
       "notes": "",
       "image_path": "",
       "public": true
+    },
+    {
+      "id": "32f1893e-62e0-4d54-82f5-cf478860ee64",
+      "name": "Voruta Winterspice Ginger and fruits",
+      "brand": "Voruta",
+      "category": "Wine",
+      "abv": 0,
+      "volume_ml": 750,
+      "container": "Glass bottle",
+      "location": "Unknown",
+      "qty": 1,
+      "opened": false,
+      "opened_qty": 0,
+      "opened_levels": [],
+      "remaining_pct": 100,
+      "notes": "",
+      "image_path": "",
+      "public": true
     }
   ]
 }
