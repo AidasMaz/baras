@@ -106,8 +106,13 @@
       "container": "Glass bottle",
       "location": "Unknown",
       "qty": 3,
+      "opened": false,
+      "opened_qty": 0,
+      "opened_levels": [],
+      "remaining_pct": 100,
       "notes": "Beer flavoured with aguardiente, mint & lime;",
-      "source": {}
+      "image_path": "",
+      "public": true
     },
     {
       "id": "7757055f-918b-4bc6-9814-f1b50bfe64g6",
