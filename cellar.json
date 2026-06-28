@@ -1,12 +1,12 @@
 {
     "bottles": [{
-            "name": "Lech Free Elderflower Lemon",
+            "name": "Lech Elderflower Lemon",
             "brand": "Lech",
             "category": "Beer",
             "abv": 4,
             "volume_ml": 500,
             "qty": 3,
-            "notes": "Elderflower Lemon flavour; alc 4% vol",
+            "notes": "From Poland trip",
             "source": {}
         }, {
             "name": "Licorne Black",
@@ -15,10 +15,8 @@
             "abv": 6,
             "volume_ml": 500,
             "qty": 1,
-            "notes": "Biere de caractere depuis 1845; Douce & Savoureuse",
-            "source": {
-                "volume_ml": "estimated"
-            }
+            "notes": "",
+            "source": {}
         }, {
             "name": "Vyšnių Kriek",
             "brand": "Vilkmergės",
@@ -34,7 +32,7 @@
         }, {
             "name": "Ballantine's Sunshine",
             "brand": "Ballantine's",
-            "category": "Liqueur",
+            "category": "Whisky",
             "abv": 30,
             "volume_ml": 700,
             "qty": 1,
@@ -43,7 +41,7 @@
         }, {
             "name": "Ballantine's Brasil",
             "brand": "Ballantine's",
-            "category": "Liqueur",
+            "category": "Whisky",
             "abv": 30,
             "volume_ml": 700,
             "qty": 1,
@@ -52,15 +50,12 @@
         }, {
             "name": "Malibu Original",
             "brand": "Malibu",
-            "category": "Liqueur",
-            "abv": 21,
+            "category": "Rum",
+            "abv": 18,
             "volume_ml": 700,
             "qty": 1,
-            "notes": "White rum and coconut flavour liqueur",
-            "source": {
-                "abv": "memory",
-                "volume_ml": "estimated"
-            }
+            "notes": "Coconut flavour liqueur with white rum",
+            "source": {}
         }, {
             "name": "Desperados Mojito",
             "brand": "Desperados",
@@ -68,14 +63,12 @@
             "abv": 5.9,
             "volume_ml": 400,
             "qty": 3,
-            "notes": "Beer flavoured with aguardiente, mint & lime; 5.9% obj.",
-            "source": {
-                "volume_ml": "estimated"
-            }
+            "notes": "Beer flavoured with aguardiente, mint & lime;",
+            "source": {}
         }, {
             "name": "Uniqa Vitamins Good Mood",
             "brand": "Uniqa",
-            "category": "Soda",
+            "category": "Water",
             "abv": 0,
             "volume_ml": 500,
             "qty": 1,
@@ -91,9 +84,7 @@
             "volume_ml": 750,
             "qty": 1,
             "notes": "Sparkling Prosecco D.O.C., produced in Italy",
-            "source": {
-                "volume_ml": "estimated"
-            }
+            "source": {}
         }, {
             "name": "Limoncello",
             "brand": "Summer Garden",
@@ -101,14 +92,14 @@
             "abv": 15,
             "volume_ml": 500,
             "qty": 1,
-            "notes": "Lemon liqueur; 15% vol, 50 cl",
+            "notes": "Lemon liqueur",
             "source": {}
         }, {
             "name": "Rose Lemonade",
             "brand": "Fentimans",
             "category": "Soda",
             "abv": 0,
-            "volume_ml": 0,
+            "volume_ml": 750,
             "qty": 1,
             "notes": "Botanically brewed; made with pure rose extract",
             "source": {}
@@ -119,11 +110,8 @@
             "abv": 30,
             "volume_ml": 200,
             "qty": 1,
-            "notes": "Original recipe since 1752; Cherry; small bottle",
-            "source": {
-                "abv": "memory",
-                "volume_ml": "estimated"
-            }
+            "notes": "",
+            "source": {}
         }, {
             "name": "Bosca Anniversary Alcohol Free",
             "brand": "Bosca",
@@ -142,11 +130,8 @@
             "abv": 30,
             "volume_ml": 700,
             "qty": 1,
-            "notes": "Original recipe since 1752; Tropical",
-            "source": {
-                "abv": "memory",
-                "volume_ml": "estimated"
-            }
+            "notes": "",
+            "source": {}
         }, {
             "name": "Acala Sparkling Tea White Wine Style",
             "brand": "Acala",
