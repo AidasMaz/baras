@@ -1001,6 +1001,24 @@
       "notes": "",
       "image_path": "images/9250dda9-ed55-46fe-bf2f-8118f7a5e1ea.jpg",
       "public": true
+    },
+    {
+      "id": "4ccb2367-995d-422e-9592-04aaca574dfe",
+      "name": "Brite Focus+Energy, pineapple mango",
+      "brand": "Brite",
+      "category": "Energy Drink",
+      "abv": 0,
+      "volume_ml": 330,
+      "container": "Can",
+      "location": "Unknown",
+      "qty": 1,
+      "opened": false,
+      "opened_qty": 0,
+      "opened_levels": [],
+      "remaining_pct": 100,
+      "notes": "",
+      "image_path": "images/4ccb2367-995d-422e-9592-04aaca574dfe.jpg",
+      "public": true
     }
   ]
 }
