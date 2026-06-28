@@ -691,6 +691,24 @@
       "notes": "",
       "image_path": "images/9116b4bb-3a23-4e05-97f8-7c0366458469.jpg",
       "public": true
+    },
+    {
+      "id": "cd6cbb6f-c640-45a1-ba71-bea38ee37fe2",
+      "name": "Semi Dry Pear Cider",
+      "brand": "Volfas Engelman",
+      "category": "Other",
+      "abv": 4.5,
+      "volume_ml": 500,
+      "container": "Can",
+      "location": "Unknown",
+      "qty": 1,
+      "opened": false,
+      "opened_qty": 0,
+      "opened_levels": [],
+      "remaining_pct": 100,
+      "notes": "",
+      "image_path": "images/cd6cbb6f-c640-45a1-ba71-bea38ee37fe2.jpg",
+      "public": true
     }
   ]
 }
