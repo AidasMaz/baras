@@ -983,6 +983,24 @@
       "notes": "",
       "image_path": "images/210a1246-367a-467b-b1b7-a1f3b3365a8c.jpg",
       "public": true
+    },
+    {
+      "id": "9250dda9-ed55-46fe-bf2f-8118f7a5e1ea",
+      "name": "Acqua panna still water",
+      "brand": "Domus Medici",
+      "category": "Water",
+      "abv": 0,
+      "volume_ml": 250,
+      "container": "Glass bottle",
+      "location": "Unknown",
+      "qty": 1,
+      "opened": false,
+      "opened_qty": 0,
+      "opened_levels": [],
+      "remaining_pct": 100,
+      "notes": "",
+      "image_path": "images/9250dda9-ed55-46fe-bf2f-8118f7a5e1ea.jpg",
+      "public": true
     }
   ]
 }
