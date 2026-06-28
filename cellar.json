@@ -43,12 +43,16 @@
       "category": "Beer",
       "abv": 5,
       "volume_ml": 500,
-      "qty": 1,
-      "notes": "First Lithuanian cherry kriek ale",
-      "source": {
-        "abv": "web",
-        "volume_ml": "web"
-      }
+      "container": "Unknown",
+      "location": "Unknown",
+      "qty": 4,
+      "opened": false,
+      "opened_qty": 0,
+      "opened_levels": [],
+      "remaining_pct": 100,
+      "notes": "3 skardinės ir vienas stiklinis butelys",
+      "image_path": "images/7757055f-918b-4bc6-9814-f1b50bfe64h2.jpg",
+      "public": true
     },
     {
       "id": "7757055f-918b-4bc6-9814-f1b50bfe64h1",
