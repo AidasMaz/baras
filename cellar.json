@@ -763,6 +763,24 @@
       "notes": "",
       "image_path": "images/cb45f927-25b1-4df2-96e9-0ad67b260127.jpg",
       "public": true
+    },
+    {
+      "id": "0d67e901-3aa0-41f3-9f6b-d652bbca35a9",
+      "name": "Riga Black Balsam Tropical",
+      "brand": "",
+      "category": "Liqueur",
+      "abv": 30,
+      "volume_ml": 500,
+      "container": "Glass bottle",
+      "location": "Unknown",
+      "qty": 1,
+      "opened": false,
+      "opened_qty": 0,
+      "opened_levels": [],
+      "remaining_pct": 100,
+      "notes": "",
+      "image_path": "images/0d67e901-3aa0-41f3-9f6b-d652bbca35a9.jpg",
+      "public": true
     }
   ]
 }
