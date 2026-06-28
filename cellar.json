@@ -1477,6 +1477,24 @@
       "notes": "",
       "image_path": "images/4d6a8335-a4c5-465f-b0f7-70698a31d3dd.jpg",
       "public": true
+    },
+    {
+      "id": "2df44858-4627-4fba-bba4-582050d0cb7d",
+      "name": "Grande noblesse brandy",
+      "brand": "Jp. Chenet",
+      "category": "Other",
+      "abv": 36,
+      "volume_ml": 200,
+      "container": "Glass bottle",
+      "location": "Unknown",
+      "qty": 1,
+      "opened": false,
+      "opened_qty": 0,
+      "opened_levels": [],
+      "remaining_pct": 100,
+      "notes": "",
+      "image_path": "images/2df44858-4627-4fba-bba4-582050d0cb7d.jpg",
+      "public": true
     }
   ]
 }
