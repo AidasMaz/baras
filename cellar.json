@@ -1551,6 +1551,24 @@
       "notes": "",
       "image_path": "images/9d0dc435-9924-4499-9901-099421162ffd.jpg",
       "public": true
+    },
+    {
+      "id": "33078e45-70f9-4fbe-b236-a8ee7028a672",
+      "name": "Harruba liqueur",
+      "brand": "Ambrosia",
+      "category": "Liqueur",
+      "abv": 21,
+      "volume_ml": 100,
+      "container": "Glass bottle",
+      "location": "Unknown",
+      "qty": 1,
+      "opened": false,
+      "opened_qty": 0,
+      "opened_levels": [],
+      "remaining_pct": 100,
+      "notes": "Liqueur from carob beans from trees. Made in gozo island, Malta",
+      "image_path": "images/33078e45-70f9-4fbe-b236-a8ee7028a672.jpg",
+      "public": true
     }
   ]
 }
