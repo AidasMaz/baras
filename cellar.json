@@ -1181,6 +1181,26 @@
       "notes": "",
       "image_path": "images/a492cdd1-3e1b-47d6-bf6e-d37da05db039.jpg",
       "public": true
+    },
+    {
+      "id": "747954b0-3861-4412-85b8-072058f92823",
+      "name": "Pink grapefruit happy tonic water",
+      "brand": "O.R.N craft",
+      "category": "Soda",
+      "abv": 0,
+      "volume_ml": 1000,
+      "container": "Plastic bottle",
+      "location": "Unknown",
+      "qty": 1,
+      "opened": true,
+      "opened_qty": 1,
+      "opened_levels": [
+        25
+      ],
+      "remaining_pct": 25,
+      "notes": "",
+      "image_path": "images/747954b0-3861-4412-85b8-072058f92823.jpg",
+      "public": true
     }
   ]
 }
