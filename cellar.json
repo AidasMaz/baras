@@ -727,6 +727,24 @@
       "notes": "",
       "image_path": "images/a84cc9b1-b4d9-4abf-a950-b3ebc72ff6e3.jpg",
       "public": true
+    },
+    {
+      "id": "74e12e01-81ff-4be7-8b1b-f637b5c3c80f",
+      "name": "Jegermeister",
+      "brand": "Mast-Jegermeister",
+      "category": "Liqueur",
+      "abv": 35,
+      "volume_ml": 700,
+      "container": "Glass bottle",
+      "location": "Unknown",
+      "qty": 1,
+      "opened": false,
+      "opened_qty": 0,
+      "opened_levels": [],
+      "remaining_pct": 100,
+      "notes": "",
+      "image_path": "images/74e12e01-81ff-4be7-8b1b-f637b5c3c80f.jpg",
+      "public": true
     }
   ]
 }
