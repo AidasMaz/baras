@@ -1385,6 +1385,26 @@
       "notes": "",
       "image_path": "images/0f8ef083-9bfa-41d9-bb22-4fa2f63ec63a.jpg",
       "public": true
+    },
+    {
+      "id": "df5008c5-cf0d-4673-a28d-2a1db7ee18db",
+      "name": "Naminis vynas",
+      "brand": "Monika",
+      "category": "Wine",
+      "abv": 10,
+      "volume_ml": 500,
+      "container": "Glass bottle",
+      "location": "Unknown",
+      "qty": 1,
+      "opened": true,
+      "opened_qty": 1,
+      "opened_levels": [
+        70
+      ],
+      "remaining_pct": 70,
+      "notes": "",
+      "image_path": "images/df5008c5-cf0d-4673-a28d-2a1db7ee18db.jpg",
+      "public": true
     }
   ]
 }
