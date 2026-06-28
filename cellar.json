@@ -550,6 +550,24 @@
       "notes": "Greece citrusy drink",
       "image_path": "",
       "public": true
+    },
+    {
+      "id": "5689714c-b299-4bf1-950d-19aeeeebe9c3",
+      "name": "Maracuja (Passionfruit) syrup - no suigar",
+      "brand": "Methieu Teisseire",
+      "category": "Mixer",
+      "abv": 0,
+      "volume_ml": 250,
+      "container": "Glass bottle",
+      "location": "Unknown",
+      "qty": 1,
+      "opened": false,
+      "opened_qty": 0,
+      "opened_levels": [],
+      "remaining_pct": 100,
+      "notes": "",
+      "image_path": "",
+      "public": true
     }
   ]
 }
