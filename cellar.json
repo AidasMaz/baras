@@ -1,7 +1,7 @@
 {
   "bottles": [
     {
-		"id": "7757055f-918b-4bc6-9814-f1b50bfe64h4",
+      "id": "7757055f-918b-4bc6-9814-f1b50bfe64h4",
       "name": "Lech Elderflower Lemon",
       "brand": "Lech",
       "category": "Beer",
@@ -14,7 +14,7 @@
       "source": {}
     },
     {
-		"id": "7757055f-918b-4bc6-9814-f1b50bfe64h3",
+      "id": "7757055f-918b-4bc6-9814-f1b50bfe64h3",
       "name": "Licorne Black",
       "brand": "Licorne",
       "category": "Beer",
@@ -27,7 +27,7 @@
       "source": {}
     },
     {
-		"id": "7757055f-918b-4bc6-9814-f1b50bfe64h2",
+      "id": "7757055f-918b-4bc6-9814-f1b50bfe64h2",
       "name": "Vyšnių Kriek",
       "brand": "Vilkmergės",
       "category": "Beer",
@@ -41,7 +41,7 @@
       }
     },
     {
-		"id": "7757055f-918b-4bc6-9814-f1b50bfe64h1",
+      "id": "7757055f-918b-4bc6-9814-f1b50bfe64h1",
       "name": "Ballantine's Sunshine",
       "brand": "Ballantine's",
       "category": "Whisky",
@@ -54,7 +54,7 @@
       "source": {}
     },
     {
-		"id": "7757055f-918b-4bc6-9814-f1b50bfe64g9",
+      "id": "7757055f-918b-4bc6-9814-f1b50bfe64g9",
       "name": "Ballantine's Brasil",
       "brand": "Ballantine's",
       "category": "Whisky",
@@ -63,11 +63,16 @@
       "container": "Glass bottle",
       "location": "Unknown",
       "qty": 1,
+      "opened": false,
+      "opened_qty": 0,
+      "opened_levels": [],
+      "remaining_pct": 100,
       "notes": "Spirit drink made with Scotch whisky and lime flavourings",
-      "source": {}
+      "image_path": "",
+      "public": true
     },
     {
-		"id": "7757055f-918b-4bc6-9814-f1b50bfe64g8",
+      "id": "7757055f-918b-4bc6-9814-f1b50bfe64g8",
       "name": "Malibu Original",
       "brand": "Malibu",
       "category": "Rum",
@@ -80,7 +85,7 @@
       "source": {}
     },
     {
-		"id": "7757055f-918b-4bc6-9814-f1b50bfe64g7",
+      "id": "7757055f-918b-4bc6-9814-f1b50bfe64g7",
       "name": "Desperados Mojito",
       "brand": "Desperados",
       "category": "Beer",
@@ -93,7 +98,7 @@
       "source": {}
     },
     {
-		"id": "7757055f-918b-4bc6-9814-f1b50bfe64g6",
+      "id": "7757055f-918b-4bc6-9814-f1b50bfe64g6",
       "name": "Uniqa Vitamins Good Mood",
       "brand": "Uniqa",
       "category": "Water",
@@ -106,7 +111,7 @@
       }
     },
     {
-		"id": "7757055f-918b-4bc6-9814-f1b50bfe64g5",
+      "id": "7757055f-918b-4bc6-9814-f1b50bfe64g5",
       "name": "Prosecco D.O.C.",
       "brand": "Martini",
       "category": "Wine",
@@ -119,7 +124,7 @@
       "source": {}
     },
     {
-		"id": "7757055f-918b-4bc6-9814-f1b50bfe64g4",
+      "id": "7757055f-918b-4bc6-9814-f1b50bfe64g4",
       "name": "Limoncello",
       "brand": "Summer Garden",
       "category": "Liqueur",
@@ -132,7 +137,7 @@
       "source": {}
     },
     {
-		"id": "7757055f-918b-4bc6-9814-f1b50bfe64g3",
+      "id": "7757055f-918b-4bc6-9814-f1b50bfe64g3",
       "name": "Rose Lemonade",
       "brand": "Fentimans",
       "category": "Soda",
@@ -145,7 +150,7 @@
       "source": {}
     },
     {
-		"id": "7757055f-918b-4bc6-9814-f1b50bfe64g2",
+      "id": "7757055f-918b-4bc6-9814-f1b50bfe64g2",
       "name": "Riga Black Balsam Cherry",
       "brand": "Riga Black Balsam",
       "category": "Liqueur",
@@ -158,7 +163,7 @@
       "source": {}
     },
     {
-		"id": "7757055f-918b-4bc6-9814-f1b50bfe64g1",
+      "id": "7757055f-918b-4bc6-9814-f1b50bfe64g1",
       "name": "Bosca Anniversary Alcohol Free",
       "brand": "Bosca",
       "category": "Wine",
@@ -173,7 +178,7 @@
       }
     },
     {
-		"id": "7757055f-918b-4bc6-9814-f1b50bfe64f9",
+      "id": "7757055f-918b-4bc6-9814-f1b50bfe64f9",
       "name": "Riga Black Balsam Tropical",
       "brand": "Riga Black Balsam",
       "category": "Liqueur",
@@ -186,7 +191,7 @@
       "source": {}
     },
     {
-		"id": "7757055f-918b-4bc6-9814-f1b50bfe64f8",
+      "id": "7757055f-918b-4bc6-9814-f1b50bfe64f8",
       "name": "Acala Sparkling Tea White Wine Style",
       "brand": "Acala",
       "category": "Other",
@@ -201,7 +206,7 @@
       }
     },
     {
-		"id": "7757055f-918b-4bc6-9814-f1b50bfe64f7",
+      "id": "7757055f-918b-4bc6-9814-f1b50bfe64f7",
       "name": "Keglevich Melone",
       "brand": "Keglevich",
       "category": "Vodka",
@@ -216,7 +221,7 @@
       }
     },
     {
-		"id": "7757055f-918b-4bc6-9814-f1b50bfe64f6",
+      "id": "7757055f-918b-4bc6-9814-f1b50bfe64f6",
       "name": "San Pellegrino Sparkling Mineral Water",
       "brand": "San Pellegrino",
       "category": "Water",
@@ -229,7 +234,7 @@
       "source": {}
     },
     {
-		"id": "7757055f-918b-4bc6-9814-f1b50bfe64f5",
+      "id": "7757055f-918b-4bc6-9814-f1b50bfe64f5",
       "name": "Sidras Nealkoholinis Obuolių",
       "brand": "Volfas Engelman",
       "category": "Other",
@@ -242,7 +247,7 @@
       }
     },
     {
-		"id": "7757055f-918b-4bc6-9814-f1b50bfe64f4",
+      "id": "7757055f-918b-4bc6-9814-f1b50bfe64f4",
       "name": "Acala Sparkling Tea Rose Wine Style",
       "brand": "Acala",
       "category": "Other",
