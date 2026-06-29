@@ -433,6 +433,7 @@
         <button type="button" class="chip" data-status="sealed">Sealed</button>
       </div>
       <select id="type-select" class="type-select"><option value="all">All types</option></select>
+      <select id="container-select" class="type-select" style="margin-top:10px"><option value="all">Any container</option></select>
     </div>
 
     <main id="content">
@@ -564,32 +565,30 @@
 
   /* ---------- Filtering ---------- */
   var MENU = [];
-  var FILTER = { q: "", group: "all", type: "all", status: "all" };
-  var GROUPS_ALC = ["Whisky", "Gin", "Rum", "Tequila", "Vodka", "Liqueur", "Wine", "Beer"];
-  var GROUPS_NON = ["Soda", "Energy Drink", "Juice", "Mixer", "Water"];
-
-  function groupOf(cat) {
-    if (GROUPS_ALC.indexOf(cat) > -1) return "alcoholic";
-    if (GROUPS_NON.indexOf(cat) > -1) return "nonalcoholic";
-    return "other";
-  }
+  var FILTER = { q: "", group: "all", type: "all", status: "all", container: "all" };
+  // group is ABV-based: alcoholic = abv>0, non-alcoholic = abv===0
 
   function buildTypeOptions() {
     var present = {};
     MENU.forEach(function (b) { present[b.category || "Other"] = true; });
-    var cats = CATEGORY_ORDER.filter(function (c) {
-      if (!present[c]) return false;
-      return FILTER.group === "all" || groupOf(c) === FILTER.group;
-    });
-    Object.keys(present).forEach(function (c) {
-      if (CATEGORY_ORDER.indexOf(c) === -1 && (FILTER.group === "all" || groupOf(c) === FILTER.group)) cats.push(c);
-    });
+    var cats = CATEGORY_ORDER.filter(function (c) { return present[c]; });
+    Object.keys(present).forEach(function (c) { if (CATEGORY_ORDER.indexOf(c) === -1) cats.push(c); });
     var sel = document.getElementById("type-select");
     var html = '<option value="all">All types</option>';
     cats.forEach(function (c) { html += '<option value="' + esc(c) + '">' + esc(c) + "</option>"; });
     sel.innerHTML = html;
     if (FILTER.type !== "all" && cats.indexOf(FILTER.type) === -1) FILTER.type = "all";
     sel.value = FILTER.type;
+    // container filter
+    var conts = {};
+    MENU.forEach(function (b) { conts[b.container || "Unknown"] = true; });
+    var clist = Object.keys(conts).sort();
+    var csel = document.getElementById("container-select");
+    var chtml = '<option value="all">Any container</option>';
+    clist.forEach(function (c) { chtml += '<option value="' + esc(c) + '">' + esc(c) + "</option>"; });
+    csel.innerHTML = chtml;
+    if (FILTER.container !== "all" && clist.indexOf(FILTER.container) === -1) FILTER.container = "all";
+    csel.value = FILTER.container;
   }
 
   var _filtersWired = false;
@@ -605,7 +604,6 @@
       if (!btn) return;
       FILTER.group = btn.getAttribute("data-group");
       this.querySelectorAll(".chip").forEach(function (c) { c.classList.toggle("active", c === btn); });
-      buildTypeOptions();
       applyFilters();
     });
     document.getElementById("status-chips").addEventListener("click", function (e) {
@@ -617,6 +615,10 @@
     });
     document.getElementById("type-select").addEventListener("change", function () {
       FILTER.type = this.value;
+      applyFilters();
+    });
+    document.getElementById("container-select").addEventListener("change", function () {
+      FILTER.container = this.value;
       applyFilters();
     });
   }
@@ -639,8 +641,11 @@
 
   function matchesFilter(b) {
     var cat = b.category || "Other";
-    if (FILTER.group !== "all" && groupOf(cat) !== FILTER.group) return false;
+    var abv = Number(b.abv) || 0;
+    if (FILTER.group === "alcoholic" && abv <= 0) return false;
+    if (FILTER.group === "nonalcoholic" && abv > 0) return false;
     if (FILTER.type !== "all" && cat !== FILTER.type) return false;
+    if (FILTER.container !== "all" && (b.container || "Unknown") !== FILTER.container) return false;
     if (FILTER.status === "opened" && openedLevels(b).length === 0) return false;
     if (FILTER.status === "sealed" && openedLevels(b).length > 0) return false;
     if (FILTER.q) {

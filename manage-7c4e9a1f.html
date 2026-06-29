@@ -371,6 +371,10 @@
       <button type="button" class="chip status" data-status="sealed">Unopened</button>
     </div>
     <select id="type-select" class="type-select"><option value="all">All types</option></select>
+    <div class="two-col" style="margin-top:10px; gap:10px">
+      <select id="container-select" class="type-select" style="margin-top:0"><option value="all">Any container</option></select>
+      <select id="location-select" class="type-select" style="margin-top:0"><option value="all">Any location</option></select>
+    </div>
   </div>
 
   <div id="list"></div>
@@ -405,7 +409,8 @@
       <div class="two-col">
         <div>
           <label class="lbl">Brand</label>
-          <input class="field" id="f-brand" type="text" placeholder="Distillery / maker" />
+          <input class="field" id="f-brand" type="text" placeholder="Distillery / maker" list="makers" autocomplete="off" />
+          <datalist id="makers"></datalist>
         </div>
         <div>
           <label class="lbl">Category</label>
@@ -914,18 +919,16 @@
   }
 
   /* ---------- Filtering ---------- */
-  const FILTER = { q: "", group: "all", type: "all", status: "all" };
-  const GROUPS_ALC = ["Whisky", "Gin", "Rum", "Tequila", "Vodka", "Liqueur", "Wine", "Beer"];
-  const GROUPS_NON = ["Soda", "Energy Drink", "Juice", "Mixer", "Water"];
-  function groupOf(cat) {
-    if (GROUPS_ALC.indexOf(cat) > -1) return "alcoholic";
-    if (GROUPS_NON.indexOf(cat) > -1) return "nonalcoholic";
-    return "other";
-  }
+  const FILTER = { q: "", group: "all", type: "all", status: "all", container: "all", location: "all" };
+  // group is ABV-based: alcoholic = abv>0, non-alcoholic = abv===0
   function matchesFilter(b) {
     const cat = b.category || "Other";
-    if (FILTER.group !== "all" && groupOf(cat) !== FILTER.group) return false;
+    const abv = Number(b.abv) || 0;
+    if (FILTER.group === "alcoholic" && abv <= 0) return false;
+    if (FILTER.group === "nonalcoholic" && abv > 0) return false;
     if (FILTER.type !== "all" && cat !== FILTER.type) return false;
+    if (FILTER.container !== "all" && (b.container || "Unknown") !== FILTER.container) return false;
+    if (FILTER.location !== "all" && (b.location || "Unknown") !== FILTER.location) return false;
     if (FILTER.status === "opened" && openedLevels(b).length === 0) return false;
     if (FILTER.status === "sealed" && openedLevels(b).length > 0) return false;
     if (FILTER.q) {
@@ -935,20 +938,34 @@
     return true;
   }
   function buildTypeOptions() {
+    // category dropdown — all categories present in the data, ordered
     const present = {};
     (CELLAR.bottles || []).forEach(function (b) { present[b.category || "Other"] = true; });
-    const cats = CAT_ORDER.filter(function (c) {
-      return present[c] && (FILTER.group === "all" || groupOf(c) === FILTER.group);
-    });
-    Object.keys(present).forEach(function (c) {
-      if (CAT_ORDER.indexOf(c) === -1 && (FILTER.group === "all" || groupOf(c) === FILTER.group)) cats.push(c);
-    });
-    const sel = $("type-select");
-    let html = '<option value="all">All types</option>';
-    cats.forEach(function (c) { html += '<option value="' + esc(c) + '">' + esc(c) + "</option>"; });
+    let cats = CAT_ORDER.filter(function (c) { return present[c]; });
+    Object.keys(present).forEach(function (c) { if (CAT_ORDER.indexOf(c) === -1) cats.push(c); });
+    fillSelect("type-select", "All types", cats, "type");
+    // container + location dropdowns — values present in the data
+    fillSelect("container-select", "Any container", presentValues("container", "Unknown"), "container");
+    fillSelect("location-select", "Any location", presentValues("location", "Unknown"), "location");
+    // maker auto-suggest
+    const makers = {};
+    (CELLAR.bottles || []).forEach(function (b) { if (b.brand) makers[b.brand] = true; });
+    $("makers").innerHTML = Object.keys(makers).sort().map(function (m) {
+      return '<option value="' + esc(m) + '"></option>';
+    }).join("");
+  }
+  function presentValues(field, fallback) {
+    const seen = {};
+    (CELLAR.bottles || []).forEach(function (b) { seen[b[field] || fallback] = true; });
+    return Object.keys(seen).sort();
+  }
+  function fillSelect(id, allLabel, values, key) {
+    const sel = $(id);
+    let html = '<option value="all">' + allLabel + "</option>";
+    values.forEach(function (v) { html += '<option value="' + esc(v) + '">' + esc(v) + "</option>"; });
     sel.innerHTML = html;
-    if (FILTER.type !== "all" && cats.indexOf(FILTER.type) === -1) FILTER.type = "all";
-    sel.value = FILTER.type;
+    if (FILTER[key] !== "all" && values.indexOf(FILTER[key]) === -1) FILTER[key] = "all";
+    sel.value = FILTER[key];
   }
   let _filtersWired = false;
   function wireFilters() {
@@ -970,6 +987,8 @@
       render();
     });
     $("type-select").addEventListener("change", function () { FILTER.type = this.value; render(); });
+    $("container-select").addEventListener("change", function () { FILTER.container = this.value; render(); });
+    $("location-select").addEventListener("change", function () { FILTER.location = this.value; render(); });
   }
 
   function render() {
