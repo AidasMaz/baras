@@ -191,6 +191,7 @@
   .pill.pub { color: var(--ok); border-color: rgba(111,174,115,.4); }
   .pill.opened { color:#d98b5f; border-color: rgba(217,139,95,.4); }
   .pill.cont { color:#8fb6c9; border-color: rgba(143,182,201,.4); }
+  .pill.wine { color:#c596c9; border-color: rgba(197,150,201,.4); }
   .row-actions { flex-shrink:0; display:grid; grid-template-columns: 1fr 1fr; gap: 6px; }
   .iconbtn-sm {
     width: 38px; height: 34px; border:1px solid var(--line); border-radius: var(--radius);
@@ -409,16 +410,48 @@
         <div>
           <label class="lbl">Category</label>
           <select class="field" id="f-category">
-            <optgroup label="Spirits &amp; Alcohol">
-              <option>Whisky</option><option>Gin</option><option>Rum</option>
-              <option>Tequila</option><option>Vodka</option><option>Liqueur</option>
-              <option>Wine</option><option>Beer</option>
+            <optgroup label="Spirits">
+              <option>Whisky</option><option>Brandy</option><option>Cognac</option>
+              <option>Rum</option><option>Gin</option><option>Vodka</option>
+              <option>Tequila</option><option>Liqueur</option>
+            </optgroup>
+            <optgroup label="Wine, Beer &amp; Cider">
+              <option>Wine</option><option>Beer</option><option>Cider</option><option>Mead</option>
+            </optgroup>
+            <optgroup label="Mixed">
+              <option>Cocktail</option><option>Mocktail</option>
             </optgroup>
             <optgroup label="Non-Alcoholic">
-              <option>Soda</option><option>Energy Drink</option><option>Juice</option>
-              <option>Mixer</option><option>Water</option>
+              <option>Soda</option><option>Juice</option><option>Energy Drink</option>
+              <option>Mixer/Tonic</option><option>Water</option><option>Functional Water</option>
             </optgroup>
             <option>Other</option>
+            <option>Syrup</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="wine-block" class="two-col" style="display:none">
+        <div>
+          <label class="lbl">Wine style</label>
+          <select class="field" id="f-wine-style">
+            <option value="">—</option>
+            <option>Sparkling</option><option>Champagne</option><option>White</option>
+            <option>Rosé</option><option>Red</option><option>Dessert</option>
+          </select>
+        </div>
+        <div>
+          <label class="lbl">Sweetness</label>
+          <select class="field" id="f-wine-sweetness">
+            <option value="">—</option>
+            <option>Dry</option><option>Semi-dry</option><option>Semi-sweet</option><option>Sweet</option>
+          </select>
+        </div>
+        <div>
+          <label class="lbl">Source</label>
+          <select class="field" id="f-wine-source">
+            <option value="">—</option>
+            <option>Grape</option><option>Fruit</option><option>Homemade</option>
           </select>
         </div>
       </div>
@@ -447,14 +480,16 @@
             <option>Glass bottle</option>
             <option>Plastic bottle</option>
             <option>Can</option>
+            <option>Tetra pack</option>
           </select>
         </div>
         <div>
           <label class="lbl">Location</label>
           <select class="field" id="f-location">
             <option>Unknown</option>
-            <option>A</option><option>B</option><option>C</option>
-            <option>D</option><option>E</option><option>F</option>
+            <option>Cupboard 1</option><option>Cupboard 2</option><option>Cupboard 3</option>
+            <option>Cupboard 4</option><option>Cupboard 5</option>
+            <option>Curtain stash</option><option>Kitchen</option>
           </select>
         </div>
       </div>
@@ -795,10 +830,13 @@
   /* ============================================================
      Rendering
      ============================================================ */
-  const CAT_ORDER = ["Whisky", "Gin", "Rum", "Tequila", "Vodka", "Liqueur", "Wine", "Beer",
-    "Soda", "Energy Drink", "Juice", "Mixer", "Water", "Other"];
-  const GLYPHS = { Whisky:"🥃", Gin:"🍸", Rum:"🍹", Tequila:"🌵", Vodka:"❄", Liqueur:"🍷", Wine:"🍷", Beer:"🍺",
-    Soda:"🥤", "Energy Drink":"⚡", Juice:"🧃", Mixer:"🫧", Water:"💧", Other:"🍾" };
+  const CAT_ORDER = ["Whisky", "Brandy", "Cognac", "Rum", "Gin", "Vodka", "Tequila", "Liqueur",
+    "Wine", "Beer", "Cider", "Mead", "Cocktail", "Mocktail",
+    "Soda", "Juice", "Energy Drink", "Mixer/Tonic", "Water", "Functional Water", "Other", "Syrup"];
+  const GLYPHS = { Whisky:"🥃", Brandy:"🍑", Cognac:"🥃", Rum:"🍹", Gin:"🍸", Vodka:"❄", Tequila:"🌵", Liqueur:"🍷",
+    Wine:"🍷", Beer:"🍺", Cider:"🍎", Mead:"🍯", Cocktail:"🍸", Mocktail:"🍹",
+    Soda:"🥤", Juice:"🧃", "Energy Drink":"⚡", "Mixer/Tonic":"🫧", Water:"💧", "Functional Water":"🧪",
+    Other:"🍾", Syrup:"🍶" };
 
   function esc(s) {
     return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
@@ -997,6 +1035,9 @@
         const pills = [];
         pills.push(b.public ? '<span class="pill pub">On menu</span>' : '<span class="pill priv">Private</span>');
         if (b.container && b.container !== "Unknown") pills.push('<span class="pill cont">' + esc(b.container) + '</span>');
+        [b.wine_style, b.wine_sweetness, b.wine_source].forEach(function (w) {
+          if (w) pills.push('<span class="pill wine">' + esc(w) + '</span>');
+        });
         const levels = openedLevels(b);
         if (levels.length) {
           const lvlStr = levels.map(function (x) { return esc(x) + "%"; }).join(", ");
@@ -1142,6 +1183,9 @@
       $("f-qty").value = b.qty || 1;
       $("f-container").value = b.container || "Unknown";
       $("f-location").value = b.location || "Unknown";
+      $("f-wine-style").value = b.wine_style || "";
+      $("f-wine-sweetness").value = b.wine_sweetness || "";
+      $("f-wine-source").value = b.wine_source || "";
       const _levels = openedLevels(b);
       $("f-opened").checked = _levels.length > 0;
       setOpenedRows(_levels);
@@ -1161,8 +1205,14 @@
       setOpenedRows([]);
     }
     syncRemaining();
+    syncWine();
     showOverlay("form-overlay");
     setTimeout(function () { $("f-name").focus(); }, 300);
+  }
+
+  // Wine-only fields show only when category is Wine.
+  function syncWine() {
+    $("wine-block").style.display = ($("f-category").value === "Wine") ? "grid" : "none";
   }
 
   function syncRemaining() {
@@ -1214,6 +1264,9 @@
         volume_ml: parseInt($("f-volume").value, 10) || 0,
         container: $("f-container").value,
         location: $("f-location").value,
+        wine_style: $("f-category").value === "Wine" ? $("f-wine-style").value : "",
+        wine_sweetness: $("f-category").value === "Wine" ? $("f-wine-sweetness").value : "",
+        wine_source: $("f-category").value === "Wine" ? $("f-wine-source").value : "",
         qty: qty,
         opened: levels.length > 0,
         opened_qty: levels.length,
@@ -1604,6 +1657,7 @@
     $("form-cancel").addEventListener("click", function () { hideOverlay("form-overlay"); });
     $("f-opened").addEventListener("change", syncRemaining);
     $("f-qty").addEventListener("input", syncRemaining);
+    $("f-category").addEventListener("change", syncWine);
     $("add-opened").addEventListener("click", function () { makeOpenedRow(100); });
 
     $("btn-lookup").addEventListener("click", function () {

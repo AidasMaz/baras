@@ -267,6 +267,7 @@
   }
   .tag.opened { color: #d98b5f; border-color: rgba(217,139,95,0.35); }
   .tag.cont { color: #8fb6c9; border-color: rgba(143,182,201,0.4); }
+  .tag.wine { color: #c596c9; border-color: rgba(197,150,201,0.4); }
 
   .notes {
     max-height: 0;
@@ -456,13 +457,14 @@
 (function () {
   "use strict";
 
-  var CATEGORY_ORDER = ["Whisky", "Gin", "Rum", "Tequila", "Vodka", "Liqueur", "Wine", "Beer",
-    "Soda", "Energy Drink", "Juice", "Mixer", "Water", "Other"];
+  var CATEGORY_ORDER = ["Whisky", "Brandy", "Cognac", "Rum", "Gin", "Vodka", "Tequila", "Liqueur",
+    "Wine", "Beer", "Cider", "Mead", "Cocktail", "Mocktail",
+    "Soda", "Juice", "Energy Drink", "Mixer/Tonic", "Water", "Functional Water", "Other", "Syrup"];
   var GLYPHS = {
-    Whisky: "🥃", Gin: "🍸", Rum: "🍹", Tequila: "🌵", Vodka: "❄",
-    Liqueur: "🍷", Wine: "🍷", Beer: "🍺",
-    Soda: "🥤", "Energy Drink": "⚡", Juice: "🧃", Mixer: "🫧", Water: "💧",
-    Other: "🍾"
+    Whisky: "🥃", Brandy: "🍑", Cognac: "🥃", Rum: "🍹", Gin: "🍸", Vodka: "❄", Tequila: "🌵", Liqueur: "🍷",
+    Wine: "🍷", Beer: "🍺", Cider: "🍎", Mead: "🍯", Cocktail: "🍸", Mocktail: "🍹",
+    Soda: "🥤", Juice: "🧃", "Energy Drink": "⚡", "Mixer/Tonic": "🫧", Water: "💧", "Functional Water": "🧪",
+    Other: "🍾", Syrup: "🍶"
   };
 
   function esc(s) {
@@ -508,6 +510,9 @@
     var tags = [];
     if (b.category) tags.push('<span class="tag">' + esc(b.category) + "</span>");
     if (b.container && b.container !== "Unknown") tags.push('<span class="tag cont">' + esc(b.container) + "</span>");
+    [b.wine_style, b.wine_sweetness, b.wine_source].forEach(function (w) {
+      if (w) tags.push('<span class="tag wine">' + esc(w) + "</span>");
+    });
     if (b.qty > 1) tags.push('<span class="tag">×' + esc(b.qty) + "</span>");
     var levels = openedLevels(b);
     if (levels.length) {
