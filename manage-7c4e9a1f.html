@@ -112,14 +112,16 @@
   .brand h1 { font-weight: 700; font-size: 22px; }
   .brand h1 .amp { color: var(--gold); font-style: italic; font-family:"Cormorant Garamond",serif; }
   .iconbtn {
-    width: 42px; height: 42px; flex-shrink:0;
+    width: 46px; min-height: 44px; flex-shrink:0; padding: 4px 2px;
     border: 1px solid var(--line); border-radius: var(--radius);
     background: var(--panel); color: var(--gold-bright);
-    font-size: 17px; cursor: pointer; display:flex; align-items:center; justify-content:center;
+    font-size: 17px; cursor: pointer; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px;
     transition: border-color .2s ease;
   }
+  .iconbtn small { font-size: 8px; letter-spacing:.1em; text-transform:uppercase; color: var(--muted); font-family:"Josefin Sans",sans-serif; }
   .iconbtn:hover { border-color: var(--gold); }
-  .topbar-actions { display:flex; gap: 8px; }
+  .topbar-actions { display:flex; gap: 6px; }
+  @media (max-width: 420px) { .brand h1 { font-size: 18px; } .iconbtn { width: 42px; } }
 
   .statline {
     display:flex; gap: 16px; align-items:center; flex-wrap:wrap;
@@ -178,10 +180,11 @@
     padding: 12px 13px; margin-bottom: 10px;
   }
   .row .thumb {
-    width: 46px; height: 58px; flex-shrink:0; border-radius: 4px; object-fit: cover;
+    width: 64px; height: 80px; flex-shrink:0; border-radius: 4px; object-fit: cover;
     background: linear-gradient(160deg,#2a2018,#15100c); border:1px solid var(--line);
-    display:flex; align-items:center; justify-content:center; font-size: 22px; color: var(--gold-dim);
+    display:flex; align-items:center; justify-content:center; font-size: 28px; color: var(--gold-dim);
   }
+  img.thumb[data-full] { cursor: zoom-in; }
   .row-main { flex:1; min-width:0; }
   .row-main .nm { font-family:"Playfair Display",serif; font-weight:600; font-size: 17px; color: var(--cream); line-height:1.2; }
   .row-main .br { font-size: 11px; letter-spacing:.15em; text-transform:uppercase; color: var(--gold); margin-top:3px; }
@@ -194,9 +197,10 @@
   .pill.wine { color:#c596c9; border-color: rgba(197,150,201,.4); }
   .row-actions { flex-shrink:0; display:grid; grid-template-columns: 1fr 1fr; gap: 6px; }
   .iconbtn-sm {
-    width: 38px; height: 34px; border:1px solid var(--line); border-radius: var(--radius);
-    background: var(--field); color: var(--gold-bright); font-size: 15px; cursor: pointer;
-    display:flex; align-items:center; justify-content:center; transition: border-color .2s ease, background .2s ease;
+    min-width: 64px; height: 32px; padding: 0 8px; border:1px solid var(--line); border-radius: var(--radius);
+    background: var(--field); color: var(--gold-bright); font-size: 11px; letter-spacing:.04em; cursor: pointer;
+    display:flex; align-items:center; justify-content:center; gap: 4px; white-space:nowrap;
+    transition: border-color .2s ease, background .2s ease;
   }
   .iconbtn-sm:hover { border-color: var(--gold); }
   .iconbtn-sm.danger { color: var(--danger); border-color: rgba(194,91,74,.35); }
@@ -314,6 +318,30 @@
   .rev-card.off { opacity: .4; }
   .rev-pubrow { display:flex; align-items:center; gap:8px; font-size:12px; color:var(--muted); }
 
+  /* ---------- Cocktail picker ---------- */
+  .ck-group { margin-bottom: 16px; }
+  .ck-group h3 { font-family:"Playfair Display",serif; font-size: 14px; color: var(--gold-bright); margin-bottom: 6px; }
+  .ck-item { display:flex; align-items:center; gap: 10px; padding: 8px 4px; border-bottom: 1px solid rgba(201,162,75,.12); font-size: 14px; color: var(--cream); cursor: pointer; }
+  .ck-item input { width: 18px; height: 18px; accent-color: var(--gold); flex-shrink:0; }
+  .ck-item .ck-br { color: var(--muted); font-size: 11px; letter-spacing:.08em; text-transform:uppercase; }
+
+  /* ---------- Fun stats ---------- */
+  #stats {
+    margin-top: 26px; padding: 16px 14px; text-align:center;
+    border: 1px solid var(--line); border-radius: var(--radius); background: var(--panel);
+    color: var(--muted); font-size: 13px; letter-spacing: .04em; line-height: 1.7;
+  }
+  #stats b { color: var(--gold-bright); font-weight: 600; font-size: 16px; font-family:"Cormorant Garamond",serif; }
+  #stats .stat-row { display:flex; justify-content:center; gap: 22px; flex-wrap:wrap; }
+
+  /* ---------- Photo lightbox ---------- */
+  #lightbox { position: fixed; inset:0; z-index: 80; display:none; align-items:center; justify-content:center; padding:24px; background: rgba(4,3,2,0.92); backdrop-filter: blur(4px); cursor: zoom-out; }
+  #lightbox.show { display:flex; }
+  #lightbox figure { margin:0; text-align:center; max-width:100%; max-height:100%; }
+  #lightbox img { max-width: min(92vw,640px); max-height: 82vh; border-radius:6px; border:1px solid var(--line); box-shadow:0 20px 60px rgba(0,0,0,.6); }
+  #lightbox figcaption { margin-top:14px; color:var(--cream); font-family:"Playfair Display",serif; font-size:19px; }
+  #lightbox .close-hint { margin-top:6px; color:var(--muted); font-size:10px; letter-spacing:.25em; text-transform:uppercase; }
+
   .spin { display:inline-block; width:14px; height:14px; border:2px solid rgba(26,18,6,.3); border-top-color:#1a1206; border-radius:50%; animation: sp .7s linear infinite; }
   .btn.ghost .spin, .iconbtn .spin { border-color: rgba(201,162,75,.3); border-top-color: var(--gold); }
   @keyframes sp { to { transform: rotate(360deg); } }
@@ -344,10 +372,11 @@
       <h1 class="display">The <span class="amp">Cellar</span></h1>
     </div>
     <div class="topbar-actions">
-      <button class="iconbtn" id="btn-import" title="Scan bottles from a photo">📷</button>
-      <button class="iconbtn" id="btn-qr" title="QR Code">▣</button>
-      <button class="iconbtn" id="btn-settings" title="Settings">⚙</button>
-      <button class="iconbtn" id="btn-lock" title="Lock">⏏</button>
+      <button class="iconbtn" id="btn-import" title="Scan bottles from a photo"><span>📷</span><small>Scan</small></button>
+      <button class="iconbtn" id="btn-cocktail" title="Cocktail ideas"><span>🍸</span><small>Mix</small></button>
+      <button class="iconbtn" id="btn-qr" title="Guest menu QR code"><span>🔳</span><small>QR</small></button>
+      <button class="iconbtn" id="btn-settings" title="GitHub settings"><span>⚙️</span><small>Setup</small></button>
+      <button class="iconbtn" id="btn-lock" title="Lock the console"><span>🔒</span><small>Lock</small></button>
     </div>
   </div>
 
@@ -378,9 +407,18 @@
   </div>
 
   <div id="list"></div>
+  <div id="stats"></div>
 </div>
 
 <button class="fab" id="fab" style="display:none">＋ Add Bottle</button>
+
+<div id="lightbox">
+  <figure>
+    <img id="lightbox-img" src="" alt="" />
+    <figcaption id="lightbox-cap"></figcaption>
+    <div class="close-hint">Tap anywhere to close</div>
+  </figure>
+</div>
 
 <!-- ============ ADD / EDIT SHEET ============ -->
 <div class="overlay" id="form-overlay">
@@ -605,6 +643,21 @@
       <button type="button" class="btn ghost" id="import-cancel">Cancel</button>
       <button type="button" class="btn primary" id="import-parse">Review →</button>
       <button type="button" class="btn primary" id="import-save" style="display:none">Save All</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ COCKTAIL IDEAS SHEET ============ -->
+<div class="overlay" id="cocktail-overlay">
+  <div class="sheet">
+    <div class="grab"></div>
+    <h2 class="display">Cocktail Ideas</h2>
+    <div class="sheet-sub">Pick ingredients → ask Claude</div>
+    <p class="hint">Tick what you'd like to use, copy the prompt, and paste it into the Claude app for recipe ideas. No internet wizardry — it just builds the prompt from your shelf.</p>
+    <div id="cocktail-groups"></div>
+    <div class="sheet-actions">
+      <button type="button" class="btn ghost" id="cocktail-cancel">Close</button>
+      <button type="button" class="btn primary" id="cocktail-copy">⧉ Copy prompt</button>
     </div>
   </div>
 </div>
@@ -999,14 +1052,17 @@
     $("stat-opened").textContent = bottles.reduce(function (s, b) { return s + openedLevels(b).length; }, 0);
     const cfg = getCfg();
     $("stat-repo").textContent = cfg.repo ? cfg.repo + " @ " + cfg.branch : "no repo set";
+    renderStats(bottles);
 
     const list = $("list");
     if (!bottles.length) {
       $("filters").style.display = "none";
+      $("stats").style.display = "none";
       list.innerHTML = '<div class="empty"><span class="glyph">⟁</span>' +
         '<div class="serif">The cellar is empty.<br/>Tap “Add Bottle” to begin your collection.</div></div>';
       return;
     }
+    $("stats").style.display = "block";
 
     $("filters").style.display = "block";
     wireFilters();
@@ -1044,7 +1100,7 @@
         return (a.name || "").localeCompare(b.name || "");
       }).forEach(function (b) {
         const thumb = b.image_path
-          ? '<img class="thumb" src="' + esc(b.image_path) + '?t=' + Date.now() + '" alt="" onerror="this.outerHTML=\'<div class=&quot;thumb&quot;>' + (GLYPHS[b.category]||"🍾") + '</div>\'" />'
+          ? '<img class="thumb" data-full="' + esc(b.image_path) + '" data-nm="' + esc(b.name||"") + '" src="' + esc(b.image_path) + '?t=' + Date.now() + '" alt="" onerror="this.outerHTML=\'<div class=&quot;thumb&quot;>' + (GLYPHS[b.category]||"🍾") + '</div>\'" />'
           : '<div class="thumb">' + (GLYPHS[b.category]||"🍾") + '</div>';
         const mini = [];
         if (b.abv) mini.push(esc(b.abv) + "% ABV");
@@ -1072,10 +1128,10 @@
               '<div class="mini">' + pills.join(" ") + '</div>' +
             '</div>' +
             '<div class="row-actions">' +
-              '<button class="iconbtn-sm" data-pub="' + esc(b.id) + '" title="' + (b.public ? "Hide from menu" : "Show on menu") + '">' + (b.public ? "🙈" : "👁") + '</button>' +
-              '<button class="iconbtn-sm" data-drank="' + esc(b.id) + '" title="Drank one">🥃</button>' +
-              '<button class="iconbtn-sm" data-edit="' + esc(b.id) + '" title="Edit">✎</button>' +
-              '<button class="iconbtn-sm danger" data-del="' + esc(b.id) + '" title="Delete">🗑</button>' +
+              '<button class="iconbtn-sm" data-pub="' + esc(b.id) + '" title="' + (b.public ? "Hide from guest menu" : "Show on guest menu") + '">' + (b.public ? "🙈 Hide" : "👁 Show") + '</button>' +
+              '<button class="iconbtn-sm" data-drank="' + esc(b.id) + '" title="Mark one as drunk">🥃 Drank</button>' +
+              '<button class="iconbtn-sm" data-edit="' + esc(b.id) + '" title="Edit details">✎ Edit</button>' +
+              '<button class="iconbtn-sm danger" data-del="' + esc(b.id) + '" title="Delete bottle">🗑 Delete</button>' +
             '</div>' +
           '</div>';
       });
@@ -1100,6 +1156,30 @@
     list.querySelectorAll("[data-catshow]").forEach(function (btn) {
       btn.addEventListener("click", function () { bulkCategoryPublic(btn.getAttribute("data-catshow"), true); });
     });
+    list.querySelectorAll("img.thumb[data-full]").forEach(function (img) {
+      img.addEventListener("click", function () { openLightbox(img.getAttribute("data-full"), img.getAttribute("data-nm")); });
+    });
+  }
+
+  function renderStats(bottles) {
+    let alc = 0, non = 0;
+    bottles.forEach(function (b) {
+      const litres = ((b.volume_ml || 0) * (b.qty > 0 ? b.qty : 1)) / 1000;
+      if ((Number(b.abv) || 0) > 0) alc += litres; else non += litres;
+    });
+    $("stats").innerHTML =
+      '<div class="stat-row">' +
+        '<span>🥃 <b>' + alc.toFixed(1) + ' L</b> alcoholic</span>' +
+        '<span>🧃 <b>' + non.toFixed(1) + ' L</b> non-alcoholic</span>' +
+        '<span>🍾 <b>' + (alc + non).toFixed(1) + ' L</b> total in the bar</span>' +
+      '</div>';
+  }
+
+  function openLightbox(src, caption) {
+    if (!src) return;
+    $("lightbox-img").src = src;
+    $("lightbox-cap").textContent = caption || "";
+    $("lightbox").classList.add("show");
   }
 
   /* ============================================================
@@ -1427,6 +1507,52 @@
     "If a value is unknown use \"\" for text or 0 for numbers.\n" +
     "Example: [{\"name\":\"12 Year Single Malt\",\"brand\":\"Glenfiddich\",\"category\":\"Whisky\",\"abv\":40,\"volume_ml\":700,\"qty\":1,\"notes\":\"12 yo\"}]";
 
+  /* ----- Cocktail idea helper (build a prompt for the Claude app) ----- */
+  const CK_GROUPS = [
+    { title: "Spirits & Liqueurs", cats: ["Whisky", "Brandy", "Cognac", "Rum", "Gin", "Vodka", "Tequila", "Liqueur"] },
+    { title: "Syrups", cats: ["Syrup"] },
+    { title: "Mixers, Juices & Sodas", cats: ["Juice", "Soda", "Mixer/Tonic", "Functional Water", "Energy Drink", "Water"] }
+  ];
+
+  function openCocktail() {
+    const cont = $("cocktail-groups");
+    cont.innerHTML = "";
+    const bottles = (CELLAR.bottles || []);
+    CK_GROUPS.forEach(function (g) {
+      const items = bottles.filter(function (b) { return g.cats.indexOf(b.category || "Other") > -1; })
+        .sort(function (a, b) { return (a.name || "").localeCompare(b.name || ""); });
+      if (!items.length) return;
+      let h = '<div class="ck-group"><h3>' + esc(g.title) + "</h3>";
+      items.forEach(function (b) {
+        const label = b.name + (b.brand ? " · " + b.brand : "");
+        h += '<label class="ck-item"><input type="checkbox" class="ck-pick" value="' + esc(label) + '" />' +
+             '<span>' + esc(b.name || "Unnamed") + (b.brand ? ' <span class="ck-br">' + esc(b.brand) + '</span>' : "") + "</span></label>";
+      });
+      h += "</div>";
+      cont.innerHTML += h;
+    });
+    if (!cont.innerHTML) cont.innerHTML = '<p class="hint">No usable ingredients yet — add some bottles first.</p>';
+    showOverlay("cocktail-overlay");
+  }
+
+  function copyCocktailPrompt() {
+    const picked = [];
+    $("cocktail-groups").querySelectorAll(".ck-pick:checked").forEach(function (c) { picked.push(c.value); });
+    if (!picked.length) { toast("Tick at least one ingredient.", "err"); return; }
+    const prompt =
+      "I want to make a drink at home. Using ONLY the ingredients I list below (plus common " +
+      "basics like ice, water, sugar and fresh citrus), suggest 3–5 simple cocktails or " +
+      "mocktails. For each: a name, the exact ingredients with measures, and short steps. " +
+      "Flag clearly if a recipe needs something I didn't list.\n\nMy ingredients:\n- " +
+      picked.join("\n- ");
+    const done = function () { toast("Prompt copied — paste it into the Claude app.", "ok"); };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(prompt).then(done).catch(function () { window.prompt("Copy this prompt:", prompt); });
+    } else {
+      window.prompt("Copy this prompt:", prompt);
+    }
+  }
+
   function openImport() {
     const cfg = getCfg();
     if (!cfg.token || !cfg.repo) { toast("Connect your repo first (⚙).", "err"); showOverlay("settings-overlay"); return; }
@@ -1663,14 +1789,21 @@
 
     $("fab").addEventListener("click", function () { openForm(null); });
     $("btn-import").addEventListener("click", openImport);
+    $("btn-cocktail").addEventListener("click", openCocktail);
     $("btn-qr").addEventListener("click", openQR);
     $("btn-settings").addEventListener("click", openSettings);
     $("btn-lock").addEventListener("click", lock);
+
+    $("lightbox").addEventListener("click", function () { this.classList.remove("show"); });
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape") $("lightbox").classList.remove("show"); });
 
     $("import-copy").addEventListener("click", copyImportPrompt);
     $("import-parse").addEventListener("click", parseImport);
     $("import-save").addEventListener("click", saveImport);
     $("import-cancel").addEventListener("click", function () { hideOverlay("import-overlay"); });
+
+    $("cocktail-copy").addEventListener("click", copyCocktailPrompt);
+    $("cocktail-cancel").addEventListener("click", function () { hideOverlay("cocktail-overlay"); });
 
     $("bottle-form").addEventListener("submit", saveBottle);
     $("form-cancel").addEventListener("click", function () { hideOverlay("form-overlay"); });
