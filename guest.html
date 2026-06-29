@@ -511,7 +511,7 @@
     var tags = [];
     if (b.category) tags.push('<span class="tag">' + esc(b.category) + "</span>");
     if (b.container && b.container !== "Unknown") tags.push('<span class="tag cont">' + esc(b.container) + "</span>");
-    [b.wine_style, b.wine_sweetness, b.wine_source].forEach(function (w) {
+    [b.wine_type, b.wine_color, b.wine_sweetness, b.wine_source].forEach(function (w) {
       if (w) tags.push('<span class="tag wine">' + esc(w) + "</span>");
     });
     if (b.qty > 1) tags.push('<span class="tag">×' + esc(b.qty) + "</span>");

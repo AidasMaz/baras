@@ -476,11 +476,17 @@
 
       <div id="wine-block" class="two-col" style="display:none">
         <div>
-          <label class="lbl">Wine style</label>
-          <select class="field" id="f-wine-style">
+          <label class="lbl">Wine type</label>
+          <select class="field" id="f-wine-type">
             <option value="">—</option>
-            <option>Sparkling</option><option>Champagne</option><option>White</option>
-            <option>Rosé</option><option>Red</option><option>Dessert</option>
+            <option>Still</option><option>Sparkling</option><option>Champagne</option>
+          </select>
+        </div>
+        <div>
+          <label class="lbl">Colour</label>
+          <select class="field" id="f-wine-color">
+            <option value="">—</option>
+            <option>White</option><option>Rosé</option><option>Red</option>
           </select>
         </div>
         <div>
@@ -1110,7 +1116,7 @@
         const pills = [];
         pills.push(b.public ? '<span class="pill pub">On menu</span>' : '<span class="pill priv">Private</span>');
         if (b.container && b.container !== "Unknown") pills.push('<span class="pill cont">' + esc(b.container) + '</span>');
-        [b.wine_style, b.wine_sweetness, b.wine_source].forEach(function (w) {
+        [b.wine_type, b.wine_color, b.wine_sweetness, b.wine_source].forEach(function (w) {
           if (w) pills.push('<span class="pill wine">' + esc(w) + '</span>');
         });
         const levels = openedLevels(b);
@@ -1282,7 +1288,8 @@
       $("f-qty").value = b.qty || 1;
       $("f-container").value = b.container || "Unknown";
       $("f-location").value = b.location || "Unknown";
-      $("f-wine-style").value = b.wine_style || "";
+      $("f-wine-type").value = b.wine_type || "";
+      $("f-wine-color").value = b.wine_color || "";
       $("f-wine-sweetness").value = b.wine_sweetness || "";
       $("f-wine-source").value = b.wine_source || "";
       const _levels = openedLevels(b);
@@ -1363,7 +1370,8 @@
         volume_ml: parseInt($("f-volume").value, 10) || 0,
         container: $("f-container").value,
         location: $("f-location").value,
-        wine_style: $("f-category").value === "Wine" ? $("f-wine-style").value : "",
+        wine_type: $("f-category").value === "Wine" ? $("f-wine-type").value : "",
+        wine_color: $("f-category").value === "Wine" ? $("f-wine-color").value : "",
         wine_sweetness: $("f-category").value === "Wine" ? $("f-wine-sweetness").value : "",
         wine_source: $("f-category").value === "Wine" ? $("f-wine-source").value : "",
         qty: qty,
