@@ -1007,13 +1007,36 @@
     }
     return true;
   }
+  const CAT_GROUPS = [
+    ["Spirits", ["Whisky", "Brandy", "Cognac", "Rum", "Gin", "Vodka", "Tequila", "Liqueur"]],
+    ["Wine, Beer & Cider", ["Wine", "Beer", "Cider", "Mead"]],
+    ["Mixed", ["Cocktail", "Mocktail"]],
+    ["Non-Alcoholic", ["Soda", "Juice", "Energy Drink", "Mixer/Tonic", "Water", "Functional Water"]],
+    ["Other", ["Other", "Syrup"]]
+  ];
+  function buildTypeSelect(present) {
+    let html = '<option value="all">All types</option>';
+    const used = {};
+    CAT_GROUPS.forEach(function (g) {
+      const inGroup = g[1].filter(function (c) { return present[c]; });
+      if (!inGroup.length) return;
+      html += '<optgroup label="' + esc(g[0]) + '">';
+      inGroup.forEach(function (c) { html += '<option value="' + esc(c) + '">' + esc(c) + "</option>"; used[c] = true; });
+      html += "</optgroup>";
+    });
+    Object.keys(present).forEach(function (c) {
+      if (!used[c]) html += '<option value="' + esc(c) + '">' + esc(c) + "</option>";
+    });
+    const sel = $("type-select");
+    sel.innerHTML = html;
+    if (FILTER.type !== "all" && !present[FILTER.type]) FILTER.type = "all";
+    sel.value = FILTER.type;
+  }
   function buildTypeOptions() {
-    // category dropdown — all categories present in the data, ordered
+    // category dropdown — grouped, only categories present in the data
     const present = {};
     (CELLAR.bottles || []).forEach(function (b) { present[b.category || "Other"] = true; });
-    let cats = CAT_ORDER.filter(function (c) { return present[c]; });
-    Object.keys(present).forEach(function (c) { if (CAT_ORDER.indexOf(c) === -1) cats.push(c); });
-    fillSelect("type-select", "All types", cats, "type");
+    buildTypeSelect(present);
     // container + location dropdowns — values present in the data
     fillSelect("container-select", "Any container", presentValues("container", "Unknown"), "container");
     fillSelect("location-select", "Any location", presentValues("location", "Unknown"), "location");

@@ -658,16 +658,29 @@
   var FILTER = { q: "", group: "all", type: "all", status: "all", container: "all" };
   // group is ABV-based: alcoholic = abv>0, non-alcoholic = abv===0
 
+  var CAT_GROUPS = [
+    ["Spirits", ["Whisky", "Brandy", "Cognac", "Rum", "Gin", "Vodka", "Tequila", "Liqueur"]],
+    ["Wine, Beer & Cider", ["Wine", "Beer", "Cider", "Mead"]],
+    ["Mixed", ["Cocktail", "Mocktail"]],
+    ["Non-Alcoholic", ["Soda", "Juice", "Energy Drink", "Mixer/Tonic", "Water", "Functional Water"]],
+    ["Other", ["Other", "Syrup"]]
+  ];
   function buildTypeOptions() {
     var present = {};
     MENU.forEach(function (b) { present[b.category || "Other"] = true; });
-    var cats = CATEGORY_ORDER.filter(function (c) { return present[c]; });
-    Object.keys(present).forEach(function (c) { if (CATEGORY_ORDER.indexOf(c) === -1) cats.push(c); });
     var sel = document.getElementById("type-select");
     var html = '<option value="all">All types</option>';
-    cats.forEach(function (c) { html += '<option value="' + esc(c) + '">' + esc(c) + "</option>"; });
+    var used = {};
+    CAT_GROUPS.forEach(function (g) {
+      var inGroup = g[1].filter(function (c) { return present[c]; });
+      if (!inGroup.length) return;
+      html += '<optgroup label="' + esc(g[0]) + '">';
+      inGroup.forEach(function (c) { html += '<option value="' + esc(c) + '">' + esc(c) + "</option>"; used[c] = true; });
+      html += "</optgroup>";
+    });
+    Object.keys(present).forEach(function (c) { if (!used[c]) html += '<option value="' + esc(c) + '">' + esc(c) + "</option>"; });
     sel.innerHTML = html;
-    if (FILTER.type !== "all" && cats.indexOf(FILTER.type) === -1) FILTER.type = "all";
+    if (FILTER.type !== "all" && !present[FILTER.type]) FILTER.type = "all";
     sel.value = FILTER.type;
     // container filter
     var conts = {};
