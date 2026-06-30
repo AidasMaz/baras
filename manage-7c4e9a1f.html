@@ -408,6 +408,7 @@
       <option value="cat">Sort: by category</option>
       <option value="opened_old">Sort: oldest opened first</option>
       <option value="opened_new">Sort: newest opened first</option>
+      <option value="left_low">Sort: least left first (finish these)</option>
     </select>
   </div>
 
@@ -1144,25 +1145,33 @@
     }
 
     let html = "";
-    if (FILTER.sort === "opened_old" || FILTER.sort === "opened_new") {
-      // flat list of opened bottles, ordered by date opened (missing dates last)
+    if (FILTER.sort === "opened_old" || FILTER.sort === "opened_new" || FILTER.sort === "left_low") {
+      // flat list of opened bottles
+      const minLevel = function (b) { return Math.min.apply(null, openedLevels(b)); };
       const opened = visible.filter(function (b) { return openedLevels(b).length > 0; });
       if (!opened.length) {
         list.innerHTML = '<div class="empty"><span class="glyph">⟁</span>' +
           '<div class="serif">No opened bottles match.</div></div>';
         return;
       }
-      opened.sort(function (a, b) {
-        const da = a.opened_date || "", db = b.opened_date || "";
-        if (!da && !db) return (a.name || "").localeCompare(b.name || "");
-        if (!da) return 1;
-        if (!db) return -1;
-        const cmp = da.localeCompare(db); // ascending = oldest first
-        return FILTER.sort === "opened_new" ? -cmp : cmp;
-      });
-      html += '<div class="cat-label">' +
-        (FILTER.sort === "opened_old" ? "Opened — oldest first 🍂" : "Opened — newest first") +
-        '<span class="filler"></span></div>';
+      let heading;
+      if (FILTER.sort === "left_low") {
+        opened.sort(function (a, b) {
+          return minLevel(a) - minLevel(b) || (a.name || "").localeCompare(b.name || "");
+        });
+        heading = "Least left first 🫗";
+      } else {
+        opened.sort(function (a, b) {
+          const da = a.opened_date || "", db = b.opened_date || "";
+          if (!da && !db) return (a.name || "").localeCompare(b.name || "");
+          if (!da) return 1;
+          if (!db) return -1;
+          const cmp = da.localeCompare(db); // ascending = oldest first
+          return FILTER.sort === "opened_new" ? -cmp : cmp;
+        });
+        heading = FILTER.sort === "opened_old" ? "Opened — oldest first 🍂" : "Opened — newest first";
+      }
+      html += '<div class="cat-label">' + heading + '<span class="filler"></span></div>';
       opened.forEach(function (b) { html += bottleRow(b); });
     } else {
       const groups = {};
