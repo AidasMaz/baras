@@ -404,6 +404,11 @@
       <select id="container-select" class="type-select" style="margin-top:0"><option value="all">Any container</option></select>
       <select id="location-select" class="type-select" style="margin-top:0"><option value="all">Any location</option></select>
     </div>
+    <select id="sort-select" class="type-select" style="margin-top:10px">
+      <option value="cat">Sort: by category</option>
+      <option value="opened_old">Sort: oldest opened first</option>
+      <option value="opened_new">Sort: newest opened first</option>
+    </select>
   </div>
 
   <div id="list"></div>
@@ -553,6 +558,11 @@
         <div id="opened-list"></div>
         <button type="button" class="btn ghost sm" id="add-opened" style="margin-top:2px">＋ Another opened bottle</button>
         <div class="hint">e.g. 45 in stock, 2 opened at 60% and 30% — the rest stay sealed.</div>
+        <div style="margin-top:14px">
+          <label class="lbl">Date opened</label>
+          <input class="field" id="f-opened-date" type="date" />
+          <div class="hint">Used to drink the oldest opened bottles first.</div>
+        </div>
       </div>
 
       <div>
@@ -978,7 +988,7 @@
   }
 
   /* ---------- Filtering ---------- */
-  const FILTER = { q: "", group: "all", type: "all", status: "all", container: "all", location: "all" };
+  const FILTER = { q: "", group: "all", type: "all", status: "all", container: "all", location: "all", sort: "cat" };
   // group is ABV-based: alcoholic = abv>0, non-alcoholic = abv===0
   function matchesFilter(b) {
     const cat = b.category || "Other";
@@ -1048,6 +1058,58 @@
     $("type-select").addEventListener("change", function () { FILTER.type = this.value; render(); });
     $("container-select").addEventListener("change", function () { FILTER.container = this.value; render(); });
     $("location-select").addEventListener("change", function () { FILTER.location = this.value; render(); });
+    $("sort-select").addEventListener("change", function () { FILTER.sort = this.value; render(); });
+  }
+
+  function daysSince(dateStr) {
+    if (!dateStr) return null;
+    const d = new Date(dateStr + "T00:00:00");
+    if (isNaN(d.getTime())) return null;
+    return Math.max(0, Math.floor((Date.now() - d.getTime()) / 86400000));
+  }
+  function fmtOpenedDate(dateStr) {
+    if (!dateStr) return "";
+    const n = daysSince(dateStr);
+    return "🗓 opened " + dateStr + (n != null ? " · " + n + "d ago" : "");
+  }
+
+  // Build one bottle row (reused by the grouped and sorted views).
+  function bottleRow(b) {
+    const thumb = b.image_path
+      ? '<img class="thumb" data-full="' + esc(b.image_path) + '" data-nm="' + esc(b.name||"") + '" src="' + esc(b.image_path) + '?t=' + Date.now() + '" alt="" onerror="this.outerHTML=\'<div class=&quot;thumb&quot;>' + (GLYPHS[b.category]||"🍾") + '</div>\'" />'
+      : '<div class="thumb">' + (GLYPHS[b.category]||"🍾") + '</div>';
+    const mini = [];
+    if (b.abv) mini.push(esc(b.abv) + "% ABV");
+    if (b.volume_ml) mini.push(esc(fmtVol(b.volume_ml)));
+    if (b.qty > 1) mini.push("×" + esc(b.qty));
+    if (b.location && b.location !== "Unknown") mini.push("📍 " + esc(b.location));
+    if (b.opened_date && openedLevels(b).length) mini.push(esc(fmtOpenedDate(b.opened_date)));
+    const pills = [];
+    pills.push(b.public ? '<span class="pill pub">On menu</span>' : '<span class="pill priv">Private</span>');
+    if (b.container && b.container !== "Unknown") pills.push('<span class="pill cont">' + esc(b.container) + '</span>');
+    [b.wine_type, b.wine_color, b.wine_sweetness, b.wine_source].forEach(function (w) {
+      if (w) pills.push('<span class="pill wine">' + esc(w) + '</span>');
+    });
+    const levels = openedLevels(b);
+    if (levels.length) {
+      const lvlStr = levels.map(function (x) { return esc(x) + "%"; }).join(", ");
+      const olabel = (b.qty > 1 ? esc(levels.length) + " of " + esc(b.qty) + " opened · " : "Opened · ") + lvlStr;
+      pills.push('<span class="pill opened">' + olabel + '</span>');
+    }
+    return '<div class="row">' + thumb +
+        '<div class="row-main">' +
+          '<div class="nm">' + esc(b.name||"Unnamed") + '</div>' +
+          (b.brand ? '<div class="br">' + esc(b.brand) + '</div>' : '') +
+          (mini.length ? '<div class="mini">' + mini.map(function(m){return '<span>'+m+'</span>';}).join("") + '</div>' : '') +
+          '<div class="mini">' + pills.join(" ") + '</div>' +
+        '</div>' +
+        '<div class="row-actions">' +
+          '<button class="iconbtn-sm" data-pub="' + esc(b.id) + '" title="' + (b.public ? "Hide from guest menu" : "Show on guest menu") + '">' + (b.public ? "🙈 Hide" : "👁 Show") + '</button>' +
+          '<button class="iconbtn-sm" data-drank="' + esc(b.id) + '" title="Mark one as drunk">🥃 Drank</button>' +
+          '<button class="iconbtn-sm" data-edit="' + esc(b.id) + '" title="Edit details">✎ Edit</button>' +
+          '<button class="iconbtn-sm danger" data-del="' + esc(b.id) + '" title="Delete bottle">🗑 Delete</button>' +
+        '</div>' +
+      '</div>';
   }
 
   function render() {
@@ -1081,67 +1143,52 @@
       return;
     }
 
-    const groups = {};
-    visible.forEach(function (b) { (groups[b.category || "Other"] = groups[b.category || "Other"] || []).push(b); });
-    const cats = Object.keys(groups).sort(function (a, b) {
-      let ia = CAT_ORDER.indexOf(a), ib = CAT_ORDER.indexOf(b);
-      if (ia === -1) ia = 99; if (ib === -1) ib = 99;
-      return ia - ib || a.localeCompare(b);
-    });
-
     let html = "";
-    cats.forEach(function (cat) {
-      // bulk hide/show acts on ALL bottles in this category, not just the filtered view
-      const allInCat = bottles.filter(function (b) { return (b.category || "Other") === cat; });
-      const anyPublic = allInCat.some(function (b) { return b.public; });
-      const bulkBtn = anyPublic
-        ? '<button class="cat-bulk" data-cathide="' + esc(cat) + '">Hide all</button>'
-        : '<button class="cat-bulk" data-catshow="' + esc(cat) + '">Show all</button>';
-      html += '<div class="cat-label">' + esc(cat) + '<span class="filler"></span>' + bulkBtn + '</div>';
-
-      // opened bottles first, then alphabetical
-      groups[cat].sort(function (a, b) {
-        const ao = openedLevels(a).length > 0 ? 0 : 1, bo = openedLevels(b).length > 0 ? 0 : 1;
-        if (ao !== bo) return ao - bo;
-        return (a.name || "").localeCompare(b.name || "");
-      }).forEach(function (b) {
-        const thumb = b.image_path
-          ? '<img class="thumb" data-full="' + esc(b.image_path) + '" data-nm="' + esc(b.name||"") + '" src="' + esc(b.image_path) + '?t=' + Date.now() + '" alt="" onerror="this.outerHTML=\'<div class=&quot;thumb&quot;>' + (GLYPHS[b.category]||"🍾") + '</div>\'" />'
-          : '<div class="thumb">' + (GLYPHS[b.category]||"🍾") + '</div>';
-        const mini = [];
-        if (b.abv) mini.push(esc(b.abv) + "% ABV");
-        if (b.volume_ml) mini.push(esc(fmtVol(b.volume_ml)));
-        if (b.qty > 1) mini.push("×" + esc(b.qty));
-        if (b.location && b.location !== "Unknown") mini.push("📍 " + esc(b.location));
-        const pills = [];
-        pills.push(b.public ? '<span class="pill pub">On menu</span>' : '<span class="pill priv">Private</span>');
-        if (b.container && b.container !== "Unknown") pills.push('<span class="pill cont">' + esc(b.container) + '</span>');
-        [b.wine_type, b.wine_color, b.wine_sweetness, b.wine_source].forEach(function (w) {
-          if (w) pills.push('<span class="pill wine">' + esc(w) + '</span>');
-        });
-        const levels = openedLevels(b);
-        if (levels.length) {
-          const lvlStr = levels.map(function (x) { return esc(x) + "%"; }).join(", ");
-          const olabel = (b.qty > 1 ? esc(levels.length) + " of " + esc(b.qty) + " opened · " : "Opened · ") + lvlStr;
-          pills.push('<span class="pill opened">' + olabel + '</span>');
-        }
-        html +=
-          '<div class="row">' + thumb +
-            '<div class="row-main">' +
-              '<div class="nm">' + esc(b.name||"Unnamed") + '</div>' +
-              (b.brand ? '<div class="br">' + esc(b.brand) + '</div>' : '') +
-              (mini.length ? '<div class="mini">' + mini.map(function(m){return '<span>'+m+'</span>';}).join("") + '</div>' : '') +
-              '<div class="mini">' + pills.join(" ") + '</div>' +
-            '</div>' +
-            '<div class="row-actions">' +
-              '<button class="iconbtn-sm" data-pub="' + esc(b.id) + '" title="' + (b.public ? "Hide from guest menu" : "Show on guest menu") + '">' + (b.public ? "🙈 Hide" : "👁 Show") + '</button>' +
-              '<button class="iconbtn-sm" data-drank="' + esc(b.id) + '" title="Mark one as drunk">🥃 Drank</button>' +
-              '<button class="iconbtn-sm" data-edit="' + esc(b.id) + '" title="Edit details">✎ Edit</button>' +
-              '<button class="iconbtn-sm danger" data-del="' + esc(b.id) + '" title="Delete bottle">🗑 Delete</button>' +
-            '</div>' +
-          '</div>';
+    if (FILTER.sort === "opened_old" || FILTER.sort === "opened_new") {
+      // flat list of opened bottles, ordered by date opened (missing dates last)
+      const opened = visible.filter(function (b) { return openedLevels(b).length > 0; });
+      if (!opened.length) {
+        list.innerHTML = '<div class="empty"><span class="glyph">⟁</span>' +
+          '<div class="serif">No opened bottles match.</div></div>';
+        return;
+      }
+      opened.sort(function (a, b) {
+        const da = a.opened_date || "", db = b.opened_date || "";
+        if (!da && !db) return (a.name || "").localeCompare(b.name || "");
+        if (!da) return 1;
+        if (!db) return -1;
+        const cmp = da.localeCompare(db); // ascending = oldest first
+        return FILTER.sort === "opened_new" ? -cmp : cmp;
       });
-    });
+      html += '<div class="cat-label">' +
+        (FILTER.sort === "opened_old" ? "Opened — oldest first 🍂" : "Opened — newest first") +
+        '<span class="filler"></span></div>';
+      opened.forEach(function (b) { html += bottleRow(b); });
+    } else {
+      const groups = {};
+      visible.forEach(function (b) { (groups[b.category || "Other"] = groups[b.category || "Other"] || []).push(b); });
+      const cats = Object.keys(groups).sort(function (a, b) {
+        let ia = CAT_ORDER.indexOf(a), ib = CAT_ORDER.indexOf(b);
+        if (ia === -1) ia = 99; if (ib === -1) ib = 99;
+        return ia - ib || a.localeCompare(b);
+      });
+      cats.forEach(function (cat) {
+        // bulk hide/show acts on ALL bottles in this category, not just the filtered view
+        const allInCat = bottles.filter(function (b) { return (b.category || "Other") === cat; });
+        const anyPublic = allInCat.some(function (b) { return b.public; });
+        const bulkBtn = anyPublic
+          ? '<button class="cat-bulk" data-cathide="' + esc(cat) + '">Hide all</button>'
+          : '<button class="cat-bulk" data-catshow="' + esc(cat) + '">Show all</button>';
+        html += '<div class="cat-label">' + esc(cat) + '<span class="filler"></span>' + bulkBtn + '</div>';
+
+        // opened bottles first, then alphabetical
+        groups[cat].sort(function (a, b) {
+          const ao = openedLevels(a).length > 0 ? 0 : 1, bo = openedLevels(b).length > 0 ? 0 : 1;
+          if (ao !== bo) return ao - bo;
+          return (a.name || "").localeCompare(b.name || "");
+        }).forEach(function (b) { html += bottleRow(b); });
+      });
+    }
     list.innerHTML = html;
 
     list.querySelectorAll("[data-edit]").forEach(function (btn) {
@@ -1295,6 +1342,7 @@
       const _levels = openedLevels(b);
       $("f-opened").checked = _levels.length > 0;
       setOpenedRows(_levels);
+      $("f-opened-date").value = b.opened_date || "";
       $("f-notes").value = b.notes || "";
       $("f-public").checked = b.public !== false;
       if (b.image_path) {
@@ -1319,6 +1367,11 @@
   // Wine-only fields show only when category is Wine.
   function syncWine() {
     $("wine-block").style.display = ($("f-category").value === "Wine") ? "grid" : "none";
+  }
+
+  function todayStr() {
+    const d = new Date();
+    return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
   }
 
   function syncRemaining() {
@@ -1378,6 +1431,7 @@
         opened: levels.length > 0,
         opened_qty: levels.length,
         opened_levels: levels,
+        opened_date: levels.length ? ($("f-opened-date").value || "") : "",
         remaining_pct: levels.length ? levels[0] : 100,
         notes: $("f-notes").value.trim(),
         image_path: existing ? (existing.image_path || "") : "",
@@ -1815,7 +1869,11 @@
 
     $("bottle-form").addEventListener("submit", saveBottle);
     $("form-cancel").addEventListener("click", function () { hideOverlay("form-overlay"); });
-    $("f-opened").addEventListener("change", syncRemaining);
+    $("f-opened").addEventListener("change", function () {
+      // stamp today only when newly ticking a bottle open
+      if (this.checked && !$("f-opened-date").value) $("f-opened-date").value = todayStr();
+      syncRemaining();
+    });
     $("f-qty").addEventListener("input", syncRemaining);
     $("f-category").addEventListener("change", syncWine);
     $("add-opened").addEventListener("click", function () { makeOpenedRow(100); });
