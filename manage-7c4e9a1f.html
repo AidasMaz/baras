@@ -318,6 +318,25 @@
   .rev-card.off { opacity: .4; }
   .rev-pubrow { display:flex; align-items:center; gap:8px; font-size:12px; color:var(--muted); }
 
+  /* ---------- Surprise me ---------- */
+  #btn-surprise {
+    width: 100%; margin-top: 12px; cursor: pointer;
+    font-family: "Josefin Sans", sans-serif; letter-spacing: 0.2em; text-transform: uppercase; font-size: 12px;
+    color: #1a1206; background: linear-gradient(180deg, var(--gold-bright), var(--gold-dim));
+    border: 1px solid var(--gold); border-radius: 999px; padding: 13px;
+  }
+  #btn-surprise:active { transform: scale(.98); }
+  .mood-list { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 6px; }
+  .mood-btn {
+    font-family: "Cormorant Garamond", serif; font-size: 17px; color: var(--cream);
+    background: var(--field); border: 1px solid var(--line); border-radius: 10px;
+    padding: 15px 10px; cursor: pointer; transition: border-color .2s ease, background .2s ease;
+    display: flex; flex-direction: column; align-items: center; gap: 6px; text-align: center;
+  }
+  .mood-btn:hover { border-color: var(--gold); background: rgba(201,162,75,0.08); }
+  .mood-btn .em { font-size: 24px; }
+  #sm-results .row { margin-bottom: 10px; }
+
   /* ---------- Cocktail picker ---------- */
   .ck-group { margin-bottom: 16px; }
   .ck-group h3 { font-family:"Playfair Display",serif; font-size: 14px; color: var(--gold-bright); margin-bottom: 6px; }
@@ -410,6 +429,7 @@
       <option value="opened_new">Sort: newest opened first</option>
       <option value="left_low">Sort: least left first (finish these)</option>
     </select>
+    <button type="button" id="btn-surprise">🎲 Surprise Me</button>
   </div>
 
   <div id="list"></div>
@@ -675,6 +695,27 @@
     <div class="sheet-actions">
       <button type="button" class="btn ghost" id="cocktail-cancel">Close</button>
       <button type="button" class="btn primary" id="cocktail-copy">⧉ Copy prompt</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ SURPRISE ME SHEET ============ -->
+<div class="overlay" id="surprise-overlay">
+  <div class="sheet">
+    <div class="grab"></div>
+    <div id="sm-step1">
+      <h2 class="display">Surprise Me</h2>
+      <div class="sheet-sub">What are you in the mood for?</div>
+      <div id="sm-mood-list" class="mood-list"></div>
+    </div>
+    <div id="sm-step2" style="display:none">
+      <h2 class="display">Three for you</h2>
+      <div class="sheet-sub" id="sm-kind"></div>
+      <div id="sm-results"></div>
+      <div class="sheet-actions">
+        <button type="button" class="btn ghost" id="sm-back">‹ Back</button>
+        <button type="button" class="btn primary" id="sm-shuffle">🎲 Shuffle</button>
+      </div>
     </div>
   </div>
 </div>
@@ -1222,28 +1263,95 @@
       });
     }
     list.innerHTML = html;
+    wireRowActions(list);
+  }
 
-    list.querySelectorAll("[data-edit]").forEach(function (btn) {
+  // Wire the action buttons / thumbnails inside any container of bottle rows.
+  function wireRowActions(root) {
+    root.querySelectorAll("[data-edit]").forEach(function (btn) {
       btn.addEventListener("click", function () { openForm(btn.getAttribute("data-edit")); });
     });
-    list.querySelectorAll("[data-del]").forEach(function (btn) {
+    root.querySelectorAll("[data-del]").forEach(function (btn) {
       btn.addEventListener("click", function () { deleteBottle(btn.getAttribute("data-del")); });
     });
-    list.querySelectorAll("[data-pub]").forEach(function (btn) {
+    root.querySelectorAll("[data-pub]").forEach(function (btn) {
       btn.addEventListener("click", function () { quickTogglePublic(btn.getAttribute("data-pub")); });
     });
-    list.querySelectorAll("[data-drank]").forEach(function (btn) {
+    root.querySelectorAll("[data-drank]").forEach(function (btn) {
       btn.addEventListener("click", function () { drankOne(btn.getAttribute("data-drank")); });
     });
-    list.querySelectorAll("[data-cathide]").forEach(function (btn) {
+    root.querySelectorAll("[data-cathide]").forEach(function (btn) {
       btn.addEventListener("click", function () { bulkCategoryPublic(btn.getAttribute("data-cathide"), false); });
     });
-    list.querySelectorAll("[data-catshow]").forEach(function (btn) {
+    root.querySelectorAll("[data-catshow]").forEach(function (btn) {
       btn.addEventListener("click", function () { bulkCategoryPublic(btn.getAttribute("data-catshow"), true); });
     });
-    list.querySelectorAll("img.thumb[data-full]").forEach(function (img) {
+    root.querySelectorAll("img.thumb[data-full]").forEach(function (img) {
       img.addEventListener("click", function () { openLightbox(img.getAttribute("data-full"), img.getAttribute("data-nm")); });
     });
+  }
+
+  // Is there anything left to pour? (a sealed bottle, or an opened one above 0%)
+  function hasStock(b) {
+    const qty = (b.qty > 0) ? b.qty : 0;
+    if (qty <= 0) return false;
+    const levels = openedLevels(b);
+    if (qty - levels.length > 0) return true;
+    return levels.some(function (l) { return l > 0; });
+  }
+
+  /* ----- Surprise Me (owner) ----- */
+  const SM_MOODS = [
+    { key: "any", em: "🎲", label: "Anything", test: function () { return true; } },
+    { key: "spirit", em: "🥃", label: "Something strong", test: function (b) { return ["Whisky","Brandy","Cognac","Rum","Gin","Vodka","Tequila","Liqueur"].indexOf(b.category) > -1; } },
+    { key: "wine", em: "🍷", label: "Wine", test: function (b) { return b.category === "Wine"; } },
+    { key: "beer", em: "🍺", label: "Beer or cider", test: function (b) { return ["Beer","Cider","Mead"].indexOf(b.category) > -1; } },
+    { key: "cocktail", em: "🍸", label: "Cocktail or mocktail", test: function (b) { return ["Cocktail","Mocktail"].indexOf(b.category) > -1; } },
+    { key: "soft", em: "🧃", label: "Non-alcoholic", test: function (b) { return (Number(b.abv) || 0) === 0; } },
+    { key: "finish", em: "🫗", label: "Finish an open one", test: function (b) { return openedLevels(b).length > 0; } }
+  ];
+  let smMood = null;
+  function smPool() { return (CELLAR.bottles || []).filter(hasStock); }
+
+  function openSurprise() {
+    const list = $("sm-mood-list");
+    const pool = smPool();
+    list.innerHTML = "";
+    SM_MOODS.forEach(function (m) {
+      if (m.key !== "any" && !pool.some(m.test)) return;
+      const btn = document.createElement("button");
+      btn.type = "button"; btn.className = "mood-btn";
+      btn.innerHTML = '<span class="em">' + m.em + "</span>" + esc(m.label);
+      btn.addEventListener("click", function () { smPick(m); });
+      list.appendChild(btn);
+    });
+    $("sm-step1").style.display = "block";
+    $("sm-step2").style.display = "none";
+    showOverlay("surprise-overlay");
+  }
+  function smPick(m) {
+    smMood = m;
+    $("sm-kind").textContent = (m.key === "any") ? "A little of everything" : m.label;
+    $("sm-step1").style.display = "none";
+    $("sm-step2").style.display = "block";
+    smShuffle();
+  }
+  function smShuffle() {
+    const pool = smPool().filter(smMood.test);
+    for (let i = pool.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      const t = pool[i]; pool[i] = pool[j]; pool[j] = t;
+    }
+    const picks = pool.slice(0, 3);
+    const res = $("sm-results");
+    if (!picks.length) {
+      res.innerHTML = '<div class="empty"><div class="serif">Nothing in stock for that — try another mood.</div></div>';
+      $("sm-shuffle").style.display = "none";
+      return;
+    }
+    $("sm-shuffle").style.display = pool.length > 3 ? "inline-flex" : "none";
+    res.innerHTML = picks.map(bottleRow).join("");
+    wireRowActions(res);
   }
 
   function renderStats(bottles) {
@@ -1898,6 +2006,10 @@
 
     $("cocktail-copy").addEventListener("click", copyCocktailPrompt);
     $("cocktail-cancel").addEventListener("click", function () { hideOverlay("cocktail-overlay"); });
+
+    $("btn-surprise").addEventListener("click", openSurprise);
+    $("sm-back").addEventListener("click", openSurprise);
+    $("sm-shuffle").addEventListener("click", smShuffle);
 
     $("bottle-form").addEventListener("submit", saveBottle);
     $("form-cancel").addEventListener("click", function () { hideOverlay("form-overlay"); });
