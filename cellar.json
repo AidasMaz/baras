@@ -63,12 +63,17 @@
       "volume_ml": 700,
       "container": "Glass bottle",
       "location": "Unknown",
+      "wine_type": "",
+      "wine_color": "",
+      "wine_sweetness": "",
+      "wine_source": "",
       "qty": 1,
       "opened": true,
       "opened_qty": 1,
       "opened_levels": [
         80
       ],
+      "opened_date": "2026-06-25",
       "remaining_pct": 80,
       "notes": "Spirit drink made with Scotch whisky and pineapple flavourings",
       "image_path": "images/7757055f-918b-4bc6-9814-f1b50bfe64h1.jpg",
