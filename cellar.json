@@ -1643,6 +1643,29 @@
       "notes": "Liqueur from carob beans from trees. Made in gozo island, Malta",
       "image_path": "images/33078e45-70f9-4fbe-b236-a8ee7028a672.jpg",
       "public": true
+    },
+    {
+      "id": "41f80324-445b-4ada-8aa1-63d867fb7db8",
+      "name": "Vilkmergės baltas kvietinis",
+      "brand": "Vilkmergės",
+      "category": "Beer",
+      "abv": 5.2,
+      "volume_ml": 568,
+      "container": "Can",
+      "location": "Cupboard 3",
+      "wine_type": "",
+      "wine_color": "",
+      "wine_sweetness": "",
+      "wine_source": "",
+      "qty": 1,
+      "opened": false,
+      "opened_qty": 0,
+      "opened_levels": [],
+      "opened_date": "",
+      "remaining_pct": 100,
+      "notes": "",
+      "image_path": "images/41f80324-445b-4ada-8aa1-63d867fb7db8.jpg",
+      "public": true
     }
   ]
 }
