@@ -1666,6 +1666,29 @@
       "notes": "",
       "image_path": "images/41f80324-445b-4ada-8aa1-63d867fb7db8.jpg",
       "public": true
+    },
+    {
+      "id": "2c58061b-6c11-4cf2-b62a-f4c83854c468",
+      "name": "Schweppes blueberry mojito mocktail",
+      "brand": "Schweppes",
+      "category": "Mocktail",
+      "abv": 0,
+      "volume_ml": 330,
+      "container": "Can",
+      "location": "Unknown",
+      "wine_type": "",
+      "wine_color": "",
+      "wine_sweetness": "",
+      "wine_source": "",
+      "qty": 1,
+      "opened": false,
+      "opened_qty": 0,
+      "opened_levels": [],
+      "opened_date": "",
+      "remaining_pct": 100,
+      "notes": "",
+      "image_path": "images/2c58061b-6c11-4cf2-b62a-f4c83854c468.jpg",
+      "public": true
     }
   ]
 }
