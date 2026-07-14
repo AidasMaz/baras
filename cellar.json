@@ -486,26 +486,6 @@
       "public": true
     },
     {
-      "id": "5ab20e9d-b66c-49e9-b01d-0d3a5b7c4fe2",
-      "name": "ROCHESTER Light Ginger",
-      "brand": "ROCHESTER",
-      "category": "Soda",
-      "abv": 0,
-      "volume_ml": 725,
-      "container": "Glass bottle",
-      "location": "Unknown",
-      "qty": 1,
-      "opened": true,
-      "opened_qty": 1,
-      "opened_levels": [
-        5
-      ],
-      "remaining_pct": 5,
-      "notes": "No added sugars",
-      "image_path": "images/5ab20e9d-b66c-49e9-b01d-0d3a5b7c4fe2.jpg",
-      "public": true
-    },
-    {
       "id": "5ab20e9d-b66c-49e9-b01d-0d3a5b7c4fe0",
       "name": "ROCHESTER Ginger Dickensian Recipe",
       "brand": "ROCHESTER",
