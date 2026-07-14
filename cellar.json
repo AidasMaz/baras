@@ -1305,24 +1305,6 @@
       "public": true
     },
     {
-      "id": "a2198be4-7317-495a-bef3-29c74405097e",
-      "name": "Original green danish",
-      "brand": "Tuborg",
-      "category": "Beer",
-      "abv": 4.6,
-      "volume_ml": 568,
-      "container": "Can",
-      "location": "Unknown",
-      "qty": 1,
-      "opened": false,
-      "opened_qty": 0,
-      "opened_levels": [],
-      "remaining_pct": 100,
-      "notes": "",
-      "image_path": "images/a2198be4-7317-495a-bef3-29c74405097e.jpg",
-      "public": true
-    },
-    {
       "id": "0f064648-0c43-4b95-bc7c-5abdfe0f16c3",
       "name": "Bosca Toselli white Sweet Sparkling Wine 0%",
       "brand": "Bosca",
