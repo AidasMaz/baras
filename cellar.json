@@ -1642,6 +1642,29 @@
       "notes": "",
       "image_path": "images/2fc24dc4-942c-40d7-9471-158a207fefa4.jpg",
       "public": true
+    },
+    {
+      "id": "f02b3756-102c-404e-995b-ad7a36da9bfe",
+      "name": "Fever-Tree Premium Indian Tonic Water",
+      "brand": "Fever-Tree",
+      "category": "Mixer/Tonic",
+      "abv": 0,
+      "volume_ml": 500,
+      "container": "Glass bottle",
+      "location": "Unknown",
+      "wine_type": "",
+      "wine_color": "",
+      "wine_sweetness": "",
+      "wine_source": "",
+      "qty": 1,
+      "opened": false,
+      "opened_qty": 0,
+      "opened_levels": [],
+      "opened_date": "",
+      "remaining_pct": 100,
+      "notes": "",
+      "image_path": "",
+      "public": true
     }
   ]
 }
