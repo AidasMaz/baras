@@ -504,7 +504,7 @@
       "abv": 0,
       "volume_ml": 750,
       "container": "Glass bottle",
-      "location": "Unknown",
+      "location": "Cupboard 4",
       "wine_type": "Still",
       "wine_color": "White",
       "wine_sweetness": "Semi-sweet",
@@ -515,6 +515,7 @@
       "opened_levels": [
         25
       ],
+      "opened_date": "",
       "remaining_pct": 25,
       "notes": "",
       "image_path": "images/ed5867f2-ca0f-4c1d-8f1a-67ef5b5943bb.jpg",
