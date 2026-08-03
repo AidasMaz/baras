@@ -1821,6 +1821,29 @@
       "notes": "",
       "image_path": "images/b8ebe733-042b-484f-9cfb-5204560b585f.jpg",
       "public": true
+    },
+    {
+      "id": "0b8c07aa-5253-4298-9acd-a04ef70d03e6",
+      "name": "Bosca Anniversary white sparkling wine",
+      "brand": "Bosca",
+      "category": "Wine",
+      "abv": 7.5,
+      "volume_ml": 750,
+      "container": "Glass bottle",
+      "location": "Curtain stash",
+      "wine_type": "Sparkling",
+      "wine_color": "White",
+      "wine_sweetness": "Sweet",
+      "wine_source": "Grape",
+      "qty": 1,
+      "opened": false,
+      "opened_qty": 0,
+      "opened_levels": [],
+      "opened_date": "",
+      "remaining_pct": 100,
+      "notes": "",
+      "image_path": "images/0b8c07aa-5253-4298-9acd-a04ef70d03e6.jpg",
+      "public": true
     }
   ]
 }
