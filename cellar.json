@@ -1641,7 +1641,7 @@
       "abv": 11,
       "volume_ml": 200,
       "container": "Glass bottle",
-      "location": "Unknown",
+      "location": "Cupboard 1",
       "wine_type": "Sparkling",
       "wine_color": "Rosé",
       "wine_sweetness": "Dry",
@@ -1650,10 +1650,11 @@
       "opened": false,
       "opened_qty": 0,
       "opened_levels": [],
+      "opened_date": "",
       "remaining_pct": 100,
       "notes": "",
       "image_path": "images/b6a9aa69-71e6-488d-a7fc-0eee20d4a4f0.jpg",
-      "public": true
+      "public": false
     },
     {
       "id": "48b38d4b-faa0-45f2-81b0-e874edd6769c",
