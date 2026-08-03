@@ -1090,14 +1090,19 @@
       "abv": 14.9,
       "volume_ml": 500,
       "container": "Glass bottle",
-      "location": "Unknown",
+      "location": "Cupboard 3",
+      "wine_type": "",
+      "wine_color": "",
+      "wine_sweetness": "",
+      "wine_source": "",
       "qty": 1,
       "opened": true,
       "opened_qty": 1,
       "opened_levels": [
-        35
+        5
       ],
-      "remaining_pct": 35,
+      "opened_date": "",
+      "remaining_pct": 5,
       "notes": "",
       "image_path": "images/210a1246-367a-467b-b1b7-a1f3b3365a8c.jpg",
       "public": true
