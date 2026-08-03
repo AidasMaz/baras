@@ -1701,6 +1701,29 @@
       "notes": "",
       "image_path": "images/c107126f-639e-4677-b3b8-44225faedbea.jpg",
       "public": true
+    },
+    {
+      "id": "b8ebe733-042b-484f-9cfb-5204560b585f",
+      "name": "Pomegranate amenian wine 0%",
+      "brand": "Vedi-Alco",
+      "category": "Wine",
+      "abv": 0.5,
+      "volume_ml": 750,
+      "container": "Glass bottle",
+      "location": "Cupboard 4",
+      "wine_type": "Still",
+      "wine_color": "Red",
+      "wine_sweetness": "Semi-sweet",
+      "wine_source": "Fruit",
+      "qty": 1,
+      "opened": false,
+      "opened_qty": 0,
+      "opened_levels": [],
+      "opened_date": "",
+      "remaining_pct": 100,
+      "notes": "",
+      "image_path": "",
+      "public": true
     }
   ]
 }
