@@ -1678,6 +1678,29 @@
       "notes": "",
       "image_path": "",
       "public": true
+    },
+    {
+      "id": "c107126f-639e-4677-b3b8-44225faedbea",
+      "name": "Duonos gira tamsi ruginė",
+      "brand": "Gubernija",
+      "category": "Other",
+      "abv": 0,
+      "volume_ml": 500,
+      "container": "Can",
+      "location": "Cupboard 5",
+      "wine_type": "",
+      "wine_color": "",
+      "wine_sweetness": "",
+      "wine_source": "",
+      "qty": 1,
+      "opened": false,
+      "opened_qty": 0,
+      "opened_levels": [],
+      "opened_date": "",
+      "remaining_pct": 100,
+      "notes": "",
+      "image_path": "images/c107126f-639e-4677-b3b8-44225faedbea.jpg",
+      "public": true
     }
   ]
 }
