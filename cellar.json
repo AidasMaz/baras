@@ -1554,7 +1554,7 @@
       "abv": 11,
       "volume_ml": 200,
       "container": "Glass bottle",
-      "location": "Unknown",
+      "location": "Cupboard 1",
       "wine_type": "Sparkling",
       "wine_color": "White",
       "wine_sweetness": "Dry",
@@ -1563,10 +1563,11 @@
       "opened": false,
       "opened_qty": 0,
       "opened_levels": [],
+      "opened_date": "",
       "remaining_pct": 100,
       "notes": "",
       "image_path": "images/3e8ab1cb-4cf2-4fa9-b8d3-d95ac1a6b9dc.jpg",
-      "public": true
+      "public": false
     },
     {
       "id": "cff44ac1-afd4-406d-aaad-70f2d7d0feec",
